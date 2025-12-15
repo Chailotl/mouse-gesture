@@ -5,9 +5,11 @@ A powerful Chrome/Edge extension that enhances browsing efficiency through mouse
 ## Features
 
 ### Mouse Gestures
+
 Hold right mouse button and drag to perform gestures. Our smart recognition algorithm ensures accurate gesture detection even with imperfect drawing.
 
 #### Built-in Gestures
+
 | Gesture | Action | Description |
 |---------|--------|-------------|
 | Left | Back | Navigate to previous page |
@@ -27,86 +29,37 @@ Hold right mouse button and drag to perform gestures. Our smart recognition algo
 | Left then Right | Close Tab | Alternative way to close tab |
 | Right then Left | Reopen Tab | Alternative way to reopen tab |
 
-### Popup View
-Quickly preview links and search content with modifier keys without leaving your current page:
-
-- **Real-time link previews**: Hold trigger key (default: Shift) while hovering over links to preview target pages in popup windows
-- **Text selection search**: Select text and press the trigger key to instantly search the selected content
-- **Highly customizable**:
-  - Choose trigger keys (Control, Alt, Shift, or no key)
-  - Adjust hover delay (100-5000ms, default: 200ms)
-  - Set maximum preview windows (1-10)
-  - Customize window dimensions
-  - Configure window positioning (cursor position, screen center, or corner)
-  - Customize search engine (supports Google, Baidu, Bing, etc. using {q} placeholder)
-- **Multi-window support**: Open multiple preview windows simultaneously for increased information gathering efficiency
-- **Smart window positioning**: Intelligently adjusts window position based on screen boundaries to ensure full visibility
-- **Clean interface**: Distraction-free preview windows for optimal browsing experience
-
-### Debug Panel
-Open the debug panel anytime with the shortcut `Alt+D` to analyze and troubleshoot gesture recognition:
-
-- **Real-time gesture information**: View original direction sequences, merged directions, similarity scores, and more
-- **Persistent state**: Panel state automatically maintained after page refresh or navigation
-- **One-click copy feature**: Easily copy debug information for analysis or sharing
-- **Multi-language support**: Automatically switches between English and Chinese based on system settings
-- **Modern interface**: Stylish color scheme and layout with intuitive direction indicators
-- **Easy to use**: Press `Alt+D` to toggle, no additional settings required
-
 ### Super Drag
+
 Enhance your drag operations with smart actions:
+
 - Drag links to open in new tabs
 - Drag images to view in new tabs
 - Drag selected text to search
 - Customize the drag direction to determine the tab opening method: open in the background by default
 
-### Intelligent Tab Management
-Never lose track of your tabs with our advanced management features:
-
-#### Duplicate Tab Detection
-- Smart detection that compares URLs accurately, ignoring variations in URL formats
-- Interactive notification with options to close duplicates or ignore
-- Toggle feature on/off in settings
-- Prevents browser clutter and improves performance
-
-#### Auto-Close Duplicate Tabs
-- Automatically closes duplicate tabs when new ones are opened (optional)
-- Success notification with titles of closed tabs
-- Intelligent URL normalization for accurate matching
-- User-controlled with a simple toggle in settings
-
-#### Tabs Memory Optimization
-- Periodic cleanup of unused tab data
-- Improved browser performance by reducing memory usage
-- Intelligent frequency-based data retention
-
 ### Enhanced Visual Interface
 
 #### Gesture Hints
+
 - Beautiful semi-transparent UI with refined borders
 - Intelligent context-based icons and colors
 - Adaptive themes based on page background
 - Smooth animations and transitions
 
-#### Image & Video Preview
-- Enhanced image preview on hover
-- Optimized video poster images with adaptive backgrounds
-- Cross-origin media support with intelligent degradation
-- Rounded corners support for circular and custom-shaped media
-
 ### Additional Features
+
 - 🎨 Customizable gesture trails (color and width)
 - 🌙 Dark/Light theme support
 - 🌐 Multilingual interface (29 languages supported)
-- 🖼️ Image preview on hover
 - ⚡ Works during page load
 - 🎯 Smart gesture recognition with fault tolerance
 - 🔗 Intelligent URL handling for all protocols
 - 🔄 Optimized welcome page and extension resources
-- 📋 Built-in debug panel, quickly accessible with Alt+D
 - 🌎 Wildcard pattern matching system supports more video websites
 
 ### Supported Languages
+
 This extension supports 29 languages with localized search engines:
 - 🇺🇸 **English** - DuckDuckGo
 - 🇨🇳 **简体中文** - 百度搜索
@@ -141,11 +94,13 @@ This extension supports 29 languages with localized search engines:
 ## Installation
 
 ### From Chrome Web Store
+
 1. Visit [Chrome Web Store](https://chrome.google.com/webstore)
 2. Search for "Mouse Gesture Extension"
 3. Click "Add to Chrome"
 
 ### Manual Installation (Developer Mode)
+
 1. Download and extract this repository
 2. Open Chrome/Edge and navigate to `chrome://extensions/`
 3. Enable "Developer mode"
@@ -162,37 +117,34 @@ This extension supports 29 languages with localized search engines:
 5. On Linux and macOS systems, double right-click to show browser context menu
 
 ### Popup View Usage
+
 1. Hover your mouse over any link
 2. Press and hold the trigger key (default: Shift key)
 3. After a brief delay, the popup window will automatically open
 4. You can also select text and press the trigger key to search the selected content
 
-### Debug Feature Usage
-1. Press `Alt+D` on any page to open the debug panel
-2. Perform mouse gestures to see real-time recognition analysis
-3. Click the "📋" button in the panel's top-right to copy debug information
-4. Press `Alt+D` again or click the "×" button to close the panel
-
 ### Customization
+
 Click the extension icon to access settings:
 - Enable/disable mouse gestures
 - Enable/disable gesture trails
 - Customize trail color
 - Adjust trail width
 - Toggle super drag feature
-- Enable/disable duplicate tab detection
-- Enable/disable auto-close duplicate tabs
 - Enable/disable popup view feature
 - Configure popup view modifier key, delay time, etc.
 - Switch language
 - Change theme
 
 ## Browser Compatibility
+
 - Chrome 88+
 - Edge 88+ (Chromium-based)
 
 ## Privacy
+
 ### Data Collection and Storage
+
 - No personal data collection
 - No browsing history tracking
 - No user behavior monitoring
@@ -200,6 +152,7 @@ Click the extension icon to access settings:
 - No data is transmitted to external servers
 
 ### Permissions Usage
+
 - `tabs`: Used only for gesture-based tab operations (switching, closing, etc.)
 - `storage`: Used only for saving your preferences locally
 - `sessions`: Used only for restoring recently closed tabs
@@ -208,6 +161,7 @@ Click the extension icon to access settings:
 - `<all_urls>`: Required for gesture functionality, but no page content is collected or transmitted
 
 ### Security
+
 - No external dependencies or third-party services
 - No remote code execution
 - No analytics or tracking scripts
@@ -215,6 +169,7 @@ Click the extension icon to access settings:
 - Updates only through official Chrome Web Store
 
 ### Data Protection
+
 - Settings are synced through your Chrome account (if enabled)
 - No cookies or local storage beyond extension settings
 - No access to sensitive page content
@@ -224,37 +179,13 @@ Click the extension icon to access settings:
 For more details about our privacy practices, visit: https://abcrk.com/420.html
 
 ## Technical Details
+
 - Built with Manifest V3
 - Uses modern browser APIs
 - Optimized performance
 - Minimal resource usage
 - Smart URL handling for all protocols
 - Defensive programming techniques
-
-## Recent Updates
-- Expanded language support from 13 to 29 languages, with new additions including Dutch, Turkish, Ukrainian, Urdu, Indonesian, Italian, Polish, Swahili, Thai, Vietnamese, Czech, Danish, Swedish, Norwegian, Finnish, and Estonian
-- Completely updated and refined translations for Turkish, Urdu, Dutch, and Ukrainian languages
-- Improved the debug panel translations across all languages for better user experience
-- Added wildcard pattern matching to support more video sites including YouTube, Bilibili, Netflix, Twitch, and more
-- On Linux and macOS systems, double right-click to show browser context menu
-- Improved scroll gestures to work properly on video websites like YouTube, Douyin, iQIYI etc.
-- Fixed issue with numeric formats like 8.8, 8.8.8 being misidentified as IP addresses during drag operations
-- Enhanced drag functionality to prioritize selected text even when text is on a link
-- Extension functionality now works immediately on all open tabs upon installation, no refresh needed
-- Fixed text drag search functionality on Linux and macOS systems
-- Fixed issue with Drag Text Search toggle not working properly when disabled
-- Optimized popup view hover delay from 300ms to 200ms for faster preview response
-- Added popup view feature with key triggers and customizable search engines
-- Enhanced text selection search with multiple search engine configuration
-- Added debug panel feature with Alt+D shortcut, one-click copy and bilingual support
-- Added auto-close duplicate tabs feature with success notifications
-- Improved memory management with periodic cleanup
-- Enhanced gesture hint UI with semi-transparent borders and refined aesthetics
-- Optimized video poster image handling to eliminate black borders
-- Improved cross-origin media handling with adaptive backgrounds
-- Added smart URL normalization for better duplicate detection
-- Enhanced user control over notification interactions
-- Fixed Canvas operations issues with cross-origin content
 
 ## Development
 
@@ -263,7 +194,6 @@ For more details about our privacy practices, visit: https://abcrk.com/420.html
 ├── manifest.json
 ├── background.js
 ├── content.js
-├── preview.js
 ├── popup.html
 ├── popup.css
 ├── popup.js
@@ -402,4 +332,4 @@ This project is available under a **dual licensing model**:
 If you encounter any issues or have suggestions, please visit: https://abcrk.com/420.html
 
 ## Acknowledgments
-Thanks to all contributors and users who help improve this extension! 
+Thanks to all contributors and users who help improve this extension!

@@ -1,299 +1,291 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="UTF-8">
-  <title data-i18n="welcomeTitle">欢迎使用鼠标手势扩展</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    
-    body {
-      background-color: #f5f5f5;
-      color: #333;
-      line-height: 1.6;
-      padding: 20px;
-      font-size: 14px;
-    }
-    
-    .container {
-      max-width: 800px;
-      margin: 0 auto;
-      background-color: #fff;
-      border-radius: 12px;
-      padding: 24px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    }
-    
-    .header {
-      margin-bottom: 10px;
-      padding-bottom: 2px;
-      border-bottom: 1px solid #eaecef;
-      text-align: center;
-    }
-    
-    h1 {
-      font-size: 28px;
-      color: #2c3e50;
-      text-align: center;
-    }
-    
-    h2 {
-      font-size: 20px;
-      color: #3498db;
-      margin: 35px 0 15px;
-      border-bottom: 1px solid #eaecef;
-      padding-bottom: 10px;
-    }
-    
-    p {
-      margin-bottom: 5px;
-      color: #555;
-      font-size: 14px;
-    }
-    
-    .section {
-      background-color: white;
-      border-radius: 8px;
-      padding: 2px;
-      transition: all 0.3s ease;
-    }
-    
-    .section-title {
-      color: #2c3e50;
-      font-size: 16px;
-      margin-bottom: 15px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding-bottom: 10px;
-      border-bottom: 1px solid #eaecef;
-    }
-    
-    .section-title .emoji {
-      font-size: 18px;
-    }
-    
-    .gesture-list {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 15px;
-      margin: 20px 0;
-    }
-    
-    .gesture-item {
-      display: flex;
-      justify-content: space-between;
-      background-color: #f8f9fa;
-      padding: 12px 15px;
-      border-radius: 5px;
-      border-left: 3px solid #3498db;
-      transition: transform 0.2s ease;
-    }
-    
-    .gesture-item:hover {
-      transform: translateX(3px);
-    }
-    
-    .gesture-name {
-      font-weight: bold;
-      color: #2c3e50;
-    }
-    
-    .gesture-action {
-      color: #7f8c8d;
-    }
-    
-    ul {
-      margin-left: 20px;
-      margin-bottom: 15px;
-    }
-    
-    li {
-      margin-bottom: 10px;
-      position: relative;
-      list-style-type: none;
-      padding-left: 20px;
-    }
-    
-    li:before {
-      content: "•";
-      color: #3498db;
-      font-weight: bold;
-      position: absolute;
-      left: 0;
-    }
-    
-    .footer {
-      text-align: center;
-      margin-top: 10px;
-      padding-top: 10px;
-      color: #7f8c8d;
-      font-size: 14px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 15px;
-      border-top: 1px solid #eaecef;
-    }
-    
-    .about-link {
-      color: #3498db;
-      text-decoration: none;
-      font-weight: 500;
-      transition: color 0.2s ease;
-    }
-    
-    .about-link:hover {
-      color: #2980b9;
-      text-decoration: underline;
-    }
-    
-    .footer-icon {
-      width: 16px;
-      height: 16px;
-      vertical-align: middle;
-      margin-right: 4px;
-      margin-top: -2px;
-      transition: all 0.2s ease;
-    }
-    
-    .footer:hover .footer-icon {
-      transform: rotate(10deg);
-    }
-    
-    @media (max-width: 600px) {
-      .gesture-list {
-        grid-template-columns: 1fr;
-      }
-      
-      .container {
-        padding: 20px;
-      }
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <div class="header">
-      <h1 data-i18n="welcomeTitle">欢迎使用鼠标手势扩展</h1>
-    </div>
-    
-    <p data-i18n="welcomeDescription">感谢您安装鼠标手势扩展！本扩展提供丰富的鼠标手势功能、智能标签页管理、小窗视图功能和增强的视觉体验，帮助您更高效地浏览网页。我们优化了手势识别算法，提高了容错性，即使手势绘制不够完美也能正确识别。新增的小窗视图功能通过弹出窗口让您直接查看链接内容，无需切换标签页。同时支持29种语言和明暗主题切换，为您提供更好的使用体验。</p>
-    
-    <div class="section">
-      <div class="section-title"><span class="emoji">👆</span> <span data-i18n="gesturesDescription">以下是预设的鼠标手势，您可以通过右键拖动来使用这些手势：</span></div>
-      <div class="gesture-list">
-        <div class="gesture-item">
-          <div class="gesture-name" data-i18n="left">左</div>
-          <div class="gesture-action" data-i18n="back">后退</div>
-        </div>
-        <div class="gesture-item">
-          <div class="gesture-name" data-i18n="right">右</div>
-          <div class="gesture-action" data-i18n="forward">前进</div>
-        </div>
-        <div class="gesture-item">
-          <div class="gesture-name" data-i18n="up">上</div>
-          <div class="gesture-action" data-i18n="scrollUp">向上滚动</div>
-        </div>
-        <div class="gesture-item">
-          <div class="gesture-name" data-i18n="down">下</div>
-          <div class="gesture-action" data-i18n="scrollDown">向下滚动</div>
-        </div>
-        <div class="gesture-item">
-          <div class="gesture-name" data-i18n="downThenRight">下然后右</div>
-          <div class="gesture-action" data-i18n="closeTab">关闭标签页</div>
-        </div>
-        <div class="gesture-item">
-          <div class="gesture-name" data-i18n="leftThenUp">左然后上</div>
-          <div class="gesture-action" data-i18n="reopenTab">重新打开关闭的标签页</div>
-        </div>
-        <div class="gesture-item">
-          <div class="gesture-name" data-i18n="rightThenUp">右然后上</div>
-          <div class="gesture-action" data-i18n="newTab">打开新标签页</div>
-        </div>
-        <div class="gesture-item">
-          <div class="gesture-name" data-i18n="rightThenDown">右然后下</div>
-          <div class="gesture-action" data-i18n="refresh">刷新</div>
-        </div>
-        <div class="gesture-item">
-          <div class="gesture-name" data-i18n="upThenLeft">上然后左</div>
-          <div class="gesture-action" data-i18n="prevTab">切换到左侧标签页</div>
-        </div>
-        <div class="gesture-item">
-          <div class="gesture-name" data-i18n="upThenRight">上然后右</div>
-          <div class="gesture-action" data-i18n="nextTab">切换到右侧标签页</div>
-        </div>
-        <div class="gesture-item">
-          <div class="gesture-name" data-i18n="downThenLeft">下然后左</div>
-          <div class="gesture-action" data-i18n="stopLoading">停止加载</div>
-        </div>
-        <div class="gesture-item">
-          <div class="gesture-name" data-i18n="leftThenDown">左然后下</div>
-          <div class="gesture-action" data-i18n="forceRefresh">强制刷新</div>
-        </div>
-        <div class="gesture-item">
-          <div class="gesture-name" data-i18n="upThenDown">上然后下</div>
-          <div class="gesture-action" data-i18n="scrollToBottom">滚动到底部</div>
-        </div>
-        <div class="gesture-item">
-          <div class="gesture-name" data-i18n="downThenUp">下然后上</div>
-          <div class="gesture-action" data-i18n="scrollToTop">滚动到顶部</div>
-        </div>
-        <div class="gesture-item">
-          <div class="gesture-name" data-i18n="leftThenRight">左然后右</div>
-          <div class="gesture-action" data-i18n="closeTab">关闭标签页</div>
-        </div>
-        <div class="gesture-item">
-          <div class="gesture-name" data-i18n="rightThenLeft">右然后左</div>
-          <div class="gesture-action" data-i18n="reopenTab">重新打开关闭的标签页</div>
-        </div>
-      </div>
-    </div>
-    
-    <div class="section">
-      <div class="section-title"><span class="emoji">🌟</span> <span data-i18n="coreFeatures">核心功能</span></div>
-      <ul>
-        <li data-i18n="smartGestureRecognition">智能手势识别：支持自定义手势动作选择，即使手势不够精确也能正确识别</li>
-        <li><strong data-i18n="tabManagementTitle">标签页管理</strong><span data-i18n="tabManagementDesc">：智能检测重复标签页，可选自动关闭，定期内存优化</span></li>
-        <li><strong data-i18n="superDragTitle">超级拖拽</strong><span data-i18n="superDragDesc">：拖拽链接、图片到新标签页，选中文本拖拽搜索</span></li>
-        <li data-i18n="dragDirection">自定义拖拽方向决定标签页打开方式：默认后台打开</li>
-        <li><strong data-i18n="linkPreviewTitle">小窗视图</strong><span data-i18n="linkPreviewDesc">：按住触发按键(默认Shift)同时鼠标悬停在链接上，通过小窗预览目标页面内容</span></li>
-        <li data-i18n="textSelectionPreview">选中文本后按触发按键，将在弹出窗口中即时搜索内容，支持自定义搜索引擎</li>
-        
-      </ul>
-    </div>
-        
-    <div class="section">
-      <div class="section-title"><span class="emoji">💡</span> <span data-i18n="usageTips">使用小贴士</span></div>
-      <ul>
-        <li><strong data-i18n="rightClickMacLinux">在 Linux 和 macOS 系统中，双击右键可以显示浏览器的上下文菜单</strong></li>
-        <li data-i18n="gestureTrail">手势轨迹会显示在屏幕上，可自定义轨迹颜色和宽度</li>
-        <li data-i18n="clickIcon">点击扩展图标开启/关闭功能，设置界面语言、主题等</li>
-        <li data-i18n="previewTip">可同时打开多个小窗口浏览不同内容</li>
-        <li data-i18n="languageSupport">支持29种语言，自动适配浏览器语言</li>
-        <li data-i18n="enableAutoClose">开启自动关闭重复标签页功能可大幅减少浏览器资源占用</li>
-      </ul>
-    </div>
-    
-    <div class="section">
-      <div class="section-title"><span class="emoji">✨</span> <span data-i18n="utilitiesFeatures">实用工具</span></div>
-      <ul>
-        <li><strong data-i18n="debugPanelTitle">调试面板</strong><span data-i18n="debugPanelDesc">：按Alt+D快速打开，实时分析手势信息，自动保持状态</span></li>
-        <li data-i18n="oneClickCopy">一键复制调试信息，方便分享问题报告，多语言支持</li>
-        <li data-i18n="mediaPreview">优化的媒体预览：改进图片悬停效果，优化视频封面图</li>
-        <li data-i18n="adaptiveTheme">自适应主题：根据页面背景调整视觉风格，支持明暗主题切换</li>
-      </ul>
-    </div>
 
-    <div class="footer">
-      <p><a href="https://abcrk.com/420.html" target="_blank" class="about-link" data-i18n="extensionName"><span id="icon-container"></span> Mouse Gesture Extension</a> <span id="version-text"></span></p>
-    </div>
-  </div>
-  
-  <script src="utils.js"></script>
-  <script src="welcome.js"></script>
+<head>
+	<meta charset="UTF-8">
+	<title data-i18n="welcomeTitle">欢迎使用鼠标手势扩展</title>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+
+		body {
+			background-color: #f5f5f5;
+			color: #333;
+			line-height: 1.6;
+			padding: 20px;
+			font-size: 14px;
+		}
+
+		.container {
+			max-width: 800px;
+			margin: 0 auto;
+			background-color: #fff;
+			border-radius: 12px;
+			padding: 24px;
+			box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+		}
+
+		.header {
+			margin-bottom: 10px;
+			padding-bottom: 2px;
+			border-bottom: 1px solid #eaecef;
+			text-align: center;
+		}
+
+		h1 {
+			font-size: 28px;
+			color: #2c3e50;
+			text-align: center;
+		}
+
+		h2 {
+			font-size: 20px;
+			color: #3498db;
+			margin: 35px 0 15px;
+			border-bottom: 1px solid #eaecef;
+			padding-bottom: 10px;
+		}
+
+		p {
+			margin-bottom: 5px;
+			color: #555;
+			font-size: 14px;
+		}
+
+		.section {
+			background-color: white;
+			border-radius: 8px;
+			padding: 2px;
+			transition: all 0.3s ease;
+		}
+
+		.section-title {
+			color: #2c3e50;
+			font-size: 16px;
+			margin-bottom: 15px;
+			display: flex;
+			align-items: center;
+			gap: 8px;
+			padding-bottom: 10px;
+			border-bottom: 1px solid #eaecef;
+		}
+
+		.section-title .emoji {
+			font-size: 18px;
+		}
+
+		.gesture-list {
+			display: grid;
+			grid-template-columns: repeat(2, 1fr);
+			gap: 15px;
+			margin: 20px 0;
+		}
+
+		.gesture-item {
+			display: flex;
+			justify-content: space-between;
+			background-color: #f8f9fa;
+			padding: 12px 15px;
+			border-radius: 5px;
+			border-left: 3px solid #3498db;
+			transition: transform 0.2s ease;
+		}
+
+		.gesture-item:hover {
+			transform: translateX(3px);
+		}
+
+		.gesture-name {
+			font-weight: bold;
+			color: #2c3e50;
+		}
+
+		.gesture-action {
+			color: #7f8c8d;
+		}
+
+		ul {
+			margin-left: 20px;
+			margin-bottom: 15px;
+		}
+
+		li {
+			margin-bottom: 10px;
+			position: relative;
+			list-style-type: none;
+			padding-left: 20px;
+		}
+
+		li:before {
+			content: "•";
+			color: #3498db;
+			font-weight: bold;
+			position: absolute;
+			left: 0;
+		}
+
+		.footer {
+			text-align: center;
+			margin-top: 10px;
+			padding-top: 10px;
+			color: #7f8c8d;
+			font-size: 14px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			gap: 15px;
+			border-top: 1px solid #eaecef;
+		}
+
+		.about-link {
+			color: #3498db;
+			text-decoration: none;
+			font-weight: 500;
+			transition: color 0.2s ease;
+		}
+
+		.about-link:hover {
+			color: #2980b9;
+			text-decoration: underline;
+		}
+
+		.footer-icon {
+			width: 16px;
+			height: 16px;
+			vertical-align: middle;
+			margin-right: 4px;
+			margin-top: -2px;
+			transition: all 0.2s ease;
+		}
+
+		.footer:hover .footer-icon {
+			transform: rotate(10deg);
+		}
+
+		@media (max-width: 600px) {
+			.gesture-list {
+				grid-template-columns: 1fr;
+			}
+
+			.container {
+				padding: 20px;
+			}
+		}
+	</style>
+</head>
+
+<body>
+	<div class="container">
+		<div class="header">
+			<h1 data-i18n="welcomeTitle">欢迎使用鼠标手势扩展</h1>
+		</div>
+
+		<p data-i18n="welcomeDescription">
+			感谢您安装鼠标手势扩展！本扩展提供丰富的鼠标手势功能、智能标签页管理、小窗视图功能和增强的视觉体验，帮助您更高效地浏览网页。我们优化了手势识别算法，提高了容错性，即使手势绘制不够完美也能正确识别。新增的小窗视图功能通过弹出窗口让您直接查看链接内容，无需切换标签页。同时支持29种语言和明暗主题切换，为您提供更好的使用体验。
+		</p>
+
+		<div class="section">
+			<div class="section-title"><span class="emoji">👆</span> <span
+					data-i18n="gesturesDescription">以下是预设的鼠标手势，您可以通过右键拖动来使用这些手势：</span></div>
+			<div class="gesture-list">
+				<div class="gesture-item">
+					<div class="gesture-name" data-i18n="left">左</div>
+					<div class="gesture-action" data-i18n="back">后退</div>
+				</div>
+				<div class="gesture-item">
+					<div class="gesture-name" data-i18n="right">右</div>
+					<div class="gesture-action" data-i18n="forward">前进</div>
+				</div>
+				<div class="gesture-item">
+					<div class="gesture-name" data-i18n="up">上</div>
+					<div class="gesture-action" data-i18n="scrollUp">向上滚动</div>
+				</div>
+				<div class="gesture-item">
+					<div class="gesture-name" data-i18n="down">下</div>
+					<div class="gesture-action" data-i18n="scrollDown">向下滚动</div>
+				</div>
+				<div class="gesture-item">
+					<div class="gesture-name" data-i18n="downThenRight">下然后右</div>
+					<div class="gesture-action" data-i18n="closeTab">关闭标签页</div>
+				</div>
+				<div class="gesture-item">
+					<div class="gesture-name" data-i18n="leftThenUp">左然后上</div>
+					<div class="gesture-action" data-i18n="reopenTab">重新打开关闭的标签页</div>
+				</div>
+				<div class="gesture-item">
+					<div class="gesture-name" data-i18n="rightThenUp">右然后上</div>
+					<div class="gesture-action" data-i18n="newTab">打开新标签页</div>
+				</div>
+				<div class="gesture-item">
+					<div class="gesture-name" data-i18n="rightThenDown">右然后下</div>
+					<div class="gesture-action" data-i18n="refresh">刷新</div>
+				</div>
+				<div class="gesture-item">
+					<div class="gesture-name" data-i18n="upThenLeft">上然后左</div>
+					<div class="gesture-action" data-i18n="prevTab">切换到左侧标签页</div>
+				</div>
+				<div class="gesture-item">
+					<div class="gesture-name" data-i18n="upThenRight">上然后右</div>
+					<div class="gesture-action" data-i18n="nextTab">切换到右侧标签页</div>
+				</div>
+				<div class="gesture-item">
+					<div class="gesture-name" data-i18n="downThenLeft">下然后左</div>
+					<div class="gesture-action" data-i18n="stopLoading">停止加载</div>
+				</div>
+				<div class="gesture-item">
+					<div class="gesture-name" data-i18n="leftThenDown">左然后下</div>
+					<div class="gesture-action" data-i18n="forceRefresh">强制刷新</div>
+				</div>
+				<div class="gesture-item">
+					<div class="gesture-name" data-i18n="upThenDown">上然后下</div>
+					<div class="gesture-action" data-i18n="scrollToBottom">滚动到底部</div>
+				</div>
+				<div class="gesture-item">
+					<div class="gesture-name" data-i18n="downThenUp">下然后上</div>
+					<div class="gesture-action" data-i18n="scrollToTop">滚动到顶部</div>
+				</div>
+				<div class="gesture-item">
+					<div class="gesture-name" data-i18n="leftThenRight">左然后右</div>
+					<div class="gesture-action" data-i18n="closeTab">关闭标签页</div>
+				</div>
+				<div class="gesture-item">
+					<div class="gesture-name" data-i18n="rightThenLeft">右然后左</div>
+					<div class="gesture-action" data-i18n="reopenTab">重新打开关闭的标签页</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="section">
+			<div class="section-title"><span class="emoji">🌟</span> <span data-i18n="coreFeatures">核心功能</span></div>
+			<ul>
+				<li data-i18n="smartGestureRecognition">智能手势识别：支持自定义手势动作选择，即使手势不够精确也能正确识别</li>
+				<li><strong data-i18n="superDragTitle">超级拖拽</strong><span
+						data-i18n="superDragDesc">：拖拽链接、图片到新标签页，选中文本拖拽搜索</span></li>
+				<li data-i18n="dragDirection">自定义拖拽方向决定标签页打开方式：默认后台打开</li>
+
+			</ul>
+		</div>
+
+		<div class="section">
+			<div class="section-title"><span class="emoji">💡</span> <span data-i18n="usageTips">使用小贴士</span></div>
+			<ul>
+				<li><strong data-i18n="rightClickMacLinux">在 Linux 和 macOS 系统中，双击右键可以显示浏览器的上下文菜单</strong></li>
+				<li data-i18n="gestureTrail">手势轨迹会显示在屏幕上，可自定义轨迹颜色和宽度</li>
+				<li data-i18n="clickIcon">点击扩展图标开启/关闭功能，设置界面语言、主题等</li>
+				<li data-i18n="languageSupport">支持29种语言，自动适配浏览器语言</li>
+			</ul>
+		</div>
+
+		<div class="footer">
+			<p><a href="https://abcrk.com/420.html" target="_blank" class="about-link" data-i18n="extensionName"><span
+						id="icon-container"></span> Mouse Gesture Extension</a> <span id="version-text"></span></p>
+		</div>
+	</div>
+
+	<script src="welcome.js"></script>
 </body>
-</html> 
+
+</html>

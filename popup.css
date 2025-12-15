@@ -1,1115 +1,1226 @@
-#enable-debug-panel {
-  position: absolute;
-  left: -9999px;
-  width: 0;
-  height: 0;
-  opacity: 0;
-  pointer-events: none;
-}
-/* Reset styles for the debug panel icon button */
-#enable-debug-panel-icon {
-  all: unset;
-  position: absolute;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  cursor: pointer;
-}
-
-/* Remove any global button pseudo-elements from the debug icon */
-#enable-debug-panel-icon::before,
-#enable-debug-panel-icon::after {
-  content: none !important;
-  display: none !important;
-}
-
-
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
 }
 
 :root {
-  --bg-color: #f8f9fb; /* 更柔和的背景色 */
-  --text-color: #34495e; /* 更深的文本颜色，提高对比度 */
-  --section-bg: #ffffff;
-  --border-color: rgba(0, 0, 0, 0.06); /* 更温和的边框颜色，添加透明度 */
-  --shadow-color: rgba(0, 0, 0, 0.04); /* 更柔和的阴影 */
-  --button-bg: #ff6b6b;
-  --button-hover: #ff5252;
-  --button-reset: #a8e6cf;
-  --button-reset-hover: #8de6c3;
-  --button-shadow: rgba(255, 107, 107, 0.25); /* 减轻阴影强度 */
-  --button-reset-shadow: rgba(168, 230, 207, 0.25);
-  --scrollbar-track: #f0f4f8; /* 更和谐的滚动条轨道 */
-  --scrollbar-thumb: #d8e1ec; /* 更协调的滚动条滑块 */
-  --scrollbar-thumb-hover: #bfd1e5; /* 和主题更协调的悬停颜色 */
-  --success-bg: #edfdf5; /* 更柔和的成功背景 */
-  --error-bg: #fef2f2; /* 保持原有错误背景 */
-  --header-height: 40px;
-  --section-radius: 12px;
-  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  
-  /* 修改过渡效果，排除边框过渡 */
-  transition: color 0.5s ease, background-color 0.5s ease;
+	--bg-color: #f8f9fb;
+	/* 更柔和的背景色 */
+	--text-color: #34495e;
+	/* 更深的文本颜色，提高对比度 */
+	--section-bg: #ffffff;
+	--border-color: rgba(0, 0, 0, 0.06);
+	/* 更温和的边框颜色，添加透明度 */
+	--shadow-color: rgba(0, 0, 0, 0.04);
+	/* 更柔和的阴影 */
+	--button-bg: #ff6b6b;
+	--button-hover: #ff5252;
+	--button-reset: #a8e6cf;
+	--button-reset-hover: #8de6c3;
+	--button-shadow: rgba(255, 107, 107, 0.25);
+	/* 减轻阴影强度 */
+	--button-reset-shadow: rgba(168, 230, 207, 0.25);
+	--scrollbar-track: #f0f4f8;
+	/* 更和谐的滚动条轨道 */
+	--scrollbar-thumb: #d8e1ec;
+	/* 更协调的滚动条滑块 */
+	--scrollbar-thumb-hover: #bfd1e5;
+	/* 和主题更协调的悬停颜色 */
+	--success-bg: #edfdf5;
+	/* 更柔和的成功背景 */
+	--error-bg: #fef2f2;
+	/* 保持原有错误背景 */
+	--header-height: 40px;
+	--section-radius: 12px;
+	--transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+	/* 修改过渡效果，排除边框过渡 */
+	transition: color 0.5s ease, background-color 0.5s ease;
 }
 
 [data-theme="dark"] {
-  --bg-color: #121212; /* 更深的背景色，减少对眼睛的刺激 */
-  --text-color: #e4e6eb; /* 更温和的文本颜色，提高可读性 */
-  --section-bg: #232323; /* 区域背景色调整，与主背景形成柔和对比 */
-  --border-color: rgba(45, 45, 45, 0.7); /* 柔和的边框颜色，添加透明度 */
-  --shadow-color: rgba(0, 0, 0, 0.15); /* 减轻阴影强度，更自然 */
-  --button-bg: #ff7676; /* 按钮颜色适当提亮，增加可见性 */
-  --button-hover: #ff5e5e; /* 悬停颜色微调 */
-  --button-reset: #a8e6cf;
-  --button-reset-hover: #8de6c3;
-  --button-shadow: rgba(255, 118, 118, 0.25); /* 减轻按钮阴影 */
-  --button-reset-shadow: rgba(168, 230, 207, 0.25);
-  --scrollbar-track: #1a1a1a; /* 滚动条轨道色彩更协调 */
-  --scrollbar-thumb: #3a3a3a; /* 滚动条滑块色彩调整 */
-  --scrollbar-thumb-hover: #4d4d4d; /* 滚动条悬停色彩 */
-  --success-bg: #0a3d2e; /* 稍微柔和的成功背景 */
-  --error-bg: #6b1d1d; /* 稍微柔和的错误背景 */
-  --gesture-item-border: rgba(45, 45, 45, 0.7); /* 手势项边框颜色变量与边框颜色统一，添加透明度 */
-  
-  /* 添加字体渲染优化参数，减轻深色主题下的字体渲染问题 */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+	--bg-color: #121212;
+	/* 更深的背景色，减少对眼睛的刺激 */
+	--text-color: #e4e6eb;
+	/* 更温和的文本颜色，提高可读性 */
+	--section-bg: #232323;
+	/* 区域背景色调整，与主背景形成柔和对比 */
+	--border-color: rgba(45, 45, 45, 0.7);
+	/* 柔和的边框颜色，添加透明度 */
+	--shadow-color: rgba(0, 0, 0, 0.15);
+	/* 减轻阴影强度，更自然 */
+	--button-bg: #ff7676;
+	/* 按钮颜色适当提亮，增加可见性 */
+	--button-hover: #ff5e5e;
+	/* 悬停颜色微调 */
+	--button-reset: #a8e6cf;
+	--button-reset-hover: #8de6c3;
+	--button-shadow: rgba(255, 118, 118, 0.25);
+	/* 减轻按钮阴影 */
+	--button-reset-shadow: rgba(168, 230, 207, 0.25);
+	--scrollbar-track: #1a1a1a;
+	/* 滚动条轨道色彩更协调 */
+	--scrollbar-thumb: #3a3a3a;
+	/* 滚动条滑块色彩调整 */
+	--scrollbar-thumb-hover: #4d4d4d;
+	/* 滚动条悬停色彩 */
+	--success-bg: #0a3d2e;
+	/* 稍微柔和的成功背景 */
+	--error-bg: #6b1d1d;
+	/* 稍微柔和的错误背景 */
+	--gesture-item-border: rgba(45, 45, 45, 0.7);
+	/* 手势项边框颜色变量与边框颜色统一，添加透明度 */
+
+	/* 添加字体渲染优化参数，减轻深色主题下的字体渲染问题 */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  background-color: var(--bg-color);
-  background-image: linear-gradient(to bottom right, #f8f9fb, #f5f7fa, #f8f9fb);
-  color: var(--text-color);
-  font-size: 14px;
-  line-height: 1.5;
-  transition: background-color 0.5s ease, color 0.5s ease; /* 排除边框过渡 */
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+	background-color: var(--bg-color);
+	background-image: linear-gradient(to bottom right, #f8f9fb, #f5f7fa, #f8f9fb);
+	color: var(--text-color);
+	font-size: 14px;
+	line-height: 1.5;
+	transition: background-color 0.5s ease, color 0.5s ease;
+	/* 排除边框过渡 */
 }
 
 .container {
-  width: 420px;
-  padding: 10px 12px;
-  border-radius: 16px;
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 
-              0 5px 10px -5px rgba(0, 0, 0, 0.01);
+	width: 420px;
+	padding: 10px 12px;
+	border-radius: 16px;
+	box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05),
+		0 5px 10px -5px rgba(0, 0, 0, 0.01);
 }
 
 .header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
-  height: var(--header-height);
-  padding: 0 4px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 10px;
+	height: var(--header-height);
+	padding: 0 4px;
 }
 
 .header h1 {
-  margin: 0;
-  font-size: 22px;
-  font-weight: 600;
-  line-height: var(--header-height);
-  color: var(--text-color);
-  letter-spacing: -0.5px;
+	margin: 0;
+	font-size: 22px;
+	font-weight: 600;
+	line-height: var(--header-height);
+	color: var(--text-color);
+	letter-spacing: -0.5px;
 }
 
 .header h1 a {
-  color: #22334b; /* 更深的标题颜色 */
-  text-decoration: none;
-  font-size: 22px;
-  font-weight: 600;
-  transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  display: inline-block;
-  transform-origin: left center;
-  background: linear-gradient(120deg, #ff6b6b, #ff8e8e);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-shadow: 0 1px 1px rgba(255, 107, 107, 0.1);
+	color: #22334b;
+	/* 更深的标题颜色 */
+	text-decoration: none;
+	font-size: 22px;
+	font-weight: 600;
+	transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+	display: inline-block;
+	transform-origin: left center;
+	background: linear-gradient(120deg, #ff6b6b, #ff8e8e);
+	-webkit-background-clip: text;
+	background-clip: text;
+	-webkit-text-fill-color: transparent;
+	text-shadow: 0 1px 1px rgba(255, 107, 107, 0.1);
 }
 
 .header h1 a:hover {
-  transform: scale(1.05);
-  filter: brightness(1.05);
-  text-shadow: 0 1px 3px rgba(255, 107, 107, 0.15);
+	transform: scale(1.05);
+	filter: brightness(1.05);
+	text-shadow: 0 1px 3px rgba(255, 107, 107, 0.15);
 }
 
 [data-theme="dark"] .header h1 a:hover {
-  text-shadow: 0 1px 3px rgba(255, 255, 255, 0.08);
-  filter: brightness(1.1);
+	text-shadow: 0 1px 3px rgba(255, 255, 255, 0.08);
+	filter: brightness(1.1);
 }
 
 .header-buttons {
-  display: flex;
-  align-items: center;
-  gap: 4px;
+	display: flex;
+	align-items: center;
+	gap: 4px;
 }
 
 .header-button {
-  padding: 0;
-  width: 30px;
-  height: 26px;
-  border: none;
-  background-color: transparent;
-  border-radius: 20px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  transform-origin: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
-  opacity: 0.8;
-  line-height: 1;
-  text-align: center;
-  box-shadow: none !important;
+	padding: 0;
+	width: 30px;
+	height: 26px;
+	border: none;
+	background-color: transparent;
+	border-radius: 20px;
+	cursor: pointer;
+	font-size: 16px;
+	transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+	transform-origin: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-decoration: none;
+	opacity: 0.8;
+	line-height: 1;
+	text-align: center;
+	box-shadow: none !important;
 }
 
 .header-button:hover {
-  opacity: 1;
-  transform: scale(1.08);
-  box-shadow: none !important;
-  filter: brightness(1.05);
-  background-color: transparent;
-  border: none;
+	opacity: 1;
+	transform: scale(1.08);
+	box-shadow: none !important;
+	filter: brightness(1.05);
+	background-color: transparent;
+	border: none;
 }
 
 [data-theme="dark"] .header-button:hover {
-  background-color: transparent;
-  border: none;
-  box-shadow: none !important;
-  transform: scale(1.08);
-  opacity: 1;
+	background-color: transparent;
+	border: none;
+	box-shadow: none !important;
+	transform: scale(1.08);
+	opacity: 1;
 }
 
 .kofi-button {
-  color: #FF5E5B;
-  position: relative;
-  overflow: hidden;
-  transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  background-color: transparent;
-  border: none;
+	color: #FF5E5B;
+	position: relative;
+	overflow: hidden;
+	transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+	background-color: transparent;
+	border: none;
 }
 
 .kofi-button::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    120deg,
-    transparent,
-    rgba(255, 94, 91, 0.2),
-    transparent
-  );
-  transition: 0.5s;
+	content: '';
+	position: absolute;
+	top: 0;
+	left: -100%;
+	width: 100%;
+	height: 100%;
+	background: linear-gradient(120deg,
+			transparent,
+			rgba(255, 94, 91, 0.2),
+			transparent);
+	transition: 0.5s;
 }
 
 .kofi-button:hover {
-  color: #FF5E5B;
-  transform: scale(1.08);
-  box-shadow: none !important;
-  filter: brightness(1.1);
-  background-color: transparent;
-  border: none;
+	color: #FF5E5B;
+	transform: scale(1.08);
+	box-shadow: none !important;
+	filter: brightness(1.1);
+	background-color: transparent;
+	border: none;
 }
 
 .kofi-button:hover::before {
-  left: 100%;
+	left: 100%;
 }
 
-.theme-toggle, .lang-toggle {
-  color: var(--button-bg);
-  background-color: transparent;
-  border: none;
+.theme-toggle,
+.lang-toggle {
+	color: var(--button-bg);
+	background-color: transparent;
+	border: none;
 }
 
-.theme-toggle:hover, .lang-toggle:hover {
-  color: var(--button-bg);
-  transform: scale(1.08);
-  box-shadow: none !important;
-  filter: brightness(1.05);
-  background-color: transparent;
-  border: none;
+.theme-toggle:hover,
+.lang-toggle:hover {
+	color: var(--button-bg);
+	transform: scale(1.08);
+	box-shadow: none !important;
+	filter: brightness(1.05);
+	background-color: transparent;
+	border: none;
 }
 
 .lang-toggle {
-  font-size: 14px;
-  font-weight: 500;
+	font-size: 14px;
+	font-weight: 500;
 }
 
 .section {
-  margin-bottom: 20px;
-  background-color: var(--section-bg);
-  background-image: linear-gradient(to bottom, #ffffff, #fefefe);
-  border-radius: var(--section-radius);
-  padding: 12px;
-  box-shadow: 0 4px 10px -2px var(--shadow-color), 0 2px 6px -2px var(--shadow-color);
-  /* 修改过渡，排除border */
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
-  border: 1px solid var(--border-color);
-  position: relative;
-  overflow: hidden;
+	margin-bottom: 20px;
+	background-color: var(--section-bg);
+	background-image: linear-gradient(to bottom, #ffffff, #fefefe);
+	border-radius: var(--section-radius);
+	padding: 12px;
+	box-shadow: 0 4px 10px -2px var(--shadow-color), 0 2px 6px -2px var(--shadow-color);
+	/* 修改过渡，排除border */
+	transition: background-color 0.3s ease, box-shadow 0.3s ease;
+	border: 1px solid var(--border-color);
+	position: relative;
+	overflow: hidden;
 }
 
 /* 为section添加预设透明边框，避免切换时闪现 */
 .section {
-  border-left: 1px solid var(--border-color);
-  border-right: 1px solid var(--border-color);
-  border-top: 1px solid var(--border-color);
-  border-bottom: 1px solid var(--border-color);
+	border-left: 1px solid var(--border-color);
+	border-right: 1px solid var(--border-color);
+	border-top: 1px solid var(--border-color);
+	border-bottom: 1px solid var(--border-color);
 }
 
 /* 单独为section边框设置过渡 */
 .section:hover {
-  border-color: rgba(220, 229, 238, 0.7); /* 更明显的悬停边框，添加透明度 */
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.035), 0 4px 8px -2px rgba(0, 0, 0, 0.025);
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+	border-color: rgba(220, 229, 238, 0.7);
+	/* 更明显的悬停边框，添加透明度 */
+	box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.035), 0 4px 8px -2px rgba(0, 0, 0, 0.025);
+	transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 [data-theme="dark"] .section {
-  background-image: linear-gradient(to bottom, #232323, #242424);
-  background-size: 100% 100%;
-  border-color: var(--border-color); /* 确保深色主题边框颜色正确 */
+	background-image: linear-gradient(to bottom, #232323, #242424);
+	background-size: 100% 100%;
+	border-color: var(--border-color);
+	/* 确保深色主题边框颜色正确 */
 }
 
 [data-theme="dark"] .section:hover {
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12); /* 增加阴影效果替代上移 */
-  border-color: rgba(58, 58, 58, 0.7); /* 稍微亮一点的边框颜色作为悬停效果，添加透明度 */
+	box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+	/* 增加阴影效果替代上移 */
+	border-color: rgba(58, 58, 58, 0.7);
+	/* 稍微亮一点的边框颜色作为悬停效果，添加透明度 */
 }
 
 /* 统一所有标题的样式，不区分深色/浅色主题 */
 h2 {
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 16px;
-  color: var(--text-color); /* 使用变量颜色，自动适应主题 */
-  border-bottom: 1px solid var(--border-color); /* 使用边框颜色变量，自带透明度 */
-  padding-bottom: 12px;
-  letter-spacing: 0; /* 统一字间距为0 */
-  cursor: pointer;
-  transition: all 0.2s ease;
-  position: relative;
+	font-size: 16px;
+	font-weight: 600;
+	margin-bottom: 16px;
+	color: var(--text-color);
+	/* 使用变量颜色，自动适应主题 */
+	border-bottom: 1px solid var(--border-color);
+	/* 使用边框颜色变量，自带透明度 */
+	padding-bottom: 12px;
+	letter-spacing: 0;
+	/* 统一字间距为0 */
+	cursor: pointer;
+	transition: all 0.2s ease;
+	position: relative;
 }
 
 h2:hover {
-  color: #ff6b6b;
-  border-bottom-color: #ff6b6b;
+	color: #ff6b6b;
+	border-bottom-color: #ff6b6b;
 }
 
 h2:active {
-  transform: scale(0.98);
+	transform: scale(0.98);
 }
 
 /* 统一设置标题样式 */
-.settings-header h2, .section-header h2 {
-  margin: 0;
-  padding: 0;
-  border-bottom: none;
-  color: var(--text-color); /* 使用变量颜色，自动适应主题 */
-  letter-spacing: 0;
-  font-weight: 700;
+.settings-header h2,
+.section-header h2 {
+	margin: 0;
+	padding: 0;
+	border-bottom: none;
+	color: var(--text-color);
+	/* 使用变量颜色，自动适应主题 */
+	letter-spacing: 0;
+	font-weight: 700;
 }
 
 /* 移除之前添加的深色主题特殊文字阴影和颜色 */
 [data-theme="dark"] h2 {
-  letter-spacing: 0;
-  color: var(--text-color); /* 使用统一的文本颜色变量 */
-  text-shadow: none; /* 移除文本阴影 */
+	letter-spacing: 0;
+	color: var(--text-color);
+	/* 使用统一的文本颜色变量 */
+	text-shadow: none;
+	/* 移除文本阴影 */
 }
 
 /* 移除深色主题标题的特殊样式 */
 [data-theme="dark"] .settings-header h2,
 [data-theme="dark"] .section-header h2 {
-  color: var(--text-color);
-  text-shadow: none; /* 移除文本阴影 */
+	color: var(--text-color);
+	text-shadow: none;
+	/* 移除文本阴影 */
 }
 
 .gesture-list {
-  max-height: 518px;
-  overflow-y: auto;
-  padding-right: 4px;
+	padding-right: 4px;
 }
 
 .gesture-item {
-  display: flex;
-  align-items: center;
-  padding: 8px 4px;
-  /* 预设所有边框为透明或固定颜色，避免闪现 */
-  border-bottom: 1px solid var(--border-color); 
-  border-left: 1px solid transparent; /* 预设透明边框，避免切换时闪现 */
-  /* 修改过渡效果，从主题切换过渡中分离出边框变化 */
-  transition: background-color 0.3s ease, padding 0.3s ease, transform 0.3s ease;
-  /* 移除border-color从主题切换过渡中 */
+	display: flex;
+	align-items: center;
+	padding: 8px 4px;
+	/* 预设所有边框为透明或固定颜色，避免闪现 */
+	border-bottom: 1px solid var(--border-color);
+	border-left: 1px solid transparent;
+	/* 预设透明边框，避免切换时闪现 */
+	/* 修改过渡效果，从主题切换过渡中分离出边框变化 */
+	transition: background-color 0.3s ease, padding 0.3s ease, transform 0.3s ease;
+	/* 移除border-color从主题切换过渡中 */
 }
 
 /* 单独为gesture-item边框设置悬停过渡 */
 .gesture-item:hover {
-  padding-left: 10px; /* 保留轻微的左侧填充变化作为悬停指示 */
-  background-color: rgba(245, 248, 252, 0.5); /* 添加淡蓝色背景提供明显的视觉反馈 */
-  border-radius: 4px; /* 添加轻微的圆角效果 */
-  border-left-color: rgba(255, 107, 107, 0.8); /* 添加左侧边框强调效果，加入透明度 */
-  transition: border-left-color 0.3s ease, background-color 0.3s ease, padding 0.3s ease;
+	padding-left: 10px;
+	/* 保留轻微的左侧填充变化作为悬停指示 */
+	background-color: rgba(245, 248, 252, 0.5);
+	/* 添加淡蓝色背景提供明显的视觉反馈 */
+	border-radius: 4px;
+	/* 添加轻微的圆角效果 */
+	border-left-color: rgba(255, 107, 107, 0.8);
+	/* 添加左侧边框强调效果，加入透明度 */
+	transition: border-left-color 0.3s ease, background-color 0.3s ease, padding 0.3s ease;
 }
 
 /* 确保深色主题下gesture-item边框状态正确 */
 [data-theme="dark"] .gesture-item {
-  border-bottom: 1px solid var(--border-color);
-  border-left: 1px solid transparent;
+	border-bottom: 1px solid var(--border-color);
+	border-left: 1px solid transparent;
 }
 
 [data-theme="dark"] .gesture-item:hover {
-  background-color: rgba(255, 255, 255, 0.02); /* 极轻微的背景变化提供视觉反馈 */
-  box-shadow: none; /* 移除阴影 */
-  border-left-color: rgba(255, 118, 118, 0.8); /* 使用变量来设置边框颜色，添加透明度 */
+	background-color: rgba(255, 255, 255, 0.02);
+	/* 极轻微的背景变化提供视觉反馈 */
+	box-shadow: none;
+	/* 移除阴影 */
+	border-left-color: rgba(255, 118, 118, 0.8);
+	/* 使用变量来设置边框颜色，添加透明度 */
 }
 
 .gesture-item:last-child {
-  border-bottom: none;
+	border-bottom: none;
 }
 
 .gesture-details {
-  flex: 1;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
+	flex: 1;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
 }
 
 .gesture-name {
-  font-weight: 600;
-  color: var(--text-color); /* 使用变量颜色，自动适应主题 */
-  display: flex;
-  align-items: center;
-  letter-spacing: 0.01em;
+	font-weight: 600;
+	color: var(--text-color);
+	/* 使用变量颜色，自动适应主题 */
+	display: flex;
+	align-items: center;
+	letter-spacing: 0.01em;
 }
 
 .gesture-action {
-  color: var(--text-color); /* 使用变量颜色，自动适应主题 */
-  opacity: 0.7; /* 统一使用不透明度来区分主要和次要文本 */
-  font-size: 13px;
-  text-align: right;
-  margin-left: auto;
+	color: var(--text-color);
+	/* 使用变量颜色，自动适应主题 */
+	opacity: 0.7;
+	/* 统一使用不透明度来区分主要和次要文本 */
+	font-size: 13px;
+	text-align: right;
+	margin-left: auto;
 }
 
 .settings {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
 }
 
 .setting-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 8px 4px;
-  transition: var(--transition);
-  border-radius: 6px;
-  border: 1px solid transparent;
-  position: relative;
-  overflow: hidden;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 8px 4px;
+	transition: var(--transition);
+	border-radius: 6px;
+	border: 1px solid transparent;
+	position: relative;
+	overflow: hidden;
 }
 
 .setting-item:hover {
-  padding-left: 8px;
-  padding-right: 8px;
-  background-color: #f5f8fc;
-  border-radius: 6px;
-  transform: translateX(3px);
-  border-left-color: rgba(255, 107, 107, 0.8); /* 使用带透明度的边框颜色 */
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+	padding-left: 8px;
+	padding-right: 8px;
+	background-color: #f5f8fc;
+	border-radius: 6px;
+	transform: translateX(3px);
+	border-left-color: rgba(255, 107, 107, 0.8);
+	/* 使用带透明度的边框颜色 */
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
 }
 
 [data-theme="dark"] .setting-item:hover {
-  background-color: #282828;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  border-left-color: rgba(255, 82, 82, 0.8); /* 深色主题下使用更鲜明但带透明度的左边框颜色 */
+	background-color: #282828;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+	border-left-color: rgba(255, 82, 82, 0.8);
+	/* 深色主题下使用更鲜明但带透明度的左边框颜色 */
 }
 
 .setting-item::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    120deg,
-    transparent,
-    rgba(255, 107, 107, 0.08),
-    transparent
-  );
-  transition: 0.8s;
-  pointer-events: none;
+	content: '';
+	position: absolute;
+	top: 0;
+	left: -100%;
+	width: 100%;
+	height: 100%;
+	background: linear-gradient(120deg,
+			transparent,
+			rgba(255, 107, 107, 0.08),
+			transparent);
+	transition: 0.8s;
+	pointer-events: none;
 }
 
 .setting-item:hover::after {
-  left: 100%;
+	left: 100%;
 }
 
 label {
-  font-weight: 500;
-  color: var(--text-color);
-  font-size: 14px;
-  transition: var(--transition);
+	font-weight: 500;
+	color: var(--text-color);
+	font-size: 14px;
+	transition: var(--transition);
 }
 
 .setting-item:hover label {
-  color: #ff6b6b;
-  font-weight: 600;
-  letter-spacing: 0.01em;
+	color: #ff6b6b;
+	font-weight: 600;
+	letter-spacing: 0.01em;
 }
 
 input[type="checkbox"] {
-  appearance: none;
-  -webkit-appearance: none;
-  width: 18px;
-  height: 18px;
-  cursor: pointer;
-  transition: var(--transition);
-  border-radius: 3px;
-  border: 1px solid #d8e1ec;
-  background-color: #fff;
-  position: relative;
+	appearance: none;
+	-webkit-appearance: none;
+	width: 18px;
+	height: 18px;
+	cursor: pointer;
+	transition: var(--transition);
+	border-radius: 3px;
+	border: 1px solid #d8e1ec;
+	background-color: #fff;
+	position: relative;
 }
 
 input[type="checkbox"]:hover {
-  transform: scale(1.1);
-  opacity: 0.9;
-  box-shadow: 0 0 5px rgba(168, 230, 207, 0.3);
+	transform: scale(1.1);
+	opacity: 0.9;
+	box-shadow: 0 0 5px rgba(168, 230, 207, 0.3);
 }
 
 [data-theme="dark"] input[type="checkbox"]:hover {
-  box-shadow: 0 0 5px rgba(255, 118, 118, 0.4);
-  transform: scale(1.12);
+	box-shadow: 0 0 5px rgba(255, 118, 118, 0.4);
+	transform: scale(1.12);
 }
 
 input[type="color"] {
-  width: 32px;
-  height: 32px;
-  border: none;
-  cursor: pointer;
-  background: none;
-  border-radius: 6px;
-  padding: 0;
+	width: 32px;
+	height: 32px;
+	border: none;
+	cursor: pointer;
+	background: none;
+	border-radius: 6px;
+	padding: 0;
 }
 
 .setting-item:hover input[type="color"] {
-  transform: scale(1.05);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	transform: scale(1.05);
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 input[type="range"] {
-  width: 160px;
-  height: 4px;
-  appearance: none;
-  background: var(--border-color);
-  border-radius: 2px;
-  outline: none;
+	width: 160px;
+	height: 4px;
+	appearance: none;
+	background: var(--border-color);
+	border-radius: 2px;
+	outline: none;
 }
 
 input[type="range"]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  width: 16px;
-  height: 16px;
-  background: var(--button-bg);
-  border-radius: 50%;
-  cursor: pointer;
-  transition: var(--transition);
-  box-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
+	-webkit-appearance: none;
+	width: 16px;
+	height: 16px;
+	background: var(--button-bg);
+	border-radius: 50%;
+	cursor: pointer;
+	transition: var(--transition);
+	box-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
 }
 
 input[type="range"]::-webkit-slider-thumb:hover {
-  transform: scale(1.15);
-  box-shadow: 0 0 6px rgba(255, 107, 107, 0.3);
-  background-color: var(--button-hover);
+	transform: scale(1.15);
+	box-shadow: 0 0 6px rgba(255, 107, 107, 0.3);
+	background-color: var(--button-hover);
 }
 
 [data-theme="dark"] input[type="range"]::-webkit-slider-thumb:hover {
-  transform: scale(1.2);
-  box-shadow: 0 0 5px rgba(255, 107, 107, 0.5);
+	transform: scale(1.2);
+	box-shadow: 0 0 5px rgba(255, 107, 107, 0.5);
 }
 
 .setting-item:hover input[type="range"]::-webkit-slider-thumb {
-  transform: scale(1.2);
-  background-color: var(--button-hover);
+	transform: scale(1.2);
+	background-color: var(--button-hover);
 }
 
 .footer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0;
-  padding: 0;
-  text-align: center;
-  color: #7f8c8d;
-  opacity: 0.8;
-  font-size: 12px;
-  letter-spacing: 0.5px;
-  transition: var(--transition);
-  position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin: 0;
+	padding: 0;
+	text-align: center;
+	color: #7f8c8d;
+	opacity: 0.8;
+	font-size: 12px;
+	letter-spacing: 0.5px;
+	transition: var(--transition);
+	position: relative;
 }
 
 .footer:hover {
-  opacity: 1;
-  color: var(--button-bg);
-  transform: translateY(-1px);
-  text-shadow: 0 1px 2px rgba(255, 107, 107, 0.1);
+	opacity: 1;
+	color: var(--button-bg);
+	transform: translateY(-1px);
+	text-shadow: 0 1px 2px rgba(255, 107, 107, 0.1);
 }
 
 [data-theme="dark"] .footer:hover {
-  color: var(--button-hover);
-  text-shadow: 0 0 3px rgba(255, 94, 94, 0.25);
+	color: var(--button-hover);
+	text-shadow: 0 0 3px rgba(255, 94, 94, 0.25);
 }
 
 .footer-icon {
-  width: 16px;
-  height: 16px;
-  vertical-align: middle;
-  margin-right: 4px;
-  margin-top: -2px;
-  transition: var(--transition);
+	width: 16px;
+	height: 16px;
+	vertical-align: middle;
+	margin-right: 4px;
+	margin-top: -2px;
+	transition: var(--transition);
 }
 
 .footer:hover .footer-icon {
-  transform: rotate(10deg);
+	transform: rotate(10deg);
 }
 
 #version-info {
-  position: relative;
-  cursor: pointer;
+	position: relative;
+	cursor: pointer;
 }
 
 #version-info a {
-  color: inherit;
-  text-decoration: none;
-  transition: var(--transition);
-  font-weight: 500;
-  padding: 2px 5px;
-  border-radius: 10px;
+	color: inherit;
+	text-decoration: none;
+	transition: var(--transition);
+	font-weight: 500;
+	padding: 2px 5px;
+	border-radius: 10px;
 }
 
 #version-info a:hover {
-  color: #ff6b6b;
-  background-color: rgba(255, 107, 107, 0.08);
-  text-decoration: none;
+	color: #ff6b6b;
+	background-color: rgba(255, 107, 107, 0.08);
+	text-decoration: none;
 }
 
 [data-theme="dark"] #version-info a:hover {
-  color: var(--button-hover);
-  text-shadow: 0 0 2px rgba(255, 94, 94, 0.25);
+	color: var(--button-hover);
+	text-shadow: 0 0 2px rgba(255, 94, 94, 0.25);
 }
 
 #version-info::after {
-  content: attr(data-tooltip);
-  position: absolute;
-  bottom: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: rgba(45, 55, 72, 0.95);
-  color: white;
-  padding: 6px 12px;
-  border-radius: 6px;
-  font-size: 12px;
-  white-space: nowrap;
-  opacity: 0;
-  visibility: hidden;
-  transition: all 0.3s ease;
-  margin-bottom: 8px;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.05);
-  z-index: 100;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+	content: attr(data-tooltip);
+	position: absolute;
+	bottom: 100%;
+	left: 50%;
+	transform: translateX(-50%);
+	background-color: rgba(45, 55, 72, 0.95);
+	color: white;
+	padding: 6px 12px;
+	border-radius: 6px;
+	font-size: 12px;
+	white-space: nowrap;
+	opacity: 0;
+	visibility: hidden;
+	transition: all 0.3s ease;
+	margin-bottom: 8px;
+	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.05);
+	z-index: 100;
+	border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 #version-info::before {
-  content: "";
-  position: absolute;
-  bottom: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  border-width: 5px;
-  border-style: solid;
-  border-color: rgba(45, 55, 72, 0.95) transparent transparent transparent;
-  opacity: 0;
-  visibility: hidden;
-  transition: all 0.3s ease;
-  margin-bottom: -5px;
-  z-index: 100;
+	content: "";
+	position: absolute;
+	bottom: 100%;
+	left: 50%;
+	transform: translateX(-50%);
+	border-width: 5px;
+	border-style: solid;
+	border-color: rgba(45, 55, 72, 0.95) transparent transparent transparent;
+	opacity: 0;
+	visibility: hidden;
+	transition: all 0.3s ease;
+	margin-bottom: -5px;
+	z-index: 100;
 }
 
 #version-info:hover::after,
 #version-info:hover::before {
-  opacity: 1;
-  visibility: visible;
+	opacity: 1;
+	visibility: visible;
 }
 
 [data-theme="dark"] #version-info::after {
-  background-color: rgba(255, 255, 255, 0.85);
-  color: #222;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+	background-color: rgba(255, 255, 255, 0.85);
+	color: #222;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 [data-theme="dark"] #version-info::before {
-  border-color: rgba(255, 255, 255, 0.9) transparent transparent transparent;
+	border-color: rgba(255, 255, 255, 0.9) transparent transparent transparent;
 }
 
 button {
-  padding: 12px 24px;
-  border: none;
-  border-radius: 20px;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 14px;
-  transition: var(--transition);
-  flex: 1;
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0 4px 12px var(--button-shadow);
+	padding: 12px 24px;
+	border: none;
+	border-radius: 20px;
+	cursor: pointer;
+	font-weight: 600;
+	font-size: 14px;
+	transition: var(--transition);
+	flex: 1;
+	position: relative;
+	overflow: hidden;
+	box-shadow: 0 4px 12px var(--button-shadow);
 }
 
 button::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    120deg,
-    transparent,
-    rgba(255, 255, 255, 0.3),
-    transparent
-  );
-  transition: 0.5s;
+	content: '';
+	position: absolute;
+	top: 0;
+	left: -100%;
+	width: 100%;
+	height: 100%;
+	background: linear-gradient(120deg,
+			transparent,
+			rgba(255, 255, 255, 0.3),
+			transparent);
+	transition: 0.5s;
 }
 
 button:hover::before {
-  left: 100%;
+	left: 100%;
 }
 
 #save-btn {
-  background-color: var(--button-bg);
-  background-image: linear-gradient(to bottom, #ff7676, #ff6b6b);
-  color: white;
-  letter-spacing: 0.5px;
-  box-shadow: 0 4px 10px var(--button-shadow);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+	background-color: var(--button-bg);
+	background-image: linear-gradient(to bottom, #ff7676, #ff6b6b);
+	color: white;
+	letter-spacing: 0.5px;
+	box-shadow: 0 4px 10px var(--button-shadow);
+	border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 #save-btn:hover {
-  background-color: var(--button-hover);
-  background-image: linear-gradient(to bottom, #ff6868, #ff5252);
-  /* transform: translateY(-2px); 移除上移效果 */
-  box-shadow: 0 6px 14px var(--button-shadow);
-  animation: gradientBorder 3s ease infinite;
-  background-size: 200% 200%;
+	background-color: var(--button-hover);
+	background-image: linear-gradient(to bottom, #ff6868, #ff5252);
+	/* transform: translateY(-2px); 移除上移效果 */
+	box-shadow: 0 6px 14px var(--button-shadow);
+	animation: gradientBorder 3s ease infinite;
+	background-size: 200% 200%;
 }
 
 #reset-btn {
-  background-color: transparent;
-  color: var(--text-color);
-  letter-spacing: 0.5px;
-  border: 1px solid transparent !important; /* 强制设置透明边框，避免悬停时的布局跳动 */
-  box-shadow: none;
-  transition: var(--transition);
-  opacity: 0.85; /* 默认状态下稍微降低不透明度 */
+	background-color: transparent;
+	color: var(--text-color);
+	letter-spacing: 0.5px;
+	border: 1px solid transparent !important;
+	/* 强制设置透明边框，避免悬停时的布局跳动 */
+	box-shadow: none;
+	transition: var(--transition);
+	opacity: 0.85;
+	/* 默认状态下稍微降低不透明度 */
 }
 
 #reset-btn:hover {
-  background-color: rgba(168, 230, 207, 0.1); /* 使用半透明背景 */
-  border: 1px solid var(--button-reset) !important; /* 使用变量设置边框 */
-  color: var(--button-reset-hover); /* 使用变量设置悬停文字颜色 */
-  box-shadow: 0 2px 6px var(--button-reset-shadow); /* 添加轻微阴影 */
-  opacity: 1; /* 悬停时恢复完全不透明 */
+	background-color: rgba(168, 230, 207, 0.1);
+	/* 使用半透明背景 */
+	border: 1px solid var(--button-reset) !important;
+	/* 使用变量设置边框 */
+	color: var(--button-reset-hover);
+	/* 使用变量设置悬停文字颜色 */
+	box-shadow: 0 2px 6px var(--button-reset-shadow);
+	/* 添加轻微阴影 */
+	opacity: 1;
+	/* 悬停时恢复完全不透明 */
 }
 
 /* 深色主题下的重置按钮 */
 [data-theme="dark"] #reset-btn {
-  color: var(--text-color);
-  border: 1px solid transparent !important; /* 强制设置透明边框 */
-  background-color: transparent;
-  opacity: 0.85; /* 与普通主题保持一致 */
+	color: var(--text-color);
+	border: 1px solid transparent !important;
+	/* 强制设置透明边框 */
+	background-color: transparent;
+	opacity: 0.85;
+	/* 与普通主题保持一致 */
 }
 
 [data-theme="dark"] #reset-btn:hover {
-  background-color: rgba(168, 230, 207, 0.08); /* 深色主题下使用更暗的背景 */
-  border: 1px solid var(--button-reset) !important; /* 使用变量设置边框 */
-  color: var(--button-reset); /* 使用变量设置悬停文字颜色 */
-  box-shadow: 0 2px 8px rgba(168, 230, 207, 0.2); /* 深色主题下的阴影 */
-  opacity: 1; /* 悬停时恢复完全不透明 */
+	background-color: rgba(168, 230, 207, 0.08);
+	/* 深色主题下使用更暗的背景 */
+	border: 1px solid var(--button-reset) !important;
+	/* 使用变量设置边框 */
+	color: var(--button-reset);
+	/* 使用变量设置悬停文字颜色 */
+	box-shadow: 0 2px 8px rgba(168, 230, 207, 0.2);
+	/* 深色主题下的阴影 */
+	opacity: 1;
+	/* 悬停时恢复完全不透明 */
 }
 
 .status-message {
-  background-color: var(--success-bg);
-  color: #0d7a4f;
-  padding: 12px;
-  border-radius: 8px;
-  margin-top: 12px;
-  text-align: center;
-  transition: var(--transition);
-  font-size: 13px;
-  font-weight: 500;
-  border: 1px solid rgba(168, 230, 207, 0.3);
+	background-color: var(--success-bg);
+	color: #0d7a4f;
+	padding: 12px;
+	border-radius: 8px;
+	margin-top: 12px;
+	text-align: center;
+	transition: var(--transition);
+	font-size: 13px;
+	font-weight: 500;
+	border: 1px solid rgba(168, 230, 207, 0.3);
 }
 
 /* 滚动条样式 */
 ::-webkit-scrollbar {
-  width: 6px;
+	width: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--scrollbar-track);
-  border-radius: 4px;
+	background: var(--scrollbar-track);
+	border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--scrollbar-thumb);
-  border-radius: 4px;
-  border: 1px solid rgba(0, 0, 0, 0.01);
+	background: var(--scrollbar-thumb);
+	border-radius: 4px;
+	border: 1px solid rgba(0, 0, 0, 0.01);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--scrollbar-thumb-hover);
-  border: 1px solid rgba(0, 0, 0, 0.05);
+	background: var(--scrollbar-thumb-hover);
+	border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .super-drag-info {
-  padding: 12px 0;
-  border-top: 1px solid var(--border-color); /* 使用变量来设置边框颜色 */
-  margin-top: 0px;
-  border-radius: 4px;
-  transition: all 0.3s ease, border-color 0.5s ease, background-color 0.5s ease; /* 增加边框和背景色过渡 */
-  border-left: 1px solid transparent; /* 预设透明边框，避免切换时闪现 */
+	padding: 12px 0;
+	border-top: 1px solid var(--border-color);
+	/* 使用变量来设置边框颜色 */
+	margin-top: 0px;
+	border-radius: 4px;
+	transition: all 0.3s ease, border-color 0.5s ease, background-color 0.5s ease;
+	/* 增加边框和背景色过渡 */
+	border-left: 1px solid transparent;
+	/* 预设透明边框，避免切换时闪现 */
 }
 
 .super-drag-info:hover {
-  background-color: rgba(243, 248, 255, 0.6); /* 添加淡蓝色背景提供明显的视觉反馈 */
-  padding: 12px 8px;
-  border-left: 1px solid var(--button-bg); /* 使用变量设置边框颜色 */
+	background-color: rgba(243, 248, 255, 0.6);
+	/* 添加淡蓝色背景提供明显的视觉反馈 */
+	padding: 12px 8px;
+	border-left: 1px solid var(--button-bg);
+	/* 使用变量设置边框颜色 */
 }
 
 .super-drag-info p {
-  color: #5e7186;
-  opacity: 0.9;
-  font-size: 13px;
-  line-height: 1.5;
-  letter-spacing: 0.01em;
-  transition: var(--transition);
+	color: #5e7186;
+	opacity: 0.9;
+	font-size: 13px;
+	line-height: 1.5;
+	letter-spacing: 0.01em;
+	transition: var(--transition);
 }
 
 .super-drag-info:hover p {
-  color: #34495e; /* 悬停时加深文字颜色 */
-  opacity: 1;
+	color: #34495e;
+	/* 悬停时加深文字颜色 */
+	opacity: 1;
 }
 
 /* 添加设置标题行的样式 */
 .settings-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
-  border-bottom: 1px solid var(--border-color); /* 使用变量来设置边框颜色 */
-  padding-bottom: 8px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 10px;
+	border-bottom: 1px solid var(--border-color);
+	/* 使用变量来设置边框颜色 */
+	padding-bottom: 8px;
 }
 
 .settings-controls {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+	display: flex;
+	align-items: center;
+	gap: 10px;
 }
 
 /* 保存状态显示的样式 */
 .save-status {
-  font-size: 13px;
-  font-weight: 500;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  color: #4CAF50;
+	font-size: 13px;
+	font-weight: 500;
+	opacity: 0;
+	transition: opacity 0.3s ease;
+	color: #4CAF50;
 }
 
 .save-status.show {
-  opacity: 1;
+	opacity: 1;
 }
 
 /* 状态容器样式 */
 .status-container {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  flex-shrink: 0;
-  order: 2;
-  margin-right: 10px;
-  min-height: 20px;
-  min-width: 150px;
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	flex-shrink: 0;
+	order: 2;
+	margin-right: 10px;
+	min-height: 20px;
+	min-width: 150px;
 }
 
 /* 区域保存状态样式 */
 .section-save-status {
-  position: absolute;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 13px;
-  font-weight: 500;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  color: #4CAF50;
-  pointer-events: none;
-  white-space: nowrap;
-  max-width: 100%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  z-index: 2;
+	position: absolute;
+	right: 0;
+	top: 50%;
+	transform: translateY(-50%);
+	font-size: 13px;
+	font-weight: 500;
+	opacity: 0;
+	transition: opacity 0.3s ease;
+	color: #4CAF50;
+	pointer-events: none;
+	white-space: nowrap;
+	max-width: 100%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	z-index: 2;
 }
 
 .section-save-status.show {
-  opacity: 1;
+	opacity: 1;
 }
 
 [data-theme="dark"] .section-save-status {
-  color: #81c784;
+	color: #81c784;
 }
 
 /* 小按钮样式 */
 .small-button {
-  padding: 6px 14px;
-  border-radius: 15px;
-  cursor: pointer;
-  font-weight: 500;
-  font-size: 12px;
-  transition: var(--transition);
-  background-color: #f5f7fa;
-  color: #34495e;
-  box-shadow: none;
-  border: none; /* 移除默认边框 */
+	padding: 6px 14px;
+	border-radius: 15px;
+	cursor: pointer;
+	font-weight: 500;
+	font-size: 12px;
+	transition: var(--transition);
+	background-color: #f5f7fa;
+	color: #34495e;
+	box-shadow: none;
+	border: none;
+	/* 移除默认边框 */
 }
 
 .small-button:hover {
-  background-color: #ebf9f5;
-  transform: translateY(-1px);
-  color: #2d8a6b;
-  border: 1px solid rgba(168, 230, 207, 0.5); /* 悬停时显示边框 */
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+	background-color: #ebf9f5;
+	transform: translateY(-1px);
+	color: #2d8a6b;
+	border: 1px solid rgba(168, 230, 207, 0.5);
+	/* 悬停时显示边框 */
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
 }
 
 [data-theme="dark"] .small-button:hover {
-  background-color: rgba(168, 230, 207, 0.12);
-  color: var(--button-reset);
-  border: 1px solid var(--button-reset); /* 深色主题下悬停时显示边框 */
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  /* transform: translateY(-1px); 移除上移效果 */
+	background-color: rgba(168, 230, 207, 0.12);
+	color: var(--button-reset);
+	border: 1px solid var(--button-reset);
+	/* 深色主题下悬停时显示边框 */
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+	/* transform: translateY(-1px); 移除上移效果 */
 }
 
 /* 手势图标基础样式 */
 .gesture-icon {
-  width: 30px;
-  height: 30px;
-  border-radius: 0; /* 移除圆形边框 */
-  margin-right: 5px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  color: var(--text-color); /* 使用文本颜色变量 */
-  transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
-  font-size: 14px;
-  box-shadow: none; /* 移除阴影 */
-  border: none; /* 移除边框 */
-  background: transparent !important; /* 确保背景透明 */
+	width: 30px;
+	height: 30px;
+	border-radius: 0;
+	/* 移除圆形边框 */
+	margin-right: 5px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-weight: bold;
+	color: var(--text-color);
+	/* 使用文本颜色变量 */
+	transition: all 0.3s ease;
+	position: relative;
+	overflow: hidden;
+	font-size: 14px;
+	box-shadow: none;
+	/* 移除阴影 */
+	border: none;
+	/* 移除边框 */
+	background: transparent !important;
+	/* 确保背景透明 */
 }
 
 .gesture-item:hover .gesture-icon {
-  box-shadow: none; /* 移除阴影 */
-  transform: none; /* 移除位移效果 */
+	box-shadow: none;
+	/* 移除阴影 */
+	transform: none;
+	/* 移除位移效果 */
 }
 
 /* 修改复合方向动画效果，使其更加平滑连贯 */
 .composite-icon {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+	position: relative;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 /* 轨迹线动画 - 隐藏斜线/竖线 */
 .composite-icon::before {
-  content: '';
-  display: none !important; /* 隐藏线条 */
+	content: '';
+	display: none !important;
+	/* 隐藏线条 */
 }
 
 /* 悬停时显示轨迹线 */
 .gesture-item:hover .composite-icon::before {
-  animation: none;
+	animation: none;
 }
 
 /* 第一个方向 */
 .first-direction {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 1;
-  transition: all 0.3s ease;
-  animation: moveFirstDirection 2s infinite;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	opacity: 1;
+	transition: all 0.3s ease;
+	animation: moveFirstDirection 2s infinite;
 }
 
 /* 第二个方向 */
 .second-direction {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  transform: scale(0);
-  transition: all 0.3s ease;
-  animation: moveSecondDirection 2s infinite;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	opacity: 0;
+	transform: scale(0);
+	transition: all 0.3s ease;
+	animation: moveSecondDirection 2s infinite;
 }
 
 /* 动画触发 */
 .gesture-item:hover .first-direction {
-  animation: moveFirstDirection 2s infinite !important;
+	animation: moveFirstDirection 2s infinite !important;
 }
 
 .gesture-item:hover .second-direction {
-  animation: moveSecondDirection 2s infinite !important;
+	animation: moveSecondDirection 2s infinite !important;
 }
 
 /* 向下然后向右的手势轨迹 */
 .icon-close.composite-parent .composite-icon::before {
-  transform-origin: center;
-  transform: rotate(45deg);
+	transform-origin: center;
+	transform: rotate(45deg);
 }
 
 /* 左然后上的手势轨迹 */
 .icon-reopen.composite-parent .composite-icon::before {
-  transform-origin: center;
-  transform: rotate(-45deg);
+	transform-origin: center;
+	transform: rotate(-45deg);
 }
 
 /* 右然后上的手势轨迹 */
 .icon-new-tab.composite-parent .composite-icon::before {
-  transform-origin: center;
-  transform: rotate(45deg);
+	transform-origin: center;
+	transform: rotate(45deg);
 }
 
 /* 右然后下的手势轨迹 */
 .icon-refresh.composite-parent .composite-icon::before {
-  transform-origin: center;
-  transform: rotate(-45deg);
+	transform-origin: center;
+	transform: rotate(-45deg);
 }
 
 /* 上然后左的手势轨迹 */
 .icon-prev.composite-parent .composite-icon::before {
-  transform-origin: center;
-  transform: rotate(45deg);
+	transform-origin: center;
+	transform: rotate(45deg);
 }
 
 /* 上然后右的手势轨迹 */
 .icon-next.composite-parent .composite-icon::before {
-  transform-origin: center;
-  transform: rotate(-45deg);
+	transform-origin: center;
+	transform: rotate(-45deg);
 }
 
 /* 下然后左的手势轨迹 */
 .icon-stop.composite-parent .composite-icon::before {
-  transform-origin: center;
-  transform: rotate(45deg);
-  background: rgba(244, 67, 54, 0.8);
-  box-shadow: 0 0 5px rgba(244, 67, 54, 0.5);
+	transform-origin: center;
+	transform: rotate(45deg);
+	background: rgba(244, 67, 54, 0.8);
+	box-shadow: 0 0 5px rgba(244, 67, 54, 0.5);
 }
 
 /* 左然后下的手势轨迹 */
 .icon-close-all.composite-parent .composite-icon::before {
-  transform-origin: center;
-  transform: rotate(-45deg);
+	transform-origin: center;
+	transform: rotate(-45deg);
 }
 
 /* 上然后下的手势轨迹 */
 .icon-bottom.composite-parent .composite-icon::before {
-  transform: rotate(90deg);
-  background: rgba(121, 85, 72, 0.8);
-  box-shadow: 0 0 5px rgba(121, 85, 72, 0.5);
+	transform: rotate(90deg);
+	background: rgba(121, 85, 72, 0.8);
+	box-shadow: 0 0 5px rgba(121, 85, 72, 0.5);
 }
 
 /* 下然后上的手势轨迹 */
 .icon-top.composite-parent .composite-icon::before {
-  transform: rotate(90deg);
-  background: rgba(121, 85, 72, 0.8);
-  box-shadow: 0 0 5px rgba(121, 85, 72, 0.5);
+	transform: rotate(90deg);
+	background: rgba(121, 85, 72, 0.8);
+	box-shadow: 0 0 5px rgba(121, 85, 72, 0.5);
 }
 
 /* 左然后右的手势轨迹 */
 .icon-close.composite-parent:not(:first-child) .composite-icon::before {
-  transform: rotate(0deg);
+	transform: rotate(0deg);
 }
 
 /* 右然后左的手势轨迹 */
 .icon-reopen.composite-parent:not(:first-child) .composite-icon::before {
-  transform: rotate(0deg);
+	transform: rotate(0deg);
 }
 
 /* 轨迹显示动画 */
 @keyframes showPath {
-  0% { width: 0; opacity: 0.3; }
-  40% { width: 24px; opacity: 1; }
-  50% { width: 24px; opacity: 1; }
-  100% { width: 0; opacity: 0.3; }
+	0% {
+		width: 0;
+		opacity: 0.3;
+	}
+
+	40% {
+		width: 24px;
+		opacity: 1;
+	}
+
+	50% {
+		width: 24px;
+		opacity: 1;
+	}
+
+	100% {
+		width: 0;
+		opacity: 0.3;
+	}
 }
 
 /* 第一个箭头的移动动画 - 让动画从边缘开始 */
 @keyframes moveFirstDirection {
-  0% { opacity: 0; transform: scale(0) translate(calc(var(--move-x-1, -8px) * -0.5), calc(var(--move-y-1, -8px) * -0.5)); }
-  5% { opacity: 1; transform: scale(1) translate(calc(var(--move-x-1, -8px) * -0.8), calc(var(--move-y-1, -8px) * -0.8)); }
-  35% { opacity: 1; transform: scale(1) translate(var(--move-x-1, -8px), var(--move-y-1, -8px)); }
-  45% { opacity: 0.5; transform: scale(0.8) translate(var(--move-x-1, -8px), var(--move-y-1, -8px)); }
-  50% { opacity: 0; transform: scale(0) translate(var(--move-x-1, -8px), var(--move-y-1, -8px)); }
-  100% { opacity: 0; transform: scale(0) translate(var(--move-x-1, -8px), var(--move-y-1, -8px)); }
+	0% {
+		opacity: 0;
+		transform: scale(0) translate(calc(var(--move-x-1, -8px) * -0.5), calc(var(--move-y-1, -8px) * -0.5));
+	}
+
+	5% {
+		opacity: 1;
+		transform: scale(1) translate(calc(var(--move-x-1, -8px) * -0.8), calc(var(--move-y-1, -8px) * -0.8));
+	}
+
+	35% {
+		opacity: 1;
+		transform: scale(1) translate(var(--move-x-1, -8px), var(--move-y-1, -8px));
+	}
+
+	45% {
+		opacity: 0.5;
+		transform: scale(0.8) translate(var(--move-x-1, -8px), var(--move-y-1, -8px));
+	}
+
+	50% {
+		opacity: 0;
+		transform: scale(0) translate(var(--move-x-1, -8px), var(--move-y-1, -8px));
+	}
+
+	100% {
+		opacity: 0;
+		transform: scale(0) translate(var(--move-x-1, -8px), var(--move-y-1, -8px));
+	}
 }
 
 /* 第二个箭头的移动动画 - 从边缘开始 */
 @keyframes moveSecondDirection {
-  0%, 40% { opacity: 0; transform: scale(0) translate(var(--move-x-1, -8px), var(--move-y-1, -8px)); }
-  50% { opacity: 1; transform: scale(1) translate(var(--move-x-1, -8px), var(--move-y-1, -8px)); }
-  80% { opacity: 1; transform: scale(1) translate(var(--move-x-2, 8px), var(--move-y-2, 8px)); }
-  90% { opacity: 0.5; transform: scale(0.8) translate(var(--move-x-2, 8px), var(--move-y-2, 8px)); }
-  95%, 100% { opacity: 0; transform: scale(0) translate(var(--move-x-2, 8px), var(--move-y-2, 8px)); }
+
+	0%,
+	40% {
+		opacity: 0;
+		transform: scale(0) translate(var(--move-x-1, -8px), var(--move-y-1, -8px));
+	}
+
+	50% {
+		opacity: 1;
+		transform: scale(1) translate(var(--move-x-1, -8px), var(--move-y-1, -8px));
+	}
+
+	80% {
+		opacity: 1;
+		transform: scale(1) translate(var(--move-x-2, 8px), var(--move-y-2, 8px));
+	}
+
+	90% {
+		opacity: 0.5;
+		transform: scale(0.8) translate(var(--move-x-2, 8px), var(--move-y-2, 8px));
+	}
+
+	95%,
+	100% {
+		opacity: 0;
+		transform: scale(0) translate(var(--move-x-2, 8px), var(--move-y-2, 8px));
+	}
 }
 
 /* 移除残影效果相关的伪元素 */
 .first-direction::after,
 .second-direction::after {
-  display: none !important;
+	display: none !important;
 }
 
 /* 禁用残影动画 */
 .gesture-item:hover .first-direction::after,
 .gesture-item:hover .second-direction::after {
-  animation: none !important;
-  display: none !important;
+	animation: none !important;
+	display: none !important;
 }
 
 /* 为单一方向箭头禁用残影效果 */
 .direction-arrow::after {
-  display: none !important;
+	display: none !important;
 }
 
 .gesture-item:hover .direction-arrow::after {
-  animation: none !important;
-  display: none !important;
+	animation: none !important;
+	display: none !important;
 }
 
 /* 针对8个特定手势的残影禁用 */
@@ -1129,1013 +1240,1391 @@ button:hover::before {
 .gesture-item:nth-of-type(11) .icon-stop.composite-parent .second-direction::after,
 .gesture-item:nth-of-type(12) .icon-close-all.composite-parent .first-direction::after,
 .gesture-item:nth-of-type(12) .icon-close-all.composite-parent .second-direction::after {
-  animation: none !important;
-  display: none !important;
+	animation: none !important;
+	display: none !important;
 }
 
 /* 替换或禁用残影动画的关键帧定义 - 将它们设为无效 */
 @keyframes trailEffect1 {
-  0%, 100% { opacity: 0; }
+
+	0%,
+	100% {
+		opacity: 0;
+	}
 }
 
 @keyframes trailEffect2 {
-  0%, 100% { opacity: 0; }
+
+	0%,
+	100% {
+		opacity: 0;
+	}
 }
 
 @keyframes trailEffectEdgeToCenter {
-  0%, 100% { opacity: 0; }
+
+	0%,
+	100% {
+		opacity: 0;
+	}
 }
 
 @keyframes trailEffectCenterToEdge {
-  0%, 100% { opacity: 0; }
+
+	0%,
+	100% {
+		opacity: 0;
+	}
 }
 
 @keyframes arrowTrailEffect {
-  0%, 100% { opacity: 0; }
+
+	0%,
+	100% {
+		opacity: 0;
+	}
 }
 
 /* 根据不同手势定义不同的移动路径 */
 /* 下然后右 */
 .icon-close.composite-parent:nth-of-type(5) {
-  --move-x-1: 0px;
-  --move-y-1: 8px;
-  --move-x-2: 8px;
-  --move-y-2: 8px;
+	--move-x-1: 0px;
+	--move-y-1: 8px;
+	--move-x-2: 8px;
+	--move-y-2: 8px;
 }
 
 /* 左然后上 */
 .icon-reopen.composite-parent:nth-of-type(6) {
-  --move-x-1: -8px;
-  --move-y-1: 0px;
-  --move-x-2: -8px;
-  --move-y-2: -8px;
+	--move-x-1: -8px;
+	--move-y-1: 0px;
+	--move-x-2: -8px;
+	--move-y-2: -8px;
 }
 
 /* 右然后上 */
 .icon-new-tab.composite-parent {
-  --move-x-1: 12px;
-  --move-y-1: 0px;
-  --move-x-2: 12px;
-  --move-y-2: -12px;
+	--move-x-1: 12px;
+	--move-y-1: 0px;
+	--move-x-2: 12px;
+	--move-y-2: -12px;
 }
 
 /* 右然后下 */
 .icon-refresh.composite-parent {
-  --move-x-1: 12px;
-  --move-y-1: 0px;
-  --move-x-2: 12px;
-  --move-y-2: 12px;
+	--move-x-1: 12px;
+	--move-y-1: 0px;
+	--move-x-2: 12px;
+	--move-y-2: 12px;
 }
 
 /* 上然后左 */
 .icon-prev.composite-parent {
-  --move-x-1: 0px;
-  --move-y-1: -12px;
-  --move-x-2: -12px;
-  --move-y-2: -12px;
+	--move-x-1: 0px;
+	--move-y-1: -12px;
+	--move-x-2: -12px;
+	--move-y-2: -12px;
 }
 
 /* 上然后右 */
 .icon-next.composite-parent {
-  --move-x-1: 0px;
-  --move-y-1: -12px;
-  --move-x-2: 12px;
-  --move-y-2: -12px;
+	--move-x-1: 0px;
+	--move-y-1: -12px;
+	--move-x-2: 12px;
+	--move-y-2: -12px;
 }
 
 /* 下然后左 */
 .icon-stop.composite-parent {
-  --move-x-1: 0px;
-  --move-y-1: 12px;
-  --move-x-2: -12px;
-  --move-y-2: 12px;
+	--move-x-1: 0px;
+	--move-y-1: 12px;
+	--move-x-2: -12px;
+	--move-y-2: 12px;
 }
 
 /* 左然后下 */
 .icon-close-all.composite-parent {
-  --move-x-1: -12px;
-  --move-y-1: 0px;
-  --move-x-2: -12px;
-  --move-y-2: 12px;
+	--move-x-1: -12px;
+	--move-y-1: 0px;
+	--move-x-2: -12px;
+	--move-y-2: 12px;
 }
 
 /* 上然后下 */
 .icon-bottom.composite-parent {
-  --move-x-1: 0px;
-  --move-y-1: -12px;
-  --move-x-2: 0px;
-  --move-y-2: 12px;
+	--move-x-1: 0px;
+	--move-y-1: -12px;
+	--move-x-2: 0px;
+	--move-y-2: 12px;
 }
 
 /* 下然后上 */
 .icon-top.composite-parent {
-  --move-x-1: 0px;
-  --move-y-1: 12px;
-  --move-x-2: 0px;
-  --move-y-2: -12px;
+	--move-x-1: 0px;
+	--move-y-1: 12px;
+	--move-x-2: 0px;
+	--move-y-2: -12px;
 }
 
 /* 左然后右 */
 .icon-close.composite-parent:nth-of-type(15) {
-  --move-x-1: -12px;
-  --move-y-1: 0px;
-  --move-x-2: 12px;
-  --move-y-2: 0px;
+	--move-x-1: -12px;
+	--move-y-1: 0px;
+	--move-x-2: 12px;
+	--move-y-2: 0px;
 }
 
 /* 右然后左 */
 .icon-reopen.composite-parent:nth-of-type(16) {
-  --move-x-1: 12px;
-  --move-y-1: 0px;
-  --move-x-2: -12px;
-  --move-y-2: 0px;
+	--move-x-1: 12px;
+	--move-y-1: 0px;
+	--move-x-2: -12px;
+	--move-y-2: 0px;
 }
 
 /* 恢复方向变量定义 */
 .icon-left.single-parent {
-  --arrow-move-x: -10px;
-  --arrow-move-y: 0;
+	--arrow-move-x: -10px;
+	--arrow-move-y: 0;
 }
 
 .icon-right.single-parent {
-  --arrow-move-x: 10px;
-  --arrow-move-y: 0;
+	--arrow-move-x: 10px;
+	--arrow-move-y: 0;
 }
 
 .icon-up.single-parent {
-  --arrow-move-x: 0;
-  --arrow-move-y: -10px;
+	--arrow-move-x: 0;
+	--arrow-move-y: -10px;
 }
 
 .icon-down.single-parent {
-  --arrow-move-x: 0;
-  --arrow-move-y: 10px;
+	--arrow-move-x: 0;
+	--arrow-move-y: 10px;
 }
 
 /* 修改各方向动画，缩小移动范围 */
 @keyframes leftArrowMove {
-  0% { opacity: 0; transform: translateX(10px); }
-  5% { opacity: 1; transform: translateX(10px); }
-  35% { opacity: 1; transform: translateX(-10px); }
-  45% { opacity: 0.5; transform: translateX(-10px); }
-  50% { opacity: 0; transform: translateX(-10px); }
-  100% { opacity: 0; transform: translateX(0); }
+	0% {
+		opacity: 0;
+		transform: translateX(10px);
+	}
+
+	5% {
+		opacity: 1;
+		transform: translateX(10px);
+	}
+
+	35% {
+		opacity: 1;
+		transform: translateX(-10px);
+	}
+
+	45% {
+		opacity: 0.5;
+		transform: translateX(-10px);
+	}
+
+	50% {
+		opacity: 0;
+		transform: translateX(-10px);
+	}
+
+	100% {
+		opacity: 0;
+		transform: translateX(0);
+	}
 }
 
 @keyframes rightArrowMove {
-  0% { opacity: 0; transform: translateX(-10px); }
-  5% { opacity: 1; transform: translateX(-10px); }
-  35% { opacity: 1; transform: translateX(10px); }
-  45% { opacity: 0.5; transform: translateX(10px); }
-  50% { opacity: 0; transform: translateX(10px); }
-  100% { opacity: 0; transform: translateX(0); }
+	0% {
+		opacity: 0;
+		transform: translateX(-10px);
+	}
+
+	5% {
+		opacity: 1;
+		transform: translateX(-10px);
+	}
+
+	35% {
+		opacity: 1;
+		transform: translateX(10px);
+	}
+
+	45% {
+		opacity: 0.5;
+		transform: translateX(10px);
+	}
+
+	50% {
+		opacity: 0;
+		transform: translateX(10px);
+	}
+
+	100% {
+		opacity: 0;
+		transform: translateX(0);
+	}
 }
 
 @keyframes upArrowMove {
-  0% { opacity: 0; transform: translateY(10px); }
-  5% { opacity: 1; transform: translateY(10px); }
-  35% { opacity: 1; transform: translateY(-10px); }
-  45% { opacity: 0.5; transform: translateY(-10px); }
-  50% { opacity: 0; transform: translateY(-10px); }
-  100% { opacity: 0; transform: translateY(0); }
+	0% {
+		opacity: 0;
+		transform: translateY(10px);
+	}
+
+	5% {
+		opacity: 1;
+		transform: translateY(10px);
+	}
+
+	35% {
+		opacity: 1;
+		transform: translateY(-10px);
+	}
+
+	45% {
+		opacity: 0.5;
+		transform: translateY(-10px);
+	}
+
+	50% {
+		opacity: 0;
+		transform: translateY(-10px);
+	}
+
+	100% {
+		opacity: 0;
+		transform: translateY(0);
+	}
 }
 
 @keyframes downArrowMove {
-  0% { opacity: 0; transform: translateY(-10px); }
-  5% { opacity: 1; transform: translateY(-10px); }
-  35% { opacity: 1; transform: translateY(10px); }
-  45% { opacity: 0.5; transform: translateY(10px); }
-  50% { opacity: 0; transform: translateY(10px); }
-  100% { opacity: 0; transform: translateY(0); }
+	0% {
+		opacity: 0;
+		transform: translateY(-10px);
+	}
+
+	5% {
+		opacity: 1;
+		transform: translateY(-10px);
+	}
+
+	35% {
+		opacity: 1;
+		transform: translateY(10px);
+	}
+
+	45% {
+		opacity: 0.5;
+		transform: translateY(10px);
+	}
+
+	50% {
+		opacity: 0;
+		transform: translateY(10px);
+	}
+
+	100% {
+		opacity: 0;
+		transform: translateY(0);
+	}
 }
 
 /* 为每个方向应用对应的动画 */
 .gesture-item:hover .icon-left.single-parent .direction-arrow {
-  animation: leftArrowMove 2s infinite !important;
+	animation: leftArrowMove 2s infinite !important;
 }
 
 .gesture-item:hover .icon-right.single-parent .direction-arrow {
-  animation: rightArrowMove 2s infinite !important;
+	animation: rightArrowMove 2s infinite !important;
 }
 
 .gesture-item:hover .icon-up.single-parent .direction-arrow {
-  animation: upArrowMove 2s infinite !important;
+	animation: upArrowMove 2s infinite !important;
 }
 
 .gesture-item:hover .icon-down.single-parent .direction-arrow {
-  animation: downArrowMove 2s infinite !important;
+	animation: downArrowMove 2s infinite !important;
 }
 
 /* 为这8个特定复合手势创建专用动画（从边缘到中心，从中心到边缘） */
 @keyframes moveFirstDirectionEdgeToCenter {
-  0% { opacity: 0; transform: scale(1) translate(var(--move-x-1-start, -15px), var(--move-y-1-start, -15px)); }
-  5% { opacity: 1; transform: scale(1) translate(var(--move-x-1-start, -15px), var(--move-y-1-start, -15px)); }
-  35% { opacity: 1; transform: scale(1) translate(0, 0); }
-  45% { opacity: 0.5; transform: scale(0.8) translate(0, 0); }
-  50% { opacity: 0; transform: scale(0) translate(0, 0); }
-  100% { opacity: 0; transform: scale(0) translate(0, 0); }
+	0% {
+		opacity: 0;
+		transform: scale(1) translate(var(--move-x-1-start, -15px), var(--move-y-1-start, -15px));
+	}
+
+	5% {
+		opacity: 1;
+		transform: scale(1) translate(var(--move-x-1-start, -15px), var(--move-y-1-start, -15px));
+	}
+
+	35% {
+		opacity: 1;
+		transform: scale(1) translate(0, 0);
+	}
+
+	45% {
+		opacity: 0.5;
+		transform: scale(0.8) translate(0, 0);
+	}
+
+	50% {
+		opacity: 0;
+		transform: scale(0) translate(0, 0);
+	}
+
+	100% {
+		opacity: 0;
+		transform: scale(0) translate(0, 0);
+	}
 }
 
 @keyframes moveSecondDirectionCenterToEdge {
-  0%, 40% { opacity: 0; transform: scale(0) translate(0, 0); }
-  50% { opacity: 1; transform: scale(1) translate(0, 0); }
-  80% { opacity: 1; transform: scale(1) translate(var(--move-x-2-end, 15px), var(--move-y-2-end, 15px)); }
-  90% { opacity: 0.5; transform: scale(0.8) translate(var(--move-x-2-end, 15px), var(--move-y-2-end, 15px)); }
-  95%, 100% { opacity: 0; transform: scale(0) translate(var(--move-x-2-end, 15px), var(--move-y-2-end, 15px)); }
+
+	0%,
+	40% {
+		opacity: 0;
+		transform: scale(0) translate(0, 0);
+	}
+
+	50% {
+		opacity: 1;
+		transform: scale(1) translate(0, 0);
+	}
+
+	80% {
+		opacity: 1;
+		transform: scale(1) translate(var(--move-x-2-end, 15px), var(--move-y-2-end, 15px));
+	}
+
+	90% {
+		opacity: 0.5;
+		transform: scale(0.8) translate(var(--move-x-2-end, 15px), var(--move-y-2-end, 15px));
+	}
+
+	95%,
+	100% {
+		opacity: 0;
+		transform: scale(0) translate(var(--move-x-2-end, 15px), var(--move-y-2-end, 15px));
+	}
 }
 
 /* 使用选择器为8个特定手势应用新动画 */
 /* 下然后右 - 第5个手势项 */
 .gesture-item:nth-of-type(5) .icon-close.composite-parent .first-direction {
-  animation: moveFirstDirectionEdgeToCenter 2s infinite !important;
+	animation: moveFirstDirectionEdgeToCenter 2s infinite !important;
 }
+
 .gesture-item:nth-of-type(5) .icon-close.composite-parent .second-direction {
-  animation: moveSecondDirectionCenterToEdge 2s infinite !important;
+	animation: moveSecondDirectionCenterToEdge 2s infinite !important;
 }
+
 .gesture-item:nth-of-type(5) .icon-close.composite-parent {
-  --move-x-1-start: 0px;
-  --move-y-1-start: -15px;
-  --move-x-2-end: 15px;
-  --move-y-2-end: 0px;
+	--move-x-1-start: 0px;
+	--move-y-1-start: -15px;
+	--move-x-2-end: 15px;
+	--move-y-2-end: 0px;
 }
 
 /* 左然后上 - 第6个手势项 */
 .gesture-item:nth-of-type(6) .icon-reopen.composite-parent .first-direction {
-  animation: moveFirstDirectionEdgeToCenter 2s infinite !important;
+	animation: moveFirstDirectionEdgeToCenter 2s infinite !important;
 }
+
 .gesture-item:nth-of-type(6) .icon-reopen.composite-parent .second-direction {
-  animation: moveSecondDirectionCenterToEdge 2s infinite !important;
+	animation: moveSecondDirectionCenterToEdge 2s infinite !important;
 }
+
 .gesture-item:nth-of-type(6) .icon-reopen.composite-parent {
-  --move-x-1-start: 15px;
-  --move-y-1-start: 0px;
-  --move-x-2-end: 0px;
-  --move-y-2-end: -15px;
+	--move-x-1-start: 15px;
+	--move-y-1-start: 0px;
+	--move-x-2-end: 0px;
+	--move-y-2-end: -15px;
 }
 
 /* 右然后上 - 第7个手势项 */
 .gesture-item:nth-of-type(7) .icon-new-tab.composite-parent .first-direction {
-  animation: moveFirstDirectionEdgeToCenter 2s infinite !important;
+	animation: moveFirstDirectionEdgeToCenter 2s infinite !important;
 }
+
 .gesture-item:nth-of-type(7) .icon-new-tab.composite-parent .second-direction {
-  animation: moveSecondDirectionCenterToEdge 2s infinite !important;
+	animation: moveSecondDirectionCenterToEdge 2s infinite !important;
 }
+
 .gesture-item:nth-of-type(7) .icon-new-tab.composite-parent {
-  --move-x-1-start: -15px;
-  --move-y-1-start: 0px;
-  --move-x-2-end: 0px;
-  --move-y-2-end: -15px;
+	--move-x-1-start: -15px;
+	--move-y-1-start: 0px;
+	--move-x-2-end: 0px;
+	--move-y-2-end: -15px;
 }
 
 /* 右然后下 - 第8个手势项 */
 .gesture-item:nth-of-type(8) .icon-refresh.composite-parent .first-direction {
-  animation: moveFirstDirectionEdgeToCenter 2s infinite !important;
+	animation: moveFirstDirectionEdgeToCenter 2s infinite !important;
 }
+
 .gesture-item:nth-of-type(8) .icon-refresh.composite-parent .second-direction {
-  animation: moveSecondDirectionCenterToEdge 2s infinite !important;
+	animation: moveSecondDirectionCenterToEdge 2s infinite !important;
 }
+
 .gesture-item:nth-of-type(8) .icon-refresh.composite-parent {
-  --move-x-1-start: -15px;
-  --move-y-1-start: 0px;
-  --move-x-2-end: 0px;
-  --move-y-2-end: 15px;
+	--move-x-1-start: -15px;
+	--move-y-1-start: 0px;
+	--move-x-2-end: 0px;
+	--move-y-2-end: 15px;
 }
 
 /* 上然后左 - 第9个手势项 */
 .gesture-item:nth-of-type(9) .icon-prev.composite-parent .first-direction {
-  animation: moveFirstDirectionEdgeToCenter 2s infinite !important;
+	animation: moveFirstDirectionEdgeToCenter 2s infinite !important;
 }
+
 .gesture-item:nth-of-type(9) .icon-prev.composite-parent .second-direction {
-  animation: moveSecondDirectionCenterToEdge 2s infinite !important;
+	animation: moveSecondDirectionCenterToEdge 2s infinite !important;
 }
+
 .gesture-item:nth-of-type(9) .icon-prev.composite-parent {
-  --move-x-1-start: 0px;
-  --move-y-1-start: 15px;
-  --move-x-2-end: -15px;
-  --move-y-2-end: 0px;
+	--move-x-1-start: 0px;
+	--move-y-1-start: 15px;
+	--move-x-2-end: -15px;
+	--move-y-2-end: 0px;
 }
 
 /* 上然后右 - 第10个手势项 */
 .gesture-item:nth-of-type(10) .icon-next.composite-parent .first-direction {
-  animation: moveFirstDirectionEdgeToCenter 2s infinite !important;
+	animation: moveFirstDirectionEdgeToCenter 2s infinite !important;
 }
+
 .gesture-item:nth-of-type(10) .icon-next.composite-parent .second-direction {
-  animation: moveSecondDirectionCenterToEdge 2s infinite !important;
+	animation: moveSecondDirectionCenterToEdge 2s infinite !important;
 }
+
 .gesture-item:nth-of-type(10) .icon-next.composite-parent {
-  --move-x-1-start: 0px;
-  --move-y-1-start: 15px;
-  --move-x-2-end: 15px;
-  --move-y-2-end: 0px;
+	--move-x-1-start: 0px;
+	--move-y-1-start: 15px;
+	--move-x-2-end: 15px;
+	--move-y-2-end: 0px;
 }
 
 /* 下然后左 - 第11个手势项 */
 .gesture-item:nth-of-type(11) .icon-stop.composite-parent .first-direction {
-  animation: moveFirstDirectionEdgeToCenter 2s infinite !important;
+	animation: moveFirstDirectionEdgeToCenter 2s infinite !important;
 }
+
 .gesture-item:nth-of-type(11) .icon-stop.composite-parent .second-direction {
-  animation: moveSecondDirectionCenterToEdge 2s infinite !important;
+	animation: moveSecondDirectionCenterToEdge 2s infinite !important;
 }
+
 .gesture-item:nth-of-type(11) .icon-stop.composite-parent {
-  --move-x-1-start: 0px;
-  --move-y-1-start: -15px;
-  --move-x-2-end: -15px;
-  --move-y-2-end: 0px;
+	--move-x-1-start: 0px;
+	--move-y-1-start: -15px;
+	--move-x-2-end: -15px;
+	--move-y-2-end: 0px;
 }
 
 /* 左然后下 - 第12个手势项 */
 .gesture-item:nth-of-type(12) .icon-close-all.composite-parent .first-direction {
-  animation: moveFirstDirectionEdgeToCenter 2s infinite !important;
+	animation: moveFirstDirectionEdgeToCenter 2s infinite !important;
 }
+
 .gesture-item:nth-of-type(12) .icon-close-all.composite-parent .second-direction {
-  animation: moveSecondDirectionCenterToEdge 2s infinite !important;
+	animation: moveSecondDirectionCenterToEdge 2s infinite !important;
 }
+
 .gesture-item:nth-of-type(12) .icon-close-all.composite-parent {
-  --move-x-1-start: -15px;   /* 从左边缘到中心 */
-  --move-y-1-start: 0px;
-  --move-x-2-end: 0px;      /* 从中心到下边缘 */
-  --move-y-2-end: 15px;
+	--move-x-1-start: -15px;
+	/* 从左边缘到中心 */
+	--move-y-1-start: 0px;
+	--move-x-2-end: 0px;
+	/* 从中心到下边缘 */
+	--move-y-2-end: 15px;
 }
 
 /* 移除hover触发条件，让所有复合手势动画默认播放 */
 .first-direction {
-  animation: moveFirstDirection 2s infinite;
+	animation: moveFirstDirection 2s infinite;
 }
 
 .second-direction {
-  animation: moveSecondDirection 2s infinite;
+	animation: moveSecondDirection 2s infinite;
 }
 
 /* 移除hover触发轨迹线动画，改为默认显示 */
 .composite-icon::before {
-  opacity: 1;
-  animation: showPath 2s infinite;
+	opacity: 1;
+	animation: showPath 2s infinite;
 }
 
 /* 单一方向动画也默认播放 */
 .icon-left.single-parent .direction-arrow {
-  animation: leftArrowMove 2s infinite;
+	animation: leftArrowMove 2s infinite;
 }
 
 .icon-right.single-parent .direction-arrow {
-  animation: rightArrowMove 2s infinite;
+	animation: rightArrowMove 2s infinite;
 }
 
 .icon-up.single-parent .direction-arrow {
-  animation: upArrowMove 2s infinite;
+	animation: upArrowMove 2s infinite;
 }
 
 .icon-down.single-parent .direction-arrow {
-  animation: downArrowMove 2s infinite;
+	animation: downArrowMove 2s infinite;
 }
 
 /* 添加其余复合手势的默认动画 */
 /* 上然后下 - 第13个手势项 */
 .gesture-item:nth-of-type(13) .icon-bottom.composite-parent .first-direction {
-  animation: moveFirstDirectionEdgeToCenter 2s infinite !important;
+	animation: moveFirstDirectionEdgeToCenter 2s infinite !important;
 }
+
 .gesture-item:nth-of-type(13) .icon-bottom.composite-parent .second-direction {
-  animation: moveSecondDirectionCenterToEdge 2s infinite !important;
+	animation: moveSecondDirectionCenterToEdge 2s infinite !important;
 }
+
 .gesture-item:nth-of-type(13) .icon-bottom.composite-parent {
-  --move-x-1-start: 0px;
-  --move-y-1-start: 15px;  /* 从下边缘到中心 */
-  --move-x-2-end: 0px;
-  --move-y-2-end: 15px;    /* 从中心到下边缘 */
+	--move-x-1-start: 0px;
+	--move-y-1-start: 15px;
+	/* 从下边缘到中心 */
+	--move-x-2-end: 0px;
+	--move-y-2-end: 15px;
+	/* 从中心到下边缘 */
 }
 
 /* 下然后上 - 第14个手势项 */
 .gesture-item:nth-of-type(14) .icon-top.composite-parent .first-direction {
-  animation: moveFirstDirectionEdgeToCenter 2s infinite !important;
+	animation: moveFirstDirectionEdgeToCenter 2s infinite !important;
 }
+
 .gesture-item:nth-of-type(14) .icon-top.composite-parent .second-direction {
-  animation: moveSecondDirectionCenterToEdge 2s infinite !important;
+	animation: moveSecondDirectionCenterToEdge 2s infinite !important;
 }
+
 .gesture-item:nth-of-type(14) .icon-top.composite-parent {
-  --move-x-1-start: 0px;
-  --move-y-1-start: -15px;  /* 从上边缘到中心 */
-  --move-x-2-end: 0px;
-  --move-y-2-end: -15px;    /* 从中心到上边缘 */
+	--move-x-1-start: 0px;
+	--move-y-1-start: -15px;
+	/* 从上边缘到中心 */
+	--move-x-2-end: 0px;
+	--move-y-2-end: -15px;
+	/* 从中心到上边缘 */
 }
 
 /* 左然后右 - 第15个手势项 */
 .gesture-item:nth-of-type(15) .icon-close.composite-parent .first-direction {
-  animation: moveFirstDirectionEdgeToCenter 2s infinite !important;
+	animation: moveFirstDirectionEdgeToCenter 2s infinite !important;
 }
+
 .gesture-item:nth-of-type(15) .icon-close.composite-parent .second-direction {
-  animation: moveSecondDirectionCenterToEdge 2s infinite !important;
+	animation: moveSecondDirectionCenterToEdge 2s infinite !important;
 }
+
 .gesture-item:nth-of-type(15) .icon-close.composite-parent {
-  --move-x-1-start: 15px;   /* 从右边缘到中心 */
-  --move-y-1-start: 0px;
-  --move-x-2-end: 15px;     /* 从中心到右边缘 */
-  --move-y-2-end: 0px;
+	--move-x-1-start: 15px;
+	/* 从右边缘到中心 */
+	--move-y-1-start: 0px;
+	--move-x-2-end: 15px;
+	/* 从中心到右边缘 */
+	--move-y-2-end: 0px;
 }
 
 /* 右然后左 - 第16个手势项 */
 .gesture-item:nth-of-type(16) .icon-reopen.composite-parent .first-direction {
-  animation: moveFirstDirectionEdgeToCenter 2s infinite !important;
+	animation: moveFirstDirectionEdgeToCenter 2s infinite !important;
 }
+
 .gesture-item:nth-of-type(16) .icon-reopen.composite-parent .second-direction {
-  animation: moveSecondDirectionCenterToEdge 2s infinite !important;
+	animation: moveSecondDirectionCenterToEdge 2s infinite !important;
 }
+
 .gesture-item:nth-of-type(16) .icon-reopen.composite-parent {
-  --move-x-1-start: -15px;  /* 从左边缘到中心 */
-  --move-y-1-start: 0px;
-  --move-x-2-end: -15px;    /* 从中心到左边缘 */
-  --move-y-2-end: 0px;
+	--move-x-1-start: -15px;
+	/* 从左边缘到中心 */
+	--move-y-1-start: 0px;
+	--move-x-2-end: -15px;
+	/* 从中心到左边缘 */
+	--move-y-2-end: 0px;
 }
 
 /* 移除之前hover触发器中的动画，避免重复 */
 .gesture-item:hover .first-direction {
-  animation: moveFirstDirection 2s infinite !important;
+	animation: moveFirstDirection 2s infinite !important;
 }
 
 .gesture-item:hover .second-direction {
-  animation: moveSecondDirection 2s infinite !important;
+	animation: moveSecondDirection 2s infinite !important;
 }
 
 .gesture-item:hover .composite-icon::before {
-  animation: showPath 2s infinite !important;
+	animation: showPath 2s infinite !important;
 }
 
 /* 确保悬停时单一方向动画继续播放 */
 .gesture-item:hover .icon-left.single-parent .direction-arrow {
-  animation: leftArrowMove 2s infinite !important;
+	animation: leftArrowMove 2s infinite !important;
 }
 
 .gesture-item:hover .icon-right.single-parent .direction-arrow {
-  animation: rightArrowMove 2s infinite !important;
+	animation: rightArrowMove 2s infinite !important;
 }
 
 .gesture-item:hover .icon-up.single-parent .direction-arrow {
-  animation: upArrowMove 2s infinite !important;
+	animation: upArrowMove 2s infinite !important;
 }
 
 .gesture-item:hover .icon-down.single-parent .direction-arrow {
-  animation: downArrowMove 2s infinite !important;
+	animation: downArrowMove 2s infinite !important;
 }
 
 /* 不同方向图标的颜色 */
 .icon-left {
-  background: transparent;
-  border: none;
-  color: #4285f4;
-  text-shadow: 0 1px 2px rgba(66, 133, 244, 0.15);
+	background: transparent;
+	border: none;
+	color: #4285f4;
+	text-shadow: 0 1px 2px rgba(66, 133, 244, 0.15);
 }
 
 .icon-right {
-  background: transparent;
-  border: none;
-  color: #ea4335;
-  text-shadow: 0 1px 2px rgba(234, 67, 53, 0.15);
+	background: transparent;
+	border: none;
+	color: #ea4335;
+	text-shadow: 0 1px 2px rgba(234, 67, 53, 0.15);
 }
 
 .icon-up {
-  background: transparent;
-  border: none;
-  color: #34a853;
-  text-shadow: 0 1px 2px rgba(52, 168, 83, 0.15);
+	background: transparent;
+	border: none;
+	color: #34a853;
+	text-shadow: 0 1px 2px rgba(52, 168, 83, 0.15);
 }
 
 .icon-down {
-  background: transparent;
-  border: none;
-  color: #fbbc05;
-  text-shadow: 0 1px 2px rgba(251, 188, 5, 0.15);
+	background: transparent;
+	border: none;
+	color: #fbbc05;
+	text-shadow: 0 1px 2px rgba(251, 188, 5, 0.15);
 }
 
-.icon-close, .icon-close-all {
-  background: transparent;
-  border: none;
-  color: #ff5252;
+.icon-close,
+.icon-close-all {
+	background: transparent;
+	border: none;
+	color: #ff5252;
 }
 
-.icon-reopen, .icon-new-tab {
-  background: transparent;
-  border: none;
-  color: #673ab7;
+.icon-reopen,
+.icon-new-tab {
+	background: transparent;
+	border: none;
+	color: #673ab7;
 }
 
 .icon-refresh {
-  background: transparent;
-  border: none;
-  color: #009688;
+	background: transparent;
+	border: none;
+	color: #009688;
 }
 
-.icon-prev, .icon-next {
-  background: transparent;
-  border: none;
-  color: #3f51b5;
+.icon-prev,
+.icon-next {
+	background: transparent;
+	border: none;
+	color: #3f51b5;
 }
 
 .icon-stop {
-  background: transparent;
-  border: none;
-  color: #f44336;
+	background: transparent;
+	border: none;
+	color: #f44336;
 }
 
-.icon-bottom, .icon-top {
-  background: transparent;
-  border: none;
-  color: #795548;
+.icon-bottom,
+.icon-top {
+	background: transparent;
+	border: none;
+	color: #795548;
 }
 
 /* 超级拖拽图标特殊效果 */
 .drag-icon {
-  background: transparent;
-  border: none;
-  color: #ff5722;
-  position: relative;
-  overflow: hidden;
-  animation: dragPulse 1.5s infinite;
+	background: transparent;
+	border: none;
+	color: #ff5722;
+	position: relative;
+	overflow: hidden;
+	animation: dragPulse 1.5s infinite;
 }
 
 .drag-animation {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: relative;
 }
 
 /* 超级拖拽方向箭头样式 */
 .drag-direction {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  color: var(--text-color);
-  font-size: 16px;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-weight: bold;
+	color: var(--text-color);
+	font-size: 16px;
 }
 
 /* 拖拽方向的特定动画 - 基于方向属性 */
 .drag-direction[data-direction="↑"] {
-  animation: upDragMove 2s infinite !important;
+	animation: upDragMove 2s infinite !important;
 }
 
 .drag-direction[data-direction="→"] {
-  animation: rightDragMove 2s infinite !important;
+	animation: rightDragMove 2s infinite !important;
 }
 
 .drag-direction[data-direction="↓"] {
-  animation: downDragMove 2s infinite !important;
+	animation: downDragMove 2s infinite !important;
 }
 
 .drag-direction[data-direction="←"] {
-  animation: leftDragMove 2s infinite !important;
+	animation: leftDragMove 2s infinite !important;
 }
 
 /* 定义每个方向的拖拽动画 */
 @keyframes upDragMove {
-  0% { opacity: 0.5; transform: translateY(5px); }
-  40% { opacity: 1; transform: translateY(-5px); }
-  80% { opacity: 0.5; transform: translateY(5px); }
-  100% { opacity: 0.5; transform: translateY(5px); }
+	0% {
+		opacity: 0.5;
+		transform: translateY(5px);
+	}
+
+	40% {
+		opacity: 1;
+		transform: translateY(-5px);
+	}
+
+	80% {
+		opacity: 0.5;
+		transform: translateY(5px);
+	}
+
+	100% {
+		opacity: 0.5;
+		transform: translateY(5px);
+	}
 }
 
 @keyframes rightDragMove {
-  0% { opacity: 0.5; transform: translateX(-5px); }
-  40% { opacity: 1; transform: translateX(5px); }
-  80% { opacity: 0.5; transform: translateX(-5px); }
-  100% { opacity: 0.5; transform: translateX(-5px); }
+	0% {
+		opacity: 0.5;
+		transform: translateX(-5px);
+	}
+
+	40% {
+		opacity: 1;
+		transform: translateX(5px);
+	}
+
+	80% {
+		opacity: 0.5;
+		transform: translateX(-5px);
+	}
+
+	100% {
+		opacity: 0.5;
+		transform: translateX(-5px);
+	}
 }
 
 @keyframes downDragMove {
-  0% { opacity: 0.5; transform: translateY(-5px); }
-  40% { opacity: 1; transform: translateY(5px); }
-  80% { opacity: 0.5; transform: translateY(-5px); }
-  100% { opacity: 0.5; transform: translateY(-5px); }
+	0% {
+		opacity: 0.5;
+		transform: translateY(-5px);
+	}
+
+	40% {
+		opacity: 1;
+		transform: translateY(5px);
+	}
+
+	80% {
+		opacity: 0.5;
+		transform: translateY(-5px);
+	}
+
+	100% {
+		opacity: 0.5;
+		transform: translateY(-5px);
+	}
 }
 
 @keyframes leftDragMove {
-  0% { opacity: 0.5; transform: translateX(5px); }
-  40% { opacity: 1; transform: translateX(-5px); }
-  80% { opacity: 0.5; transform: translateX(5px); }
-  100% { opacity: 0.5; transform: translateX(5px); }
+	0% {
+		opacity: 0.5;
+		transform: translateX(5px);
+	}
+
+	40% {
+		opacity: 1;
+		transform: translateX(-5px);
+	}
+
+	80% {
+		opacity: 0.5;
+		transform: translateX(5px);
+	}
+
+	100% {
+		opacity: 0.5;
+		transform: translateX(5px);
+	}
 }
 
 /* 超级拖拽图标脉冲动画 */
 @keyframes dragPulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.1) rotate(5deg); }
-  100% { transform: scale(1); }
+	0% {
+		transform: scale(1);
+	}
+
+	50% {
+		transform: scale(1.1) rotate(5deg);
+	}
+
+	100% {
+		transform: scale(1);
+	}
 }
 
 /* 光效动画效果 */
 @keyframes shimmer {
-  0%, 100% { opacity: 0; }
+
+	0%,
+	100% {
+		opacity: 0;
+	}
 }
 
 .gesture-icon::after {
-  display: none !important;
+	display: none !important;
 }
 
 /* 单方向手势样式 */
 .single-parent {
-  position: relative;
-  overflow: hidden;
-  animation: none !important;
+	position: relative;
+	overflow: hidden;
+	animation: none !important;
 }
 
 .single-icon {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  animation: none !important;
+	position: relative;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	animation: none !important;
 }
 
 .direction-arrow {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.3s ease;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: transform 0.3s ease;
 }
 
 /* 修改动画，确保从中心开始向边缘移动 */
 @keyframes singleArrowMove {
-  0% { opacity: 0; }
-  5% { opacity: 1; transform: translateX(0) translateY(0); }
-  35% { opacity: 1; transform: translateX(var(--arrow-move-x, 0)) translateY(var(--arrow-move-y, 0)); }
-  45% { opacity: 0.5; transform: translateX(var(--arrow-move-x, 0)) translateY(var(--arrow-move-y, 0)); }
-  50% { opacity: 0; transform: translateX(var(--arrow-move-x, 0)) translateY(var(--arrow-move-y, 0)); }
-  100% { opacity: 0; transform: translateX(0) translateY(0); }
+	0% {
+		opacity: 0;
+	}
+
+	5% {
+		opacity: 1;
+		transform: translateX(0) translateY(0);
+	}
+
+	35% {
+		opacity: 1;
+		transform: translateX(var(--arrow-move-x, 0)) translateY(var(--arrow-move-y, 0));
+	}
+
+	45% {
+		opacity: 0.5;
+		transform: translateX(var(--arrow-move-x, 0)) translateY(var(--arrow-move-y, 0));
+	}
+
+	50% {
+		opacity: 0;
+		transform: translateX(var(--arrow-move-x, 0)) translateY(var(--arrow-move-y, 0));
+	}
+
+	100% {
+		opacity: 0;
+		transform: translateX(0) translateY(0);
+	}
 }
 
 /* 复合手势动画路径优化 */
 @keyframes moveFirstDirection {
-  0% { opacity: 0; transform: scale(0) translate(calc(var(--move-x-1, -8px) * -0.5), calc(var(--move-y-1, -8px) * -0.5)); }
-  5% { opacity: 1; transform: scale(1) translate(calc(var(--move-x-1, -8px) * -0.8), calc(var(--move-y-1, -8px) * -0.8)); }
-  35% { opacity: 1; transform: scale(1) translate(var(--move-x-1, -8px), var(--move-y-1, -8px)); }
-  45% { opacity: 0.5; transform: scale(0.8) translate(var(--move-x-1, -8px), var(--move-y-1, -8px)); }
-  50% { opacity: 0; transform: scale(0) translate(var(--move-x-1, -8px), var(--move-y-1, -8px)); }
-  100% { opacity: 0; transform: scale(0) translate(var(--move-x-1, -8px), var(--move-y-1, -8px)); }
+	0% {
+		opacity: 0;
+		transform: scale(0) translate(calc(var(--move-x-1, -8px) * -0.5), calc(var(--move-y-1, -8px) * -0.5));
+	}
+
+	5% {
+		opacity: 1;
+		transform: scale(1) translate(calc(var(--move-x-1, -8px) * -0.8), calc(var(--move-y-1, -8px) * -0.8));
+	}
+
+	35% {
+		opacity: 1;
+		transform: scale(1) translate(var(--move-x-1, -8px), var(--move-y-1, -8px));
+	}
+
+	45% {
+		opacity: 0.5;
+		transform: scale(0.8) translate(var(--move-x-1, -8px), var(--move-y-1, -8px));
+	}
+
+	50% {
+		opacity: 0;
+		transform: scale(0) translate(var(--move-x-1, -8px), var(--move-y-1, -8px));
+	}
+
+	100% {
+		opacity: 0;
+		transform: scale(0) translate(var(--move-x-1, -8px), var(--move-y-1, -8px));
+	}
 }
 
 @keyframes moveSecondDirection {
-  0%, 40% { opacity: 0; transform: scale(0) translate(var(--move-x-1, -8px), var(--move-y-1, -8px)); }
-  50% { opacity: 1; transform: scale(1) translate(var(--move-x-1, -8px), var(--move-y-1, -8px)); }
-  80% { opacity: 1; transform: scale(1) translate(var(--move-x-2, 8px), var(--move-y-2, 8px)); }
-  90% { opacity: 0.5; transform: scale(0.8) translate(var(--move-x-2, 8px), var(--move-y-2, 8px)); }
-  95%, 100% { opacity: 0; transform: scale(0) translate(var(--move-x-2, 8px), var(--move-y-2, 8px)); }
+
+	0%,
+	40% {
+		opacity: 0;
+		transform: scale(0) translate(var(--move-x-1, -8px), var(--move-y-1, -8px));
+	}
+
+	50% {
+		opacity: 1;
+		transform: scale(1) translate(var(--move-x-1, -8px), var(--move-y-1, -8px));
+	}
+
+	80% {
+		opacity: 1;
+		transform: scale(1) translate(var(--move-x-2, 8px), var(--move-y-2, 8px));
+	}
+
+	90% {
+		opacity: 0.5;
+		transform: scale(0.8) translate(var(--move-x-2, 8px), var(--move-y-2, 8px));
+	}
+
+	95%,
+	100% {
+		opacity: 0;
+		transform: scale(0) translate(var(--move-x-2, 8px), var(--move-y-2, 8px));
+	}
 }
 
 /* 为不同手势类型的轨迹线设置匹配的颜色 */
 .icon-close.composite-parent .composite-icon::before,
 .icon-close-all.composite-parent .composite-icon::before {
-  background: rgba(255, 82, 82, 0.8);
-  box-shadow: none !important;
+	background: rgba(255, 82, 82, 0.8);
+	box-shadow: none !important;
 }
 
 .icon-reopen.composite-parent .composite-icon::before,
 .icon-new-tab.composite-parent .composite-icon::before {
-  background: rgba(103, 58, 183, 0.8);
-  box-shadow: none !important;
+	background: rgba(103, 58, 183, 0.8);
+	box-shadow: none !important;
 }
 
 .icon-refresh.composite-parent .composite-icon::before {
-  background: rgba(0, 150, 136, 0.8);
-  box-shadow: none !important;
+	background: rgba(0, 150, 136, 0.8);
+	box-shadow: none !important;
 }
 
 .icon-prev.composite-parent .composite-icon::before,
 .icon-next.composite-parent .composite-icon::before {
-  background: rgba(63, 81, 181, 0.8);
-  box-shadow: none !important;
+	background: rgba(63, 81, 181, 0.8);
+	box-shadow: none !important;
 }
 
 /* 超级拖拽特殊动画 */
 @keyframes dragPulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.1) rotate(5deg); }
-  100% { transform: scale(1); }
+	0% {
+		transform: scale(1);
+	}
+
+	50% {
+		transform: scale(1.1) rotate(5deg);
+	}
+
+	100% {
+		transform: scale(1);
+	}
 }
 
 /* 修复复合手势选择器，确保它们被正确选中 */
 /* 下然后右 - 第一个出现的icon-close (第5个手势) */
 .gesture-item:nth-of-type(5) .icon-close.composite-parent .composite-icon::before {
-  transform-origin: center;
-  transform: rotate(45deg);
+	transform-origin: center;
+	transform: rotate(45deg);
 }
 
 .gesture-item:nth-of-type(5) .icon-close.composite-parent {
-  --move-x-1: 0px;
-  --move-y-1: -15px;
-  --move-x-2: 15px;
-  --move-y-2: 0px;
-  --move-x-1-start: 0px;
-  --move-y-1-start: -15px;
-  --move-x-2-end: 15px;
-  --move-y-2-end: 0px;
+	--move-x-1: 0px;
+	--move-y-1: -15px;
+	--move-x-2: 15px;
+	--move-y-2: 0px;
+	--move-x-1-start: 0px;
+	--move-y-1-start: -15px;
+	--move-x-2-end: 15px;
+	--move-y-2-end: 0px;
 }
 
 /* 左然后上 - 第一个出现的icon-reopen (第6个手势) */
 .gesture-item:nth-of-type(6) .icon-reopen.composite-parent .composite-icon::before {
-  transform-origin: center;
-  transform: rotate(-45deg);
+	transform-origin: center;
+	transform: rotate(-45deg);
 }
 
 .gesture-item:nth-of-type(6) .icon-reopen.composite-parent {
-  --move-x-1: 15px;
-  --move-y-1: 0px;
-  --move-x-2: 0px;
-  --move-y-2: -15px;
-  --move-x-1-start: 15px;
-  --move-y-1-start: 0px;
-  --move-x-2-end: 0px;
-  --move-y-2-end: -15px;
+	--move-x-1: 15px;
+	--move-y-1: 0px;
+	--move-x-2: 0px;
+	--move-y-2: -15px;
+	--move-x-1-start: 15px;
+	--move-y-1-start: 0px;
+	--move-x-2-end: 0px;
+	--move-y-2-end: -15px;
 }
 
 /* 右然后上 - 第7个手势项 */
 .gesture-item:nth-of-type(7) .icon-new-tab.composite-parent .first-direction {
-  animation: moveFirstDirectionEdgeToCenter 2s infinite !important;
+	animation: moveFirstDirectionEdgeToCenter 2s infinite !important;
 }
+
 .gesture-item:nth-of-type(7) .icon-new-tab.composite-parent .second-direction {
-  animation: moveSecondDirectionCenterToEdge 2s infinite !important;
+	animation: moveSecondDirectionCenterToEdge 2s infinite !important;
 }
+
 .gesture-item:nth-of-type(7) .icon-new-tab.composite-parent {
-  --move-x-1-start: -15px;
-  --move-y-1-start: 0px;
-  --move-x-2-end: 0px;
-  --move-y-2-end: -15px;
+	--move-x-1-start: -15px;
+	--move-y-1-start: 0px;
+	--move-x-2-end: 0px;
+	--move-y-2-end: -15px;
 }
 
 /* 右然后下 - 第8个手势项 */
 .gesture-item:nth-of-type(8) .icon-refresh.composite-parent .first-direction {
-  animation: moveFirstDirectionEdgeToCenter 2s infinite !important;
+	animation: moveFirstDirectionEdgeToCenter 2s infinite !important;
 }
+
 .gesture-item:nth-of-type(8) .icon-refresh.composite-parent .second-direction {
-  animation: moveSecondDirectionCenterToEdge 2s infinite !important;
+	animation: moveSecondDirectionCenterToEdge 2s infinite !important;
 }
+
 .gesture-item:nth-of-type(8) .icon-refresh.composite-parent {
-  --move-x-1-start: -15px;
-  --move-y-1-start: 0px;
-  --move-x-2-end: 0px;
-  --move-y-2-end: 15px;
+	--move-x-1-start: -15px;
+	--move-y-1-start: 0px;
+	--move-x-2-end: 0px;
+	--move-y-2-end: 15px;
 }
 
 /* 上然后左 - 第9个手势项 */
 .gesture-item:nth-of-type(9) .icon-prev.composite-parent .first-direction {
-  animation: moveFirstDirectionEdgeToCenter 2s infinite !important;
+	animation: moveFirstDirectionEdgeToCenter 2s infinite !important;
 }
+
 .gesture-item:nth-of-type(9) .icon-prev.composite-parent .second-direction {
-  animation: moveSecondDirectionCenterToEdge 2s infinite !important;
+	animation: moveSecondDirectionCenterToEdge 2s infinite !important;
 }
+
 .gesture-item:nth-of-type(9) .icon-prev.composite-parent {
-  --move-x-1-start: 0px;
-  --move-y-1-start: 15px;
-  --move-x-2-end: -15px;
-  --move-y-2-end: 0px;
+	--move-x-1-start: 0px;
+	--move-y-1-start: 15px;
+	--move-x-2-end: -15px;
+	--move-y-2-end: 0px;
 }
 
 /* 上然后右 - 第10个手势项 */
 .gesture-item:nth-of-type(10) .icon-next.composite-parent .first-direction {
-  animation: moveFirstDirectionEdgeToCenter 2s infinite !important;
+	animation: moveFirstDirectionEdgeToCenter 2s infinite !important;
 }
+
 .gesture-item:nth-of-type(10) .icon-next.composite-parent .second-direction {
-  animation: moveSecondDirectionCenterToEdge 2s infinite !important;
+	animation: moveSecondDirectionCenterToEdge 2s infinite !important;
 }
+
 .gesture-item:nth-of-type(10) .icon-next.composite-parent {
-  --move-x-1-start: 0px;
-  --move-y-1-start: 15px;
-  --move-x-2-end: 15px;
-  --move-y-2-end: 0px;
+	--move-x-1-start: 0px;
+	--move-y-1-start: 15px;
+	--move-x-2-end: 15px;
+	--move-y-2-end: 0px;
 }
 
 /* 下然后左 - 第11个手势项 */
 .gesture-item:nth-of-type(11) .icon-stop.composite-parent .first-direction {
-  animation: moveFirstDirectionEdgeToCenter 2s infinite !important;
+	animation: moveFirstDirectionEdgeToCenter 2s infinite !important;
 }
+
 .gesture-item:nth-of-type(11) .icon-stop.composite-parent .second-direction {
-  animation: moveSecondDirectionCenterToEdge 2s infinite !important;
+	animation: moveSecondDirectionCenterToEdge 2s infinite !important;
 }
+
 .gesture-item:nth-of-type(11) .icon-stop.composite-parent {
-  --move-x-1-start: 0px;
-  --move-y-1-start: -15px;
-  --move-x-2-end: -15px;
-  --move-y-2-end: 0px;
+	--move-x-1-start: 0px;
+	--move-y-1-start: -15px;
+	--move-x-2-end: -15px;
+	--move-y-2-end: 0px;
 }
 
 /* 左然后下 - 第12个手势项 */
 .gesture-item:nth-of-type(12) .icon-close-all.composite-parent .first-direction {
-  animation: moveFirstDirectionEdgeToCenter 2s infinite !important;
+	animation: moveFirstDirectionEdgeToCenter 2s infinite !important;
 }
+
 .gesture-item:nth-of-type(12) .icon-close-all.composite-parent .second-direction {
-  animation: moveSecondDirectionCenterToEdge 2s infinite !important;
+	animation: moveSecondDirectionCenterToEdge 2s infinite !important;
 }
+
 .gesture-item:nth-of-type(12) .icon-close-all.composite-parent {
-  --move-x-1-start: 15px;   /* 从左边缘到中心 */
-  --move-y-1-start: 0px;
-  --move-x-2-end: 0px;      /* 从中心到下边缘 */
-  --move-y-2-end: 15px;
+	--move-x-1-start: 15px;
+	/* 从左边缘到中心 */
+	--move-y-1-start: 0px;
+	--move-x-2-end: 0px;
+	/* 从中心到下边缘 */
+	--move-y-2-end: 15px;
 }
 
 /* 移除hover触发条件，让所有复合手势动画默认播放 */
 .first-direction {
-  animation: moveFirstDirection 2s infinite;
+	animation: moveFirstDirection 2s infinite;
 }
 
 .second-direction {
-  animation: moveSecondDirection 2s infinite;
+	animation: moveSecondDirection 2s infinite;
 }
 
 /* 移除hover触发轨迹线动画，改为默认显示 */
 .composite-icon::before {
-  opacity: 1;
-  animation: showPath 2s infinite;
+	opacity: 1;
+	animation: showPath 2s infinite;
 }
 
 /* 单一方向动画也默认播放 */
 .icon-left.single-parent .direction-arrow {
-  animation: leftArrowMove 2s infinite;
+	animation: leftArrowMove 2s infinite;
 }
 
 .icon-right.single-parent .direction-arrow {
-  animation: rightArrowMove 2s infinite;
+	animation: rightArrowMove 2s infinite;
 }
 
 .icon-up.single-parent .direction-arrow {
-  animation: upArrowMove 2s infinite;
+	animation: upArrowMove 2s infinite;
 }
 
 .icon-down.single-parent .direction-arrow {
-  animation: downArrowMove 2s infinite;
+	animation: downArrowMove 2s infinite;
 }
 
 /* 添加其余复合手势的默认动画 */
 /* 上然后下 - 第13个手势项 */
 .gesture-item:nth-of-type(13) .icon-bottom.composite-parent .first-direction {
-  animation: moveFirstDirectionEdgeToCenter 2s infinite !important;
+	animation: moveFirstDirectionEdgeToCenter 2s infinite !important;
 }
+
 .gesture-item:nth-of-type(13) .icon-bottom.composite-parent .second-direction {
-  animation: moveSecondDirectionCenterToEdge 2s infinite !important;
+	animation: moveSecondDirectionCenterToEdge 2s infinite !important;
 }
+
 .gesture-item:nth-of-type(13) .icon-bottom.composite-parent {
-  --move-x-1-start: 0px;
-  --move-y-1-start: 15px;  /* 从下边缘到中心 */
-  --move-x-2-end: 0px;
-  --move-y-2-end: 15px;    /* 从中心到下边缘 */
+	--move-x-1-start: 0px;
+	--move-y-1-start: 15px;
+	/* 从下边缘到中心 */
+	--move-x-2-end: 0px;
+	--move-y-2-end: 15px;
+	/* 从中心到下边缘 */
 }
 
 /* 下然后上 - 第14个手势项 */
 .gesture-item:nth-of-type(14) .icon-top.composite-parent .first-direction {
-  animation: moveFirstDirectionEdgeToCenter 2s infinite !important;
+	animation: moveFirstDirectionEdgeToCenter 2s infinite !important;
 }
+
 .gesture-item:nth-of-type(14) .icon-top.composite-parent .second-direction {
-  animation: moveSecondDirectionCenterToEdge 2s infinite !important;
+	animation: moveSecondDirectionCenterToEdge 2s infinite !important;
 }
+
 .gesture-item:nth-of-type(14) .icon-top.composite-parent {
-  --move-x-1-start: 0px;
-  --move-y-1-start: -15px;  /* 从上边缘到中心 */
-  --move-x-2-end: 0px;
-  --move-y-2-end: -15px;    /* 从中心到上边缘 */
+	--move-x-1-start: 0px;
+	--move-y-1-start: -15px;
+	/* 从上边缘到中心 */
+	--move-x-2-end: 0px;
+	--move-y-2-end: -15px;
+	/* 从中心到上边缘 */
 }
 
 /* 左然后右 - 第15个手势项 */
 .gesture-item:nth-of-type(15) .icon-close.composite-parent .first-direction {
-  animation: moveFirstDirectionEdgeToCenter 2s infinite !important;
+	animation: moveFirstDirectionEdgeToCenter 2s infinite !important;
 }
+
 .gesture-item:nth-of-type(15) .icon-close.composite-parent .second-direction {
-  animation: moveSecondDirectionCenterToEdge 2s infinite !important;
+	animation: moveSecondDirectionCenterToEdge 2s infinite !important;
 }
+
 .gesture-item:nth-of-type(15) .icon-close.composite-parent {
-  --move-x-1-start: 15px;   /* 从右边缘到中心 */
-  --move-y-1-start: 0px;
-  --move-x-2-end: 15px;     /* 从中心到右边缘 */
-  --move-y-2-end: 0px;
+	--move-x-1-start: 15px;
+	/* 从右边缘到中心 */
+	--move-y-1-start: 0px;
+	--move-x-2-end: 15px;
+	/* 从中心到右边缘 */
+	--move-y-2-end: 0px;
 }
 
 /* 右然后左 - 第16个手势项 */
 .gesture-item:nth-of-type(16) .icon-reopen.composite-parent .first-direction {
-  animation: moveFirstDirectionEdgeToCenter 2s infinite !important;
+	animation: moveFirstDirectionEdgeToCenter 2s infinite !important;
 }
+
 .gesture-item:nth-of-type(16) .icon-reopen.composite-parent .second-direction {
-  animation: moveSecondDirectionCenterToEdge 2s infinite !important;
+	animation: moveSecondDirectionCenterToEdge 2s infinite !important;
 }
+
 .gesture-item:nth-of-type(16) .icon-reopen.composite-parent {
-  --move-x-1-start: -15px;  /* 从左边缘到中心 */
-  --move-y-1-start: 0px;
-  --move-x-2-end: -15px;    /* 从中心到左边缘 */
-  --move-y-2-end: 0px;
+	--move-x-1-start: -15px;
+	/* 从左边缘到中心 */
+	--move-y-1-start: 0px;
+	--move-x-2-end: -15px;
+	/* 从中心到左边缘 */
+	--move-y-2-end: 0px;
 }
 
 /* 移除之前hover触发器中的动画，避免重复 */
 .gesture-item:hover .first-direction {
-  animation: moveFirstDirection 2s infinite !important;
+	animation: moveFirstDirection 2s infinite !important;
 }
 
 .gesture-item:hover .second-direction {
-  animation: moveSecondDirection 2s infinite !important;
+	animation: moveSecondDirection 2s infinite !important;
 }
 
 .gesture-item:hover .composite-icon::before {
-  animation: showPath 2s infinite !important;
+	animation: showPath 2s infinite !important;
 }
 
 /* 确保悬停时单一方向动画继续播放 */
 .gesture-item:hover .icon-left.single-parent .direction-arrow {
-  animation: leftArrowMove 2s infinite !important;
+	animation: leftArrowMove 2s infinite !important;
 }
 
 .gesture-item:hover .icon-right.single-parent .direction-arrow {
-  animation: rightArrowMove 2s infinite !important;
+	animation: rightArrowMove 2s infinite !important;
 }
 
 .gesture-item:hover .icon-up.single-parent .direction-arrow {
-  animation: upArrowMove 2s infinite !important;
+	animation: upArrowMove 2s infinite !important;
 }
 
 .gesture-item:hover .icon-down.single-parent .direction-arrow {
-  animation: downArrowMove 2s infinite !important;
+	animation: downArrowMove 2s infinite !important;
 }
 
 /* 确保箭头文本在透明背景上可见 */
-.direction-arrow, .first-direction, .second-direction, .drag-direction {
-  color: var(--text-color);
-  font-weight: bold;
-  transition: color 0.3s ease; /* 添加颜色过渡效果 */
+.direction-arrow,
+.first-direction,
+.second-direction,
+.drag-direction {
+	color: var(--text-color);
+	font-weight: bold;
+	transition: color 0.3s ease;
+	/* 添加颜色过渡效果 */
 }
 
 /* 暗色主题下的文本颜色调整 */
-[data-theme="dark"] .direction-arrow, 
-[data-theme="dark"] .first-direction, 
-[data-theme="dark"] .second-direction, 
+[data-theme="dark"] .direction-arrow,
+[data-theme="dark"] .first-direction,
+[data-theme="dark"] .second-direction,
 [data-theme="dark"] .drag-direction {
-  color: #ffffff;
-  text-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+	color: #ffffff;
+	text-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
 }
 
 /* 轨迹线动画颜色调整 */
 .composite-icon::before {
-  background: var(--text-color);
-  opacity: 0.5;
+	background: var(--text-color);
+	opacity: 0.5;
 }
 
 /* 添加章节标题行容器样式 */
 .section-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 10px;
-  border-bottom: 1px solid var(--border-color); /* 使用变量来设置边框颜色 */
-  padding-bottom: 12px;
-  flex-wrap: nowrap;
-  gap: 10px;
-  min-height: 24px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 10px;
+	border-bottom: 1px solid var(--border-color);
+	/* 使用变量来设置边框颜色 */
+	padding-bottom: 12px;
+	flex-wrap: nowrap;
+	gap: 10px;
+	min-height: 24px;
 }
 
 .section-header h2 {
-  order: 1;
-  flex-shrink: 0;
-  white-space: nowrap;
-  margin-right: 10px;
+	order: 1;
+	flex-shrink: 0;
+	white-space: nowrap;
+	margin-right: 10px;
 }
 
 /* 移除旧的样式，现在由status-container统一管理 */
 
 .operation-hint {
-  font-size: 12px;
-  color: #7f8c8d;
-  opacity: 0.9;
-  font-style: italic;
-  letter-spacing: 0.02em;
-  position: absolute;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  pointer-events: none;
-  transition: opacity 0.3s ease;
-  white-space: nowrap;
-  max-width: 100%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  z-index: 1;
+	font-size: 12px;
+	color: #7f8c8d;
+	opacity: 0.9;
+	font-style: italic;
+	letter-spacing: 0.02em;
+	position: absolute;
+	right: 0;
+	top: 50%;
+	transform: translateY(-50%);
+	pointer-events: none;
+	transition: opacity 0.3s ease;
+	white-space: nowrap;
+	max-width: 100%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	z-index: 1;
 }
 
 /* 修复深色主题下重复的分隔线问题 */
 /* 确保每个手势列表的最后一个元素在任何主题下都没有底部边框 */
 .gesture-list .gesture-item:last-child {
-  border-bottom: none !important;
+	border-bottom: none !important;
 }
 
 /* 为超级拖拽功能区的最后一个手势项添加特定选择器 */
 .section:nth-of-type(3) .gesture-list .gesture-item:last-child {
-  border-bottom: none !important;
+	border-bottom: none !important;
 }
 
 /* 确保在悬停时保持功能标识可见 - 轻微颜色变化而不是框或阴影 */
 .gesture-item:hover .gesture-name {
-  color: var(--button-bg); /* 使用主题按钮颜色增强可见性 */
+	color: var(--button-bg);
+	/* 使用主题按钮颜色增强可见性 */
 }
 
 /* 修改：在悬停时使箭头颜色与文字颜色一致 */
@@ -2143,8 +2632,10 @@ button:hover::before {
 .gesture-item:hover .first-direction,
 .gesture-item:hover .second-direction,
 .gesture-item:hover .drag-direction {
-  color: var(--button-bg) !important; /* 使用与文字相同的高亮颜色 */
-  text-shadow: 0 1px 2px rgba(255, 107, 107, 0.2); /* 添加轻微阴影效果增强可读性 */
+	color: var(--button-bg) !important;
+	/* 使用与文字相同的高亮颜色 */
+	text-shadow: 0 1px 2px rgba(255, 107, 107, 0.2);
+	/* 添加轻微阴影效果增强可读性 */
 }
 
 /* 为深色主题适配相同效果 */
@@ -2152,182 +2643,206 @@ button:hover::before {
 [data-theme="dark"] .gesture-item:hover .first-direction,
 [data-theme="dark"] .gesture-item:hover .second-direction,
 [data-theme="dark"] .gesture-item:hover .drag-direction {
-  color: var(--button-bg) !important;
-  text-shadow: 0 1px 3px rgba(255, 107, 107, 0.3);
+	color: var(--button-bg) !important;
+	text-shadow: 0 1px 3px rgba(255, 107, 107, 0.3);
 }
 
 /* 确保超级拖拽中的手指图标也遵循相同的颜色变化 */
 .gesture-item:hover .drag-icon .drag-direction {
-  color: var(--button-bg) !important;
+	color: var(--button-bg) !important;
 }
 
 /* 深色主题下的状态消息优化 */
 [data-theme="dark"] .status-message {
-  background-color: var(--success-bg);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+	background-color: var(--success-bg);
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+	border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 /* 深色主题下的滚动条优化 */
 [data-theme="dark"]::-webkit-scrollbar-track {
-  background: var(--scrollbar-track);
-  border: 1px solid rgba(255, 255, 255, 0.03);
+	background: var(--scrollbar-track);
+	border: 1px solid rgba(255, 255, 255, 0.03);
 }
 
 [data-theme="dark"]::-webkit-scrollbar-thumb {
-  background: var(--scrollbar-thumb);
-  border-radius: 3px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+	background: var(--scrollbar-thumb);
+	border-radius: 3px;
+	border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 [data-theme="dark"]::-webkit-scrollbar-thumb:hover {
-  background: var(--scrollbar-thumb-hover);
+	background: var(--scrollbar-thumb-hover);
 }
 
 /* 深色主题下的手势项文本增强 */
 [data-theme="dark"] .gesture-name {
-  font-weight: 500; /* 在深色主题下轻微减小字体粗细以补偿渲染差异 */
-  color: var(--text-color);
-  letter-spacing: 0.01em; /* 保持与浅色主题一致 */
+	font-weight: 500;
+	/* 在深色主题下轻微减小字体粗细以补偿渲染差异 */
+	color: var(--text-color);
+	letter-spacing: 0.01em;
+	/* 保持与浅色主题一致 */
 }
 
 [data-theme="dark"] .gesture-action {
-  color: var(--text-color);
-  opacity: 0.7; /* 保持与浅色主题一致 */
+	color: var(--text-color);
+	opacity: 0.7;
+	/* 保持与浅色主题一致 */
 }
 
 /* 深色主题下的标题增强 */
 [data-theme="dark"] h2 {
-  letter-spacing: 0;
-  color: var(--text-color); /* 使用统一的文本颜色变量 */
-  font-weight: 600; /* 在深色主题下轻微减小字体粗细以补偿渲染差异 */
-  text-shadow: none;
+	letter-spacing: 0;
+	color: var(--text-color);
+	/* 使用统一的文本颜色变量 */
+	font-weight: 600;
+	/* 在深色主题下轻微减小字体粗细以补偿渲染差异 */
+	text-shadow: none;
 }
 
 /* 深色主题下的设置项标签增强 */
 [data-theme="dark"] label {
-  letter-spacing: 0.01em;
+	letter-spacing: 0.01em;
 }
 
 [data-theme="dark"] .setting-item:hover label {
-  color: var(--button-bg);
-  text-shadow: 0 0 1px rgba(255, 118, 118, 0.2);
+	color: var(--button-bg);
+	text-shadow: 0 0 1px rgba(255, 118, 118, 0.2);
 }
 
 /* 深色主题下的按钮增强 */
 [data-theme="dark"] #save-btn {
-  box-shadow: 0 4px 12px rgba(255, 118, 118, 0.25);
+	box-shadow: 0 4px 12px rgba(255, 118, 118, 0.25);
 }
 
 [data-theme="dark"] #save-btn:hover {
-  box-shadow: 0 6px 16px rgba(255, 118, 118, 0.3);
+	box-shadow: 0 6px 16px rgba(255, 118, 118, 0.3);
 }
 
 /* 深色主题下的超级拖拽信息文本优化 */
 [data-theme="dark"] .super-drag-info p {
-  color: rgba(228, 230, 235, 0.8);
-  letter-spacing: 0.01em;
+	color: rgba(228, 230, 235, 0.8);
+	letter-spacing: 0.01em;
 }
 
 /* 深色主题下的操作提示文本样式 */
 [data-theme="dark"] .operation-hint {
-  color: rgba(228, 230, 235, 0.7);
+	color: rgba(228, 230, 235, 0.7);
 }
 
 /* 深色主题下的图标和动画效果优化 */
-[data-theme="dark"] .direction-arrow, 
-[data-theme="dark"] .first-direction, 
+[data-theme="dark"] .direction-arrow,
+[data-theme="dark"] .first-direction,
 [data-theme="dark"] .second-direction {
-  color: rgba(255, 255, 255, 0.9);
-  filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.3));
+	color: rgba(255, 255, 255, 0.9);
+	filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.3));
 }
 
 /* 深色主题下轨迹线动画颜色优化 */
 [data-theme="dark"] .composite-icon::before {
-  opacity: 0.6;
+	opacity: 0.6;
 }
 
 /* 深色主题下的图标颜色增强 */
 [data-theme="dark"] .icon-left {
-  color: #5c9cff; /* 更亮的蓝色 */
+	color: #5c9cff;
+	/* 更亮的蓝色 */
 }
 
 [data-theme="dark"] .icon-right {
-  color: #ff6b6b; /* 更亮的红色 */
+	color: #ff6b6b;
+	/* 更亮的红色 */
 }
 
 [data-theme="dark"] .icon-up {
-  color: #4cd964; /* 更亮的绿色 */
+	color: #4cd964;
+	/* 更亮的绿色 */
 }
 
 [data-theme="dark"] .icon-down {
-  color: #ffcc00; /* 更亮的黄色 */
+	color: #ffcc00;
+	/* 更亮的黄色 */
 }
 
-[data-theme="dark"] .icon-close, 
+[data-theme="dark"] .icon-close,
 [data-theme="dark"] .icon-close-all {
-  color: #ff6060; /* 更亮的关闭红色 */
+	color: #ff6060;
+	/* 更亮的关闭红色 */
 }
 
-[data-theme="dark"] .icon-reopen, 
+[data-theme="dark"] .icon-reopen,
 [data-theme="dark"] .icon-new-tab {
-  color: #8c68cd; /* 更亮的紫色 */
+	color: #8c68cd;
+	/* 更亮的紫色 */
 }
 
 [data-theme="dark"] .icon-refresh {
-  color: #26c6da; /* 更亮的青色 */
+	color: #26c6da;
+	/* 更亮的青色 */
 }
 
-[data-theme="dark"] .icon-prev, 
+[data-theme="dark"] .icon-prev,
 [data-theme="dark"] .icon-next {
-  color: #5c7cff; /* 更亮的蓝色 */
+	color: #5c7cff;
+	/* 更亮的蓝色 */
 }
 
 [data-theme="dark"] .icon-stop {
-  color: #ff5252; /* 更亮的停止红色 */
+	color: #ff5252;
+	/* 更亮的停止红色 */
 }
 
-[data-theme="dark"] .icon-bottom, 
+[data-theme="dark"] .icon-bottom,
 [data-theme="dark"] .icon-top {
-  color: #bf8c60; /* 更亮的棕色 */
+	color: #bf8c60;
+	/* 更亮的棕色 */
 }
 
 /* 深色主题下拖拽动画效果增强 */
 [data-theme="dark"] .drag-animation {
-  filter: drop-shadow(0 0 2px rgba(255, 87, 34, 0.3));
+	filter: drop-shadow(0 0 2px rgba(255, 87, 34, 0.3));
 }
 
 [data-theme="dark"] .drag-icon {
-  color: #ff7043; /* 更亮的橙色 */
+	color: #ff7043;
+	/* 更亮的橙色 */
 }
 
 /* 增强深色主题下的动画效果 */
 @keyframes darkModeTrailEffect {
-  0% { opacity: 0; }
-  50% { opacity: 0.7; }
-  100% { opacity: 0; }
+	0% {
+		opacity: 0;
+	}
+
+	50% {
+		opacity: 0.7;
+	}
+
+	100% {
+		opacity: 0;
+	}
 }
 
 [data-theme="dark"] .gesture-item:hover .composite-icon::before {
-  animation: darkModeTrailEffect 2s infinite !important;
+	animation: darkModeTrailEffect 2s infinite !important;
 }
 
 /* 深色主题下的悬停动画增强 */
 [data-theme="dark"] .gesture-item:hover .gesture-icon {
-  filter: brightness(1.15);
-  transition: all 0.3s ease;
+	filter: brightness(1.15);
+	transition: all 0.3s ease;
 }
 
 /* 深色主题下的背景渐变和过渡效果 */
 [data-theme="dark"] body {
-  background-color: var(--bg-color);
-  background-image: linear-gradient(to bottom right, #121212, #141414, #121212);
-  transition: all 0.4s ease;
+	background-color: var(--bg-color);
+	background-image: linear-gradient(to bottom right, #121212, #141414, #121212);
+	transition: all 0.4s ease;
 }
 
 /* 深色主题切换过渡效果 */
 [data-theme="dark"] .section {
-  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+	transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 [data-theme="dark"] .header-button,
@@ -2337,350 +2852,375 @@ button:hover::before {
 [data-theme="dark"] button,
 [data-theme="dark"] .footer,
 [data-theme="dark"] .small-button {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* 深色主题下的微妙纹理背景 */
 [data-theme="dark"] .section {
-  background-image: linear-gradient(to bottom, #232323, #242424);
-  background-size: 100% 100%;
+	background-image: linear-gradient(to bottom, #232323, #242424);
+	background-size: 100% 100%;
 }
 
 /* 深色主题下的卡片悬浮效果 */
 [data-theme="dark"] .section:hover {
-  /* transform: translateY(-2px); 移除上移效果 */
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12); /* 增加阴影效果替代上移 */
+	/* transform: translateY(-2px); 移除上移效果 */
+	box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+	/* 增加阴影效果替代上移 */
 }
 
 /* 深色主题下按钮的立体效果 */
 [data-theme="dark"] #save-btn {
-  background-image: linear-gradient(to bottom, #ff7676, #ff6868);
-  border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+	background-image: linear-gradient(to bottom, #ff7676, #ff6868);
+	border-bottom: 2px solid rgba(0, 0, 0, 0.1);
 }
 
 [data-theme="dark"] #save-btn:hover {
-  background-image: linear-gradient(to bottom, #ff6868, #ff5e5e);
+	background-image: linear-gradient(to bottom, #ff6868, #ff5e5e);
 }
 
 /* 添加装饰性卡片边缘特效 */
 .section::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 4px;
-  background: linear-gradient(90deg, rgba(255, 107, 107, 0.4), rgba(255, 142, 142, 0.2));
-  opacity: 0;
-  transition: opacity 0.3s ease;
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 4px;
+	background: linear-gradient(90deg, rgba(255, 107, 107, 0.4), rgba(255, 142, 142, 0.2));
+	opacity: 0;
+	transition: opacity 0.3s ease;
 }
 
 .section:hover::after {
-  opacity: 1;
+	opacity: 1;
 }
 
 /* 版本号显示 */
 #version-text {
-  background-color: rgba(255, 107, 107, 0.1);
-  padding: 2px 6px;
-  border-radius: 10px;
-  margin-left: 4px;
-  font-weight: 500;
-  color: #ff6b6b;
-  font-size: 10px;
-  letter-spacing: 0.5px;
-  transition: all 0.3s ease;
+	background-color: rgba(255, 107, 107, 0.1);
+	padding: 2px 6px;
+	border-radius: 10px;
+	margin-left: 4px;
+	font-weight: 500;
+	color: #ff6b6b;
+	font-size: 10px;
+	letter-spacing: 0.5px;
+	transition: all 0.3s ease;
 }
 
 .footer:hover #version-text {
-  background-color: rgba(255, 107, 107, 0.15);
-  opacity: 1;
+	background-color: rgba(255, 107, 107, 0.15);
+	opacity: 1;
 }
 
 /* 精美的渐变框动画 */
 @keyframes gradientBorder {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
+	0% {
+		background-position: 0% 50%;
+	}
+
+	50% {
+		background-position: 100% 50%;
+	}
+
+	100% {
+		background-position: 0% 50%;
+	}
 }
 
 #save-btn:hover {
-  background-color: var(--button-hover);
-  background-image: linear-gradient(to bottom, #ff6868, #ff5252);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 14px var(--button-shadow);
-  animation: gradientBorder 3s ease infinite;
-  background-size: 200% 200%;
+	background-color: var(--button-hover);
+	background-image: linear-gradient(to bottom, #ff6868, #ff5252);
+	transform: translateY(-2px);
+	box-shadow: 0 6px 14px var(--button-shadow);
+	animation: gradientBorder 3s ease infinite;
+	background-size: 200% 200%;
 }
 
 /* 优化图标动画效果 */
 .gesture-item:hover .gesture-icon {
-  filter: brightness(1.1);
-  transform: scale(1.03);
-  transition: all 0.3s ease;
+	filter: brightness(1.1);
+	transform: scale(1.03);
+	transition: all 0.3s ease;
 }
 
 /* 添加光滑的悬停过渡效果 */
 .setting-item:hover input[type="range"]::-webkit-slider-thumb {
-  transform: scale(1.2);
-  background-color: var(--button-hover);
-  box-shadow: 0 0 8px rgba(255, 82, 82, 0.3);
+	transform: scale(1.2);
+	background-color: var(--button-hover);
+	box-shadow: 0 0 8px rgba(255, 82, 82, 0.3);
 }
 
 /* 优化复选框悬停效果 */
 input[type="checkbox"]:checked {
-  background-color: #ff6b6b;
-  border-color: #ff5252;
+	background-color: #ff6b6b;
+	border-color: #ff5252;
 }
 
 /* 为关闭状态的复选框添加微妙的风格 */
 input[type="checkbox"] {
-  appearance: none;
-  -webkit-appearance: none;
-  width: 18px;
-  height: 18px;
-  cursor: pointer;
-  transition: var(--transition);
-  border-radius: 3px;
-  border: 1px solid #d8e1ec;
-  background-color: #fff;
-  position: relative;
+	appearance: none;
+	-webkit-appearance: none;
+	width: 18px;
+	height: 18px;
+	cursor: pointer;
+	transition: var(--transition);
+	border-radius: 3px;
+	border: 1px solid #d8e1ec;
+	background-color: #fff;
+	position: relative;
 }
 
 input[type="checkbox"]:checked::after {
-  content: "✓";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 12px;
-  color: white;
-  font-weight: bold;
+	content: "✓";
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	font-size: 12px;
+	color: white;
+	font-weight: bold;
 }
 
 /* 修改深色主题下头部按钮的样式 - 移除重复 */
 /* 修改深色主题下头部按钮的基本样式 */
 [data-theme="dark"] .header-button {
-  background-color: transparent;
-  border: none;
-  box-shadow: none !important;
+	background-color: transparent;
+	border: none;
+	box-shadow: none !important;
 }
 
 /* 修改深色主题下头部按钮的悬停样式 */
 [data-theme="dark"] .header-button:hover {
-  background-color: transparent;
-  border: none;
-  box-shadow: none !important;
-  transform: scale(1.08);
-  opacity: 1;
-  filter: brightness(1.15); /* 保留最完整版本的亮度调整 */
+	background-color: transparent;
+	border: none;
+	box-shadow: none !important;
+	transform: scale(1.08);
+	opacity: 1;
+	filter: brightness(1.15);
+	/* 保留最完整版本的亮度调整 */
 }
 
 /* 咖啡按钮在深色主题下的样式 - 移除重复 */
 /* 特别处理咖啡按钮在深色主题下的样式 */
 [data-theme="dark"] .kofi-button {
-  background-color: transparent;
-  border: none;
+	background-color: transparent;
+	border: none;
 }
 
 [data-theme="dark"] .kofi-button:hover {
-  background-color: transparent;
-  border: none; /* 保留更完整的版本 */
-  box-shadow: none !important;
-  filter: brightness(1.2);
+	background-color: transparent;
+	border: none;
+	/* 保留更完整的版本 */
+	box-shadow: none !important;
+	filter: brightness(1.2);
 }
 
 /* 保留恢复小按钮在深色主题下的正确样式 */
 [data-theme="dark"] .small-button:hover {
-  background-color: rgba(168, 230, 207, 0.12);
-  color: var(--button-reset);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  border: 1px solid var(--button-reset); /* 保持边框一致 */
-  /* 无上移效果 */
+	background-color: rgba(168, 230, 207, 0.12);
+	color: var(--button-reset);
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+	border: 1px solid var(--button-reset);
+	/* 保持边框一致 */
+	/* 无上移效果 */
 }
 
 /* 深色主题下的主题切换和语言切换按钮样式 */
 [data-theme="dark"] .theme-toggle,
 [data-theme="dark"] .lang-toggle {
-  background-color: transparent;
-  border: none;
+	background-color: transparent;
+	border: none;
 }
 
 [data-theme="dark"] .theme-toggle:hover,
 [data-theme="dark"] .lang-toggle:hover {
-  background-color: transparent;
-  border: none;
-  box-shadow: none !important;
+	background-color: transparent;
+	border: none;
+	box-shadow: none !important;
 }
 
 /* 深色主题下的重置按钮 - 合并重复的定义 */
 /* 修复重置按钮悬停时的布局跳动问题 */
 #reset-btn {
-  background-color: transparent;
-  color: var(--text-color);
-  letter-spacing: 0.5px;
-  border: 1px solid transparent !important; /* 强制设置透明边框，避免悬停时的布局跳动 */
-  box-shadow: none;
-  transition: var(--transition);
-  opacity: 0.85; /* 默认状态下稍微降低不透明度 */
+	background-color: transparent;
+	color: var(--text-color);
+	letter-spacing: 0.5px;
+	border: 1px solid transparent !important;
+	/* 强制设置透明边框，避免悬停时的布局跳动 */
+	box-shadow: none;
+	transition: var(--transition);
+	opacity: 0.85;
+	/* 默认状态下稍微降低不透明度 */
 }
 
 #reset-btn:hover {
-  background-color: rgba(168, 230, 207, 0.1); /* 使用半透明背景 */
-  border: 1px solid var(--button-reset) !important; /* 使用变量设置边框 */
-  color: var(--button-reset-hover); /* 使用变量设置悬停文字颜色 */
-  box-shadow: 0 2px 6px var(--button-reset-shadow); /* 添加轻微阴影 */
-  opacity: 1; /* 悬停时恢复完全不透明 */
+	background-color: rgba(168, 230, 207, 0.1);
+	/* 使用半透明背景 */
+	border: 1px solid var(--button-reset) !important;
+	/* 使用变量设置边框 */
+	color: var(--button-reset-hover);
+	/* 使用变量设置悬停文字颜色 */
+	box-shadow: 0 2px 6px var(--button-reset-shadow);
+	/* 添加轻微阴影 */
+	opacity: 1;
+	/* 悬停时恢复完全不透明 */
 }
 
 /* 深色主题下的重置按钮 */
 [data-theme="dark"] #reset-btn {
-  color: var(--text-color);
-  border: 1px solid transparent !important; /* 强制设置透明边框 */
-  background-color: transparent;
-  opacity: 0.85; /* 与普通主题保持一致 */
+	color: var(--text-color);
+	border: 1px solid transparent !important;
+	/* 强制设置透明边框 */
+	background-color: transparent;
+	opacity: 0.85;
+	/* 与普通主题保持一致 */
 }
 
 [data-theme="dark"] #reset-btn:hover {
-  background-color: rgba(168, 230, 207, 0.08); /* 深色主题下使用更暗的背景 */
-  border: 1px solid var(--button-reset) !important; /* 使用变量设置边框 */
-  color: var(--button-reset); /* 使用变量设置悬停文字颜色 */
-  box-shadow: 0 2px 8px rgba(168, 230, 207, 0.2); /* 深色主题下的阴影 */
-  opacity: 1; /* 悬停时恢复完全不透明 */
+	background-color: rgba(168, 230, 207, 0.08);
+	/* 深色主题下使用更暗的背景 */
+	border: 1px solid var(--button-reset) !important;
+	/* 使用变量设置边框 */
+	color: var(--button-reset);
+	/* 使用变量设置悬停文字颜色 */
+	box-shadow: 0 2px 8px rgba(168, 230, 207, 0.2);
+	/* 深色主题下的阴影 */
+	opacity: 1;
+	/* 悬停时恢复完全不透明 */
 }
 
 /* 深色主题下超级拖拽悬停效果 */
 [data-theme="dark"] .super-drag-info:hover {
-  /* background-color: rgba(168, 230, 207, 0.08); */ /* 深色主题下使用绿色调悬停背景 */
-  border-left-color: var(--button-bg); /* 使用变量设置边框颜色 */
-  padding: 12px 8px;
+	/* background-color: rgba(168, 230, 207, 0.08); */
+	/* 深色主题下使用绿色调悬停背景 */
+	border-left-color: var(--button-bg);
+	/* 使用变量设置边框颜色 */
+	padding: 12px 8px;
 }
 
 [data-theme="dark"] .super-drag-info:hover p {
-  color: #e4e6eb; /* 深色主题下悬停时文字颜色变亮 */
+	color: #e4e6eb;
+	/* 深色主题下悬停时文字颜色变亮 */
 }
 
 /* 深色主题下的标题 - 合并重复定义 */
 /* 调整深色主题下的标题粗细 */
 [data-theme="dark"] .settings-header h2,
 [data-theme="dark"] .section-header h2 {
-  color: var(--text-color);
-  font-weight: 600; /* 在深色主题下轻微减小字体粗细以补偿渲染差异 */
-  text-shadow: none; /* 移除文本阴影 */
+	color: var(--text-color);
+	font-weight: 600;
+	/* 在深色主题下轻微减小字体粗细以补偿渲染差异 */
+	text-shadow: none;
+	/* 移除文本阴影 */
 }
 
 /* 搜索引擎示例样式 */
 .search-engine-examples {
-  margin-top: 4px;
-  margin-bottom: 2px;
-  padding: 4px 8px;
-  background-color: transparent;
-  border-radius: 6px;
-  font-size: 12px;
-  color: #555;
-  border-left: 0px solid #4CAF50;
-  transition: all 0.2s ease-in-out;
-  position: relative;
+	margin-top: 4px;
+	margin-bottom: 2px;
+	padding: 4px 8px;
+	background-color: transparent;
+	border-radius: 6px;
+	font-size: 12px;
+	color: #555;
+	border-left: 0px solid #4CAF50;
+	transition: all 0.2s ease-in-out;
+	position: relative;
 }
 
 .search-engine-examples:hover {
-  background-color: transparent;
-  box-shadow: none;
-  border-left-width: 1px;
+	background-color: transparent;
+	box-shadow: none;
+	border-left-width: 1px;
 }
 
 .search-engine-examples::before {
-  content: "🔍";
-  position: absolute;
-  right: 10px;
-  top: 10px;
-  font-size: 12px;
-  opacity: 0.5;
-  transition: all 0.2s ease;
+	content: "🔍";
+	position: absolute;
+	right: 10px;
+	top: 10px;
+	font-size: 12px;
+	opacity: 0.5;
+	transition: all 0.2s ease;
 }
 
 .search-engine-examples:hover::before {
-  opacity: 0.8;
-  transform: scale(1.1);
+	opacity: 0.8;
+	transform: scale(1.1);
 }
 
 [data-theme="dark"] .search-engine-examples {
-  background-color: transparent;
-  color: #bbb;
-  border-left-color: #63c766;
-  box-shadow: none;
+	background-color: transparent;
+	color: #bbb;
+	border-left-color: #63c766;
+	box-shadow: none;
 }
 
 [data-theme="dark"] .search-engine-examples:hover {
-  background-color: transparent;
-  box-shadow: none;
+	background-color: transparent;
+	box-shadow: none;
 }
 
 .search-engine-examples small {
-  display: block;
-  margin-bottom: 6px;
-  font-weight: 500;
-  font-size: 12px;
+	display: block;
+	margin-bottom: 6px;
+	font-weight: 500;
+	font-size: 12px;
 }
 
 .example-list {
-  margin: 0;
-  padding-left: 15px;
-  list-style-type: none;
+	margin: 0;
+	padding-left: 15px;
+	list-style-type: none;
 }
 
 .example-list li {
-  margin-bottom: 4px;
-  line-height: 1.4;
-  position: relative;
-  padding-left: 2px;
-  transition: transform 0.15s ease;
+	margin-bottom: 4px;
+	line-height: 1.4;
+	position: relative;
+	padding-left: 2px;
+	transition: transform 0.15s ease;
 }
 
 .example-list li:hover {
-  transform: translateX(2px);
-  color: #000;
+	transform: translateX(2px);
+	color: #000;
 }
 
 [data-theme="dark"] .example-list li:hover {
-  color: #fff;
+	color: #fff;
 }
 
 .example-list li::before {
-  content: "•";
-  position: absolute;
-  left: -12px;
-  color: #888;
+	content: "•";
+	position: absolute;
+	left: -12px;
+	color: #888;
 }
 
 [data-theme="dark"] .example-list li::before {
-  color: #777;
+	color: #777;
 }
 
 /* 禁用选项的样式 */
 .disabled-option {
-  opacity: 0.6;
-  pointer-events: none;
-  cursor: not-allowed;
-  filter: grayscale(30%);
-  transition: all 0.3s ease;
+	opacity: 0.6;
+	pointer-events: none;
+	cursor: not-allowed;
+	filter: grayscale(30%);
+	transition: all 0.3s ease;
 }
 
 /* 同时为深色模式添加样式 */
 [data-theme="dark"] .disabled-option {
-  opacity: 0.5;
-  filter: grayscale(40%);
+	opacity: 0.5;
+	filter: grayscale(40%);
 }
 
 /* 禁用悬停效果的类 */
 .no-hover-effect {
-  pointer-events: none !important;
+	pointer-events: none !important;
 }
 
 .no-hover-effect:hover,
@@ -2688,13 +3228,13 @@ input[type="checkbox"]:checked::after {
 .no-hover-effect:hover input,
 .no-hover-effect:hover select,
 .no-hover-effect:hover::after {
-  transform: none !important;
-  background-color: inherit !important;
-  color: inherit !important;
-  border-color: inherit !important;
-  box-shadow: none !important;
-  filter: none !important;
-  opacity: 0.6 !important;
+	transform: none !important;
+	background-color: inherit !important;
+	color: inherit !important;
+	border-color: inherit !important;
+	box-shadow: none !important;
+	filter: none !important;
+	opacity: 0.6 !important;
 }
 
 /* 确保父项禁用时，子项的悬停效果也被禁用 */
@@ -2703,19 +3243,19 @@ input[type="checkbox"]:checked::after {
 .disabled-option:hover input,
 .disabled-option:hover select,
 .disabled-option:hover::after {
-  transform: none !important;
-  background-color: inherit !important;
-  color: inherit !important;
-  border-color: inherit !important;
-  box-shadow: none !important;
-  filter: none !important;
+	transform: none !important;
+	background-color: inherit !important;
+	color: inherit !important;
+	border-color: inherit !important;
+	box-shadow: none !important;
+	filter: none !important;
 }
 
 /* 禁用状态下的手势图标和动画效果 */
 .disabled-option .gesture-icon,
 .no-hover-effect .gesture-icon {
-  filter: grayscale(70%) opacity(0.6) !important;
-  transition: none !important;
+	filter: grayscale(70%) opacity(0.6) !important;
+	transition: none !important;
 }
 
 .disabled-option:hover .gesture-icon,
@@ -2726,194 +3266,215 @@ input[type="checkbox"]:checked::after {
 .no-hover-effect:hover .first-direction,
 .disabled-option:hover .second-direction,
 .no-hover-effect:hover .second-direction {
-  animation: none !important;
-  transform: none !important;
-  transition: none !important;
+	animation: none !important;
+	transform: none !important;
+	transition: none !important;
 }
 
 /* 禁用具体的搜索引擎示例悬停效果 */
-.no-hover-effect ~ .search-engine-examples,
-.no-hover-effect ~ .search-engine-examples:hover {
-  background-color: transparent !important;
-  border-left-width: 0 !important;
-  box-shadow: none !important;
-  transition: none !important;
+.no-hover-effect~.search-engine-examples,
+.no-hover-effect~.search-engine-examples:hover {
+	background-color: transparent !important;
+	border-left-width: 0 !important;
+	box-shadow: none !important;
+	transition: none !important;
 }
 
-.no-hover-effect ~ .search-engine-examples .example-list li:hover {
-  background-color: transparent !important;
-  transform: none !important;
+.no-hover-effect~.search-engine-examples .example-list li:hover {
+	background-color: transparent !important;
+	transform: none !important;
 }
 
 /* 确保禁用状态下的设置项即使在暗色模式下也保持一致的外观 */
 [data-theme="dark"] .no-hover-effect,
 [data-theme="dark"] .disabled-option {
-  color: rgba(255, 255, 255, 0.4) !important;
+	color: rgba(255, 255, 255, 0.4) !important;
 }
 
 [data-theme="dark"] .no-hover-effect:hover label,
 [data-theme="dark"] .disabled-option:hover label {
-  color: rgba(255, 255, 255, 0.4) !important;
+	color: rgba(255, 255, 255, 0.4) !important;
 }
 
 /* 鼠标滚轮调整滑块的视觉反馈 */
 @keyframes sliderPulse {
-  0% { box-shadow: 0 0 0 0 rgba(97, 218, 251, 0.5); }
-  70% { box-shadow: 0 0 0 8px rgba(97, 218, 251, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(97, 218, 251, 0); }
+	0% {
+		box-shadow: 0 0 0 0 rgba(97, 218, 251, 0.5);
+	}
+
+	70% {
+		box-shadow: 0 0 0 8px rgba(97, 218, 251, 0);
+	}
+
+	100% {
+		box-shadow: 0 0 0 0 rgba(97, 218, 251, 0);
+	}
 }
 
 @keyframes sliderPulseDark {
-  0% { box-shadow: 0 0 0 0 rgba(62, 166, 255, 0.5); }
-  70% { box-shadow: 0 0 0 8px rgba(62, 166, 255, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(62, 166, 255, 0); }
+	0% {
+		box-shadow: 0 0 0 0 rgba(62, 166, 255, 0.5);
+	}
+
+	70% {
+		box-shadow: 0 0 0 8px rgba(62, 166, 255, 0);
+	}
+
+	100% {
+		box-shadow: 0 0 0 0 rgba(62, 166, 255, 0);
+	}
 }
 
 input[type="range"].wheel-adjusted {
-  animation: sliderPulse 0.6s ease-out;
+	animation: sliderPulse 0.6s ease-out;
 }
 
 [data-theme="dark"] input[type="range"].wheel-adjusted {
-  animation: sliderPulseDark 0.6s ease-out;
+	animation: sliderPulseDark 0.6s ease-out;
 }
 
 /* 为支持鼠标滚轮的滑块添加样式提示 */
 .setting-item:hover input[type="range"] {
-  cursor: ns-resize; /* 表明可以上下调整的光标 */
+	cursor: ns-resize;
+	/* 表明可以上下调整的光标 */
 }
 
 /* 确保禁用时不显示特殊光标 */
 .disabled-option:hover input[type="range"],
 .no-hover-effect:hover input[type="range"] {
-  cursor: not-allowed !important;
+	cursor: not-allowed !important;
 }
 
 .drag-action-select,
 .gesture-action-select {
-  width: fit-content;
-  min-width: 90px;
-  padding: 4px 18px 4px 4px; /* 右侧留更多空间给箭头，左侧减少空白 */
-  border-radius: 4px;
-  border: 1px solid var(--border-color);
-  background-color: var(--background);
-  color: var(--text-color);
-  font-size: 13px;
-  text-align: center;
-  appearance: none;
-  -webkit-appearance: none;
-  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='8'%3E%3Cpath fill='%23777' d='M8 8L0 0h16z'/%3E%3C/svg%3E");
-  background-position: right 6px center;
-  background-repeat: no-repeat;
-  background-size: 8px 6px;
-  cursor: pointer;
-  transition: var(--transition);
+	width: fit-content;
+	min-width: 90px;
+	padding: 4px 18px 4px 4px;
+	/* 右侧留更多空间给箭头，左侧减少空白 */
+	border-radius: 4px;
+	border: 1px solid var(--border-color);
+	background-color: var(--background);
+	color: var(--text-color);
+	font-size: 13px;
+	text-align: center;
+	appearance: none;
+	-webkit-appearance: none;
+	background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='8'%3E%3Cpath fill='%23777' d='M8 8L0 0h16z'/%3E%3C/svg%3E");
+	background-position: right 6px center;
+	background-repeat: no-repeat;
+	background-size: 8px 6px;
+	cursor: pointer;
+	transition: var(--transition);
 }
 
 [data-theme="dark"] .drag-action-select,
 [data-theme="dark"] .gesture-action-select {
-  background-color: #333;
-  color: #fff;
-  border-color: #555;
-  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='8'%3E%3Cpath fill='%23ddd' d='M8 8L0 0h16z'/%3E%3C/svg%3E");
+	background-color: #333;
+	color: #fff;
+	border-color: #555;
+	background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='8'%3E%3Cpath fill='%23ddd' d='M8 8L0 0h16z'/%3E%3C/svg%3E");
 }
 
 .drag-action-select:hover,
 .gesture-action-select:hover {
-  border-color: var(--button-bg);
-  box-shadow: 0 0 4px rgba(255, 107, 107, 0.2);
+	border-color: var(--button-bg);
+	box-shadow: 0 0 4px rgba(255, 107, 107, 0.2);
 }
 
 [data-theme="dark"] .drag-action-select option,
 [data-theme="dark"] .gesture-action-select option {
-  background-color: #333;
-  color: #fff;
+	background-color: #333;
+	color: #fff;
 }
 
 [data-theme="dark"] .drag-action-select:hover,
 [data-theme="dark"] .gesture-action-select:hover {
-  border-color: var(--button-hover);
-  box-shadow: 0 0 4px rgba(255, 107, 107, 0.3);
+	border-color: var(--button-hover);
+	box-shadow: 0 0 4px rgba(255, 107, 107, 0.3);
 }
 
 /* 为手势动作下拉选择框添加特殊样式 */
 .gesture-action-select {
-  min-width: 120px; /* 增加最小宽度以适应更长的选项文本 */
-  max-width: 200px; /* 限制最大宽度 */
+	min-width: 120px;
+	/* 增加最小宽度以适应更长的选项文本 */
+	max-width: 200px;
+	/* 限制最大宽度 */
 }
 
 /* 确保手势动作下拉选择框在深色模式下也有合适的宽度 */
 [data-theme="dark"] .gesture-action-select {
-  min-width: 120px;
-  max-width: 200px;
+	min-width: 120px;
+	max-width: 200px;
 }
 
 /* 为所有下拉选择框添加焦点状态样式 */
 .drag-action-select:focus,
 .gesture-action-select:focus {
-  outline: none;
-  border-color: var(--button-bg);
-  box-shadow: 0 0 6px rgba(255, 107, 107, 0.3);
+	outline: none;
+	border-color: var(--button-bg);
+	box-shadow: 0 0 6px rgba(255, 107, 107, 0.3);
 }
 
 [data-theme="dark"] .drag-action-select:focus,
 [data-theme="dark"] .gesture-action-select:focus {
-  border-color: var(--button-hover);
-  box-shadow: 0 0 6px rgba(255, 107, 107, 0.4);
+	border-color: var(--button-hover);
+	box-shadow: 0 0 6px rgba(255, 107, 107, 0.4);
 }
 
 .search-engine-input {
-  width: 100%;
-  min-width: 200px;
-  padding: 4px 8px;
-  border-radius: 4px;
-  border: 1px solid var(--border-color);
-  background-color: var(--background);
-  color: var(--text-color);
-  font-size: 13px;
-  font-family: inherit;
-  box-sizing: border-box;
-  transition: var(--transition);
+	width: 100%;
+	min-width: 200px;
+	padding: 4px 8px;
+	border-radius: 4px;
+	border: 1px solid var(--border-color);
+	background-color: var(--background);
+	color: var(--text-color);
+	font-size: 13px;
+	font-family: inherit;
+	box-sizing: border-box;
+	transition: var(--transition);
 }
 
-.search-engine-input:hover, 
+.search-engine-input:hover,
 .search-engine-input:focus {
-  border-color: var(--button-bg);
-  outline: none;
-  box-shadow: 0 0 4px rgba(255, 107, 107, 0.2);
+	border-color: var(--button-bg);
+	outline: none;
+	box-shadow: 0 0 4px rgba(255, 107, 107, 0.2);
 }
 
 [data-theme="dark"] .search-engine-input {
-  background-color: #333;
-  color: #fff;
-  border-color: #555;
+	background-color: #333;
+	color: #fff;
+	border-color: #555;
 }
 
 [data-theme="dark"] .search-engine-input:hover,
 [data-theme="dark"] .search-engine-input:focus {
-  border-color: var(--button-hover);
-  box-shadow: 0 0 4px rgba(255, 107, 107, 0.3);
+	border-color: var(--button-hover);
+	box-shadow: 0 0 4px rgba(255, 107, 107, 0.3);
 }
 
 .like-button {
-  color: #4CAF50;
-  position: relative;
-  overflow: hidden;
-  transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  background-color: transparent;
-  border: none;
+	color: #4CAF50;
+	position: relative;
+	overflow: hidden;
+	transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+	background-color: transparent;
+	border: none;
 }
 
 .like-button:hover {
-  color: #388E3C;
-  transform: scale(1.08);
-  filter: brightness(1.1);
-  background-color: transparent;
-  border: none;
+	color: #388E3C;
+	transform: scale(1.08);
+	filter: brightness(1.1);
+	background-color: transparent;
+	border: none;
 }
 
 [data-theme="dark"] .like-button {
-  color: #81C784;
+	color: #81C784;
 }
+
 [data-theme="dark"] .like-button:hover {
-  color: #66BB6A;
+	color: #66BB6A;
 }

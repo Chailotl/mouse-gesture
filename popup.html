@@ -1,1024 +1,947 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-  <meta charset="UTF-8">
-  <title>Mouse Gesture</title>
-  <link rel="stylesheet" href="popup.css">
-  <!-- 使用外部脚本文件替代内联脚本 -->
-  <script src="theme-loader.js"></script>
+	<meta charset="UTF-8">
+	<title>Mouse Gesture</title>
+	<link rel="stylesheet" href="popup.css">
+	<!-- 使用外部脚本文件替代内联脚本 -->
+	<script src="theme-loader.js"></script>
 </head>
+
 <body>
-  <div class="container">
-    <div class="header">
-      <h1><a href="https://abcrk.com/420.html" target="_blank" data-i18n="title">鼠标手势</a></h1>
-      <div class="header-buttons">
-        <a href="https://112345.xyz" target="_blank" class="header-button like-button" data-i18n-title="likeSupportAuthor" data-i18n-aria-label="likeSupportAuthor" title="通过该网站链接购买商品支持作者" aria-label="通过该网站链接购买商品支持作者">🫶</a>
-        <a href="https://abcrk.com/reward" target="_blank" class="header-button kofi-button" data-i18n-title="buyMeACoffee">☕</a>
-        <button id="theme-toggle" class="header-button theme-toggle" data-i18n-title="toggleTheme">🌙</button>
-      </div>
-    </div>
-    
-    <div class="section" id="settings-feature">
-      <div class="settings-header">
-        <h2 data-i18n="settings">设置</h2>
-        <div class="settings-controls">
-          <span id="save-status" class="save-status"></span>
-          <button id="reset-btn" class="small-button" data-i18n="reset">重置默认</button>
-        </div>
-      </div>
-      <div class="settings">
-        <div class="setting-item">
-          <label for="enable-gesture" data-i18n="enableGesture">启用鼠标手势</label>
-          <input type="checkbox" id="enable-gesture" checked>
-        </div>
-        <div class="setting-item">
-          <label for="gesture-trail" data-i18n="showGestureTrail">显示手势轨迹</label>
-          <input type="checkbox" id="gesture-trail" checked>
-        </div>
-        <div class="setting-item">
-          <label for="gesture-hint" data-i18n="showGestureHint">显示手势提示</label>
-          <input type="checkbox" id="gesture-hint" checked>
-        </div>
-        <div class="setting-item">
-          <label for="trail-color" data-i18n="trailColor">轨迹颜色</label>
-          <input type="color" id="trail-color" value="#ff0000">
-        </div>
-        <div class="setting-item">
-          <label for="trail-width" data-i18n="trailWidth">轨迹宽度</label>
-          <input type="range" id="trail-width" min="1" max="10" value="2">
-          <span id="trail-width-value">2</span>
-        </div>
-        <div class="setting-item">
-          <label for="super-drag" data-i18n="enableSuperDrag">启用超级拖拽</label>
-          <input type="checkbox" id="super-drag" checked>
-        </div>
-        <div class="setting-item">
-          <label for="drag-text-search" data-i18n="enableDragTextSearch">启用拖拽文本搜索</label>
-          <input type="checkbox" id="drag-text-search" checked>
-        </div>
-        <div class="setting-item">
-          <label for="image-preview" data-i18n="enableImagePreview">启用图片预览</label>
-          <input type="checkbox" id="image-preview" checked>
-        </div>
-        <div class="setting-item">
-          <label for="duplicate-check" data-i18n="enableDuplicateCheck">检测重复标签</label>
-          <input type="checkbox" id="duplicate-check" checked>
-        </div>
-        <div class="setting-item">
-          <label for="auto-close-duplicates" data-i18n="autoCloseDuplicates">自动关闭重复标签</label>
-          <input type="checkbox" id="auto-close-duplicates">
-        </div>
-        <div class="setting-item">
-          <label for="smooth-scroll" data-i18n="enableSmoothScroll">启用平滑滚动</label>
-          <input type="checkbox" id="smooth-scroll" checked>
-        </div>
-        <div class="setting-item">
-          <label for="show-tab-count-badge" data-i18n="showTabCountBadge">显示标签页数量徽章</label>
-          <input type="checkbox" id="show-tab-count-badge" checked>
-        </div>
-      </div>
-    </div>
-    
-    <div class="section" id="gesture-actions-feature">
-      <div class="section-header">
-        <h2 data-i18n="builtInGestures">内置手势</h2>
-        <div class="status-container">
-          <span id="gesture-save-status" class="save-status section-save-status"></span>
-        <span class="operation-hint" data-i18n="rightButtonHint">按住鼠标右键操作</span>
-        </div>
-      </div>
-      <div class="gesture-list">
-        <div class="gesture-item">
-          <div class="gesture-icon icon-left single-parent">
-            <div class="single-icon">
-              <span class="direction-arrow" data-direction="←">⭠</span>
-            </div>
-          </div>
-          <div class="gesture-details">
-            <div class="gesture-name" data-i18n="left">左</div>
-            <div class="gesture-action">
-              <select id="gesture-left-action" class="gesture-action-select">
-                <option value="noAction" data-i18n="noAction">无操作</option>
-                <option value="newWindow" data-i18n="newWindow">新窗口</option>
-                <option value="newInPrivateWindow" data-i18n="newInPrivateWindow">新建隐私窗口</option>
-                <option value="goBack" data-i18n="back" selected>后退</option>
-                <option value="forward" data-i18n="forward">前进</option>
-                <option value="scrollUp" data-i18n="scrollUp">向上滚动</option>
-                <option value="scrollDown" data-i18n="scrollDown">向下滚动</option>
-                <option value="scrollLeft" data-i18n="scrollLeft">向左滚动</option>
-                <option value="scrollRight" data-i18n="scrollRight">向右滚动</option>
-                <option value="closeTab" data-i18n="closeTab">关闭标签页</option>
-                <option value="reopenClosedTab" data-i18n="reopenTab">重新打开关闭的标签页</option>
-                <option value="openNewTab" data-i18n="newTab">打开新标签页</option>
-                <option value="refresh" data-i18n="refresh">刷新</option>
-                <option value="forceRefresh" data-i18n="forceRefresh">强制刷新</option>
-                <option value="switchToLeftTab" data-i18n="prevTab">切换到左侧标签页</option>
-                <option value="switchToRightTab" data-i18n="nextTab">切换到右侧标签页</option>
-                <option value="stopLoading" data-i18n="stopLoading">停止加载</option>
-                <option value="closeAllTabs" data-i18n="closeAllTabs">关闭所有标签页</option>
-                <option value="scrollToBottom" data-i18n="scrollToBottom">滚动到底部</option>
-                <option value="scrollToTop" data-i18n="scrollToTop">滚动到顶部</option>
-                <option value="scrollToLeft" data-i18n="scrollToLeft">滚动到左侧边缘</option>
-                <option value="scrollToRight" data-i18n="scrollToRight">滚动到右侧边缘</option>
-                <option value="closeOtherTabs" data-i18n="closeOtherTabs">关闭其他标签页</option>
-                <option value="closeTabsToRight" data-i18n="closeTabsToRight">关闭右侧标签页</option>
-                <option value="closeTabsToLeft" data-i18n="closeTabsToLeft">关闭左侧标签页</option>
-                <option value="reloadAllTabs" data-i18n="reloadAllTabs">全部重新加载</option>
-                <option value="togglePinTab" data-i18n="togglePinTab">固定/取消固定标签页</option>
-                <option value="toggleMuteTab" data-i18n="toggleMuteTab">静音/取消静音标签页</option>
-                <option value="muteOtherTabs" data-i18n="muteOtherTabs">静音其他标签页</option>
-                <option value="toggleMaximize" data-i18n="toggleMaximize">最大化/还原窗口</option>
-                <option value="minimizeWindow" data-i18n="minimizeWindow">最小化窗口</option>
-                <option value="toggleFullscreen" data-i18n="toggleFullscreen">切换全屏</option>
-              </select>
-            </div>
-          </div>
-        </div>
-        <div class="gesture-item">
-          <div class="gesture-icon icon-right single-parent">
-            <div class="single-icon">
-              <span class="direction-arrow" data-direction="→">⭢</span>
-            </div>
-          </div>
-          <div class="gesture-details">
-            <div class="gesture-name" data-i18n="right">右</div>
-            <div class="gesture-action">
-              <select id="gesture-right-action" class="gesture-action-select">
-                <option value="noAction" data-i18n="noAction">无操作</option>
-                <option value="newWindow" data-i18n="newWindow">新窗口</option>
-                <option value="newInPrivateWindow" data-i18n="newInPrivateWindow">新建隐私窗口</option>
-                <option value="goBack" data-i18n="back">后退</option>
-                <option value="forward" data-i18n="forward" selected>前进</option>
-                <option value="scrollUp" data-i18n="scrollUp">向上滚动</option>
-                <option value="scrollDown" data-i18n="scrollDown">向下滚动</option>
-                <option value="scrollLeft" data-i18n="scrollLeft">向左滚动</option>
-                <option value="scrollRight" data-i18n="scrollRight">向右滚动</option>
-                <option value="closeTab" data-i18n="closeTab">关闭标签页</option>
-                <option value="reopenClosedTab" data-i18n="reopenTab">重新打开关闭的标签页</option>
-                <option value="openNewTab" data-i18n="newTab">打开新标签页</option>
-                <option value="refresh" data-i18n="refresh">刷新</option>
-                <option value="forceRefresh" data-i18n="forceRefresh">强制刷新</option>
-                <option value="switchToLeftTab" data-i18n="prevTab">切换到左侧标签页</option>
-                <option value="switchToRightTab" data-i18n="nextTab">切换到右侧标签页</option>
-                <option value="stopLoading" data-i18n="stopLoading">停止加载</option>
-                <option value="closeAllTabs" data-i18n="closeAllTabs">关闭所有标签页</option>
-                <option value="scrollToBottom" data-i18n="scrollToBottom">滚动到底部</option>
-                <option value="scrollToTop" data-i18n="scrollToTop">滚动到顶部</option>
-                <option value="scrollToLeft" data-i18n="scrollToLeft">滚动到左侧边缘</option>
-                <option value="scrollToRight" data-i18n="scrollToRight">滚动到右侧边缘</option>
-                <option value="closeOtherTabs" data-i18n="closeOtherTabs">关闭其他标签页</option>
-                <option value="closeTabsToRight" data-i18n="closeTabsToRight">关闭右侧标签页</option>
-                <option value="closeTabsToLeft" data-i18n="closeTabsToLeft">关闭左侧标签页</option>
-                <option value="reloadAllTabs" data-i18n="reloadAllTabs">全部重新加载</option>
-                <option value="togglePinTab" data-i18n="togglePinTab">固定/取消固定标签页</option>
-                <option value="toggleMuteTab" data-i18n="toggleMuteTab">静音/取消静音标签页</option>
-                <option value="muteOtherTabs" data-i18n="muteOtherTabs">静音其他标签页</option>
-                <option value="toggleMaximize" data-i18n="toggleMaximize">最大化/还原窗口</option>
-                <option value="minimizeWindow" data-i18n="minimizeWindow">最小化窗口</option>
-                <option value="toggleFullscreen" data-i18n="toggleFullscreen">切换全屏</option>
-              </select>
-            </div>
-          </div>
-        </div>
-        <div class="gesture-item">
-          <div class="gesture-icon icon-up single-parent">
-            <div class="single-icon">
-              <span class="direction-arrow" data-direction="↑">⭡</span>
-            </div>
-          </div>
-          <div class="gesture-details">
-            <div class="gesture-name" data-i18n="up">上</div>
-            <div class="gesture-action">
-              <select id="gesture-up-action" class="gesture-action-select">
-                <option value="noAction" data-i18n="noAction">无操作</option>
-                <option value="newWindow" data-i18n="newWindow">新窗口</option>
-                <option value="newInPrivateWindow" data-i18n="newInPrivateWindow">新建隐私窗口</option>
-                <option value="goBack" data-i18n="back">后退</option>
-                <option value="forward" data-i18n="forward">前进</option>
-                <option value="scrollUp" data-i18n="scrollUp" selected>向上滚动</option>
-                <option value="scrollDown" data-i18n="scrollDown">向下滚动</option>
-                <option value="scrollLeft" data-i18n="scrollLeft">向左滚动</option>
-                <option value="scrollRight" data-i18n="scrollRight">向右滚动</option>
-                <option value="closeTab" data-i18n="closeTab">关闭标签页</option>
-                <option value="reopenClosedTab" data-i18n="reopenTab">重新打开关闭的标签页</option>
-                <option value="openNewTab" data-i18n="newTab">打开新标签页</option>
-                <option value="refresh" data-i18n="refresh">刷新</option>
-                <option value="forceRefresh" data-i18n="forceRefresh">强制刷新</option>
-                <option value="switchToLeftTab" data-i18n="prevTab">切换到左侧标签页</option>
-                <option value="switchToRightTab" data-i18n="nextTab">切换到右侧标签页</option>
-                <option value="stopLoading" data-i18n="stopLoading">停止加载</option>
-                <option value="closeAllTabs" data-i18n="closeAllTabs">关闭所有标签页</option>
-                <option value="scrollToBottom" data-i18n="scrollToBottom">滚动到底部</option>
-                <option value="scrollToTop" data-i18n="scrollToTop">滚动到顶部</option>
-                <option value="scrollToLeft" data-i18n="scrollToLeft">滚动到左侧边缘</option>
-                <option value="scrollToRight" data-i18n="scrollToRight">滚动到右侧边缘</option>
-                <option value="closeOtherTabs" data-i18n="closeOtherTabs">关闭其他标签页</option>
-                <option value="closeTabsToRight" data-i18n="closeTabsToRight">关闭右侧标签页</option>
-                <option value="closeTabsToLeft" data-i18n="closeTabsToLeft">关闭左侧标签页</option>
-                <option value="reloadAllTabs" data-i18n="reloadAllTabs">全部重新加载</option>
-                <option value="togglePinTab" data-i18n="togglePinTab">固定/取消固定标签页</option>
-                <option value="toggleMuteTab" data-i18n="toggleMuteTab">静音/取消静音标签页</option>
-                <option value="muteOtherTabs" data-i18n="muteOtherTabs">静音其他标签页</option>
-                <option value="toggleMaximize" data-i18n="toggleMaximize">最大化/还原窗口</option>
-                <option value="minimizeWindow" data-i18n="minimizeWindow">最小化窗口</option>
-                <option value="toggleFullscreen" data-i18n="toggleFullscreen">切换全屏</option>
-              </select>
-            </div>
-          </div>
-        </div>
-        <div class="gesture-item">
-          <div class="gesture-icon icon-down single-parent">
-            <div class="single-icon">
-              <span class="direction-arrow" data-direction="↓">⭣</span>
-            </div>
-          </div>
-          <div class="gesture-details">
-            <div class="gesture-name" data-i18n="down">下</div>
-            <div class="gesture-action">
-              <select id="gesture-down-action" class="gesture-action-select">
-                <option value="noAction" data-i18n="noAction">无操作</option>
-                <option value="newWindow" data-i18n="newWindow">新窗口</option>
-                <option value="newInPrivateWindow" data-i18n="newInPrivateWindow">新建隐私窗口</option>
-                <option value="goBack" data-i18n="back">后退</option>
-                <option value="forward" data-i18n="forward">前进</option>
-                <option value="scrollUp" data-i18n="scrollUp">向上滚动</option>
-                <option value="scrollDown" data-i18n="scrollDown" selected>向下滚动</option>
-                <option value="scrollLeft" data-i18n="scrollLeft">向左滚动</option>
-                <option value="scrollRight" data-i18n="scrollRight">向右滚动</option>
-                <option value="closeTab" data-i18n="closeTab">关闭标签页</option>
-                <option value="reopenClosedTab" data-i18n="reopenTab">重新打开关闭的标签页</option>
-                <option value="openNewTab" data-i18n="newTab">打开新标签页</option>
-                <option value="refresh" data-i18n="refresh">刷新</option>
-                <option value="forceRefresh" data-i18n="forceRefresh">强制刷新</option>
-                <option value="switchToLeftTab" data-i18n="prevTab">切换到左侧标签页</option>
-                <option value="switchToRightTab" data-i18n="nextTab">切换到右侧标签页</option>
-                <option value="stopLoading" data-i18n="stopLoading">停止加载</option>
-                <option value="closeAllTabs" data-i18n="closeAllTabs">关闭所有标签页</option>
-                <option value="scrollToBottom" data-i18n="scrollToBottom">滚动到底部</option>
-                <option value="scrollToTop" data-i18n="scrollToTop">滚动到顶部</option>
-                <option value="scrollToLeft" data-i18n="scrollToLeft">滚动到左侧边缘</option>
-                <option value="scrollToRight" data-i18n="scrollToRight">滚动到右侧边缘</option>
-                <option value="closeOtherTabs" data-i18n="closeOtherTabs">关闭其他标签页</option>
-                <option value="closeTabsToRight" data-i18n="closeTabsToRight">关闭右侧标签页</option>
-                <option value="closeTabsToLeft" data-i18n="closeTabsToLeft">关闭左侧标签页</option>
-                <option value="reloadAllTabs" data-i18n="reloadAllTabs">全部重新加载</option>
-                <option value="togglePinTab" data-i18n="togglePinTab">固定/取消固定标签页</option>
-                <option value="toggleMuteTab" data-i18n="toggleMuteTab">静音/取消静音标签页</option>
-                <option value="muteOtherTabs" data-i18n="muteOtherTabs">静音其他标签页</option>
-                <option value="toggleMaximize" data-i18n="toggleMaximize">最大化/还原窗口</option>
-                <option value="minimizeWindow" data-i18n="minimizeWindow">最小化窗口</option>
-                <option value="toggleFullscreen" data-i18n="toggleFullscreen">切换全屏</option>
-              </select>
-            </div>
-          </div>
-        </div>
-        <div class="gesture-item">
-          <div class="gesture-icon icon-close composite-parent">
-            <div class="composite-icon">
-              <span class="first-direction" data-direction="↓">⭣</span>
-              <span class="second-direction" data-direction="→">⭢</span>
-            </div>
-          </div>
-          <div class="gesture-details">
-            <div class="gesture-name" data-i18n="downThenRight">下然后右</div>
-            <div class="gesture-action">
-              <select id="gesture-downThenRight-action" class="gesture-action-select">
-                <option value="noAction" data-i18n="noAction">无操作</option>
-                <option value="newWindow" data-i18n="newWindow">新窗口</option>
-                <option value="newInPrivateWindow" data-i18n="newInPrivateWindow">新建隐私窗口</option>
-                <option value="goBack" data-i18n="back">后退</option>
-                <option value="forward" data-i18n="forward">前进</option>
-                <option value="scrollUp" data-i18n="scrollUp">向上滚动</option>
-                <option value="scrollDown" data-i18n="scrollDown">向下滚动</option>
-                <option value="scrollLeft" data-i18n="scrollLeft">向左滚动</option>
-                <option value="scrollRight" data-i18n="scrollRight">向右滚动</option>
-                <option value="closeTab" data-i18n="closeTab" selected>关闭标签页</option>
-                <option value="reopenClosedTab" data-i18n="reopenTab">重新打开关闭的标签页</option>
-                <option value="openNewTab" data-i18n="newTab">打开新标签页</option>
-                <option value="refresh" data-i18n="refresh">刷新</option>
-                <option value="forceRefresh" data-i18n="forceRefresh">强制刷新</option>
-                <option value="switchToLeftTab" data-i18n="prevTab">切换到左侧标签页</option>
-                <option value="switchToRightTab" data-i18n="nextTab">切换到右侧标签页</option>
-                <option value="stopLoading" data-i18n="stopLoading">停止加载</option>
-                <option value="closeAllTabs" data-i18n="closeAllTabs">关闭所有标签页</option>
-                <option value="scrollToBottom" data-i18n="scrollToBottom">滚动到底部</option>
-                <option value="scrollToTop" data-i18n="scrollToTop">滚动到顶部</option>
-                <option value="scrollToLeft" data-i18n="scrollToLeft">滚动到左侧边缘</option>
-                <option value="scrollToRight" data-i18n="scrollToRight">滚动到右侧边缘</option>
-                <option value="closeOtherTabs" data-i18n="closeOtherTabs">关闭其他标签页</option>
-                <option value="closeTabsToRight" data-i18n="closeTabsToRight">关闭右侧标签页</option>
-                <option value="closeTabsToLeft" data-i18n="closeTabsToLeft">关闭左侧标签页</option>
-                <option value="reloadAllTabs" data-i18n="reloadAllTabs">全部重新加载</option>
-                <option value="togglePinTab" data-i18n="togglePinTab">固定/取消固定标签页</option>
-                <option value="toggleMuteTab" data-i18n="toggleMuteTab">静音/取消静音标签页</option>
-                <option value="muteOtherTabs" data-i18n="muteOtherTabs">静音其他标签页</option>
-                <option value="toggleMaximize" data-i18n="toggleMaximize">最大化/还原窗口</option>
-                <option value="minimizeWindow" data-i18n="minimizeWindow">最小化窗口</option>
-                <option value="toggleFullscreen" data-i18n="toggleFullscreen">切换全屏</option>
-              </select>
-            </div>
-          </div>
-        </div>
-        <div class="gesture-item">
-          <div class="gesture-icon icon-reopen composite-parent">
-            <div class="composite-icon">
-              <span class="first-direction" data-direction="←">⭠</span>
-              <span class="second-direction" data-direction="↑">⭡</span>
-            </div>
-          </div>
-          <div class="gesture-details">
-            <div class="gesture-name" data-i18n="leftThenUp">左然后上</div>
-            <div class="gesture-action">
-              <select id="gesture-leftThenUp-action" class="gesture-action-select">
-                <option value="noAction" data-i18n="noAction">无操作</option>
-                <option value="newWindow" data-i18n="newWindow">新窗口</option>
-                <option value="newInPrivateWindow" data-i18n="newInPrivateWindow">新建隐私窗口</option>
-                <option value="goBack" data-i18n="back">后退</option>
-                <option value="forward" data-i18n="forward">前进</option>
-                <option value="scrollUp" data-i18n="scrollUp">向上滚动</option>
-                <option value="scrollDown" data-i18n="scrollDown">向下滚动</option>
-                <option value="scrollLeft" data-i18n="scrollLeft">向左滚动</option>
-                <option value="scrollRight" data-i18n="scrollRight">向右滚动</option>
-                <option value="closeTab" data-i18n="closeTab">关闭标签页</option>
-                <option value="reopenClosedTab" data-i18n="reopenTab" selected>重新打开关闭的标签页</option>
-                <option value="openNewTab" data-i18n="newTab">打开新标签页</option>
-                <option value="refresh" data-i18n="refresh">刷新</option>
-                <option value="forceRefresh" data-i18n="forceRefresh">强制刷新</option>
-                <option value="switchToLeftTab" data-i18n="prevTab">切换到左侧标签页</option>
-                <option value="switchToRightTab" data-i18n="nextTab">切换到右侧标签页</option>
-                <option value="stopLoading" data-i18n="stopLoading">停止加载</option>
-                <option value="closeAllTabs" data-i18n="closeAllTabs">关闭所有标签页</option>
-                <option value="scrollToBottom" data-i18n="scrollToBottom">滚动到底部</option>
-                <option value="scrollToTop" data-i18n="scrollToTop">滚动到顶部</option>
-                <option value="scrollToLeft" data-i18n="scrollToLeft">滚动到左侧边缘</option>
-                <option value="scrollToRight" data-i18n="scrollToRight">滚动到右侧边缘</option>
-                <option value="closeOtherTabs" data-i18n="closeOtherTabs">关闭其他标签页</option>
-                <option value="closeTabsToRight" data-i18n="closeTabsToRight">关闭右侧标签页</option>
-                <option value="closeTabsToLeft" data-i18n="closeTabsToLeft">关闭左侧标签页</option>
-                <option value="reloadAllTabs" data-i18n="reloadAllTabs">全部重新加载</option>
-                <option value="togglePinTab" data-i18n="togglePinTab">固定/取消固定标签页</option>
-                <option value="toggleMuteTab" data-i18n="toggleMuteTab">静音/取消静音标签页</option>
-                <option value="muteOtherTabs" data-i18n="muteOtherTabs">静音其他标签页</option>
-                <option value="toggleMaximize" data-i18n="toggleMaximize">最大化/还原窗口</option>
-                <option value="minimizeWindow" data-i18n="minimizeWindow">最小化窗口</option>
-                <option value="toggleFullscreen" data-i18n="toggleFullscreen">切换全屏</option>
-              </select>
-            </div>
-          </div>
-        </div>
-        <div class="gesture-item">
-          <div class="gesture-icon icon-new-tab composite-parent">
-            <div class="composite-icon">
-              <span class="first-direction" data-direction="→">⭢</span>
-              <span class="second-direction" data-direction="↑">⭡</span>
-            </div>
-          </div>
-          <div class="gesture-details">
-            <div class="gesture-name" data-i18n="rightThenUp">右然后上</div>
-            <div class="gesture-action">
-              <select id="gesture-rightThenUp-action" class="gesture-action-select">
-                <option value="noAction" data-i18n="noAction">无操作</option>
-                <option value="newWindow" data-i18n="newWindow">新窗口</option>
-                <option value="newInPrivateWindow" data-i18n="newInPrivateWindow">新建隐私窗口</option>
-                <option value="goBack" data-i18n="back">后退</option>
-                <option value="forward" data-i18n="forward">前进</option>
-                <option value="scrollUp" data-i18n="scrollUp">向上滚动</option>
-                <option value="scrollDown" data-i18n="scrollDown">向下滚动</option>
-                <option value="scrollLeft" data-i18n="scrollLeft">向左滚动</option>
-                <option value="scrollRight" data-i18n="scrollRight">向右滚动</option>
-                <option value="closeTab" data-i18n="closeTab">关闭标签页</option>
-                <option value="reopenClosedTab" data-i18n="reopenTab">重新打开关闭的标签页</option>
-                <option value="openNewTab" data-i18n="newTab" selected>打开新标签页</option>
-                <option value="refresh" data-i18n="refresh">刷新</option>
-                <option value="forceRefresh" data-i18n="forceRefresh">强制刷新</option>
-                <option value="switchToLeftTab" data-i18n="prevTab">切换到左侧标签页</option>
-                <option value="switchToRightTab" data-i18n="nextTab">切换到右侧标签页</option>
-                <option value="stopLoading" data-i18n="stopLoading">停止加载</option>
-                <option value="closeAllTabs" data-i18n="closeAllTabs">关闭所有标签页</option>
-                <option value="scrollToBottom" data-i18n="scrollToBottom">滚动到底部</option>
-                <option value="scrollToTop" data-i18n="scrollToTop">滚动到顶部</option>
-                <option value="scrollToLeft" data-i18n="scrollToLeft">滚动到左侧边缘</option>
-                <option value="scrollToRight" data-i18n="scrollToRight">滚动到右侧边缘</option>
-                <option value="closeOtherTabs" data-i18n="closeOtherTabs">关闭其他标签页</option>
-                <option value="closeTabsToRight" data-i18n="closeTabsToRight">关闭右侧标签页</option>
-                <option value="closeTabsToLeft" data-i18n="closeTabsToLeft">关闭左侧标签页</option>
-                <option value="reloadAllTabs" data-i18n="reloadAllTabs">全部重新加载</option>
-                <option value="togglePinTab" data-i18n="togglePinTab">固定/取消固定标签页</option>
-                <option value="toggleMuteTab" data-i18n="toggleMuteTab">静音/取消静音标签页</option>
-                <option value="muteOtherTabs" data-i18n="muteOtherTabs">静音其他标签页</option>
-                <option value="toggleMaximize" data-i18n="toggleMaximize">最大化/还原窗口</option>
-                <option value="minimizeWindow" data-i18n="minimizeWindow">最小化窗口</option>
-                <option value="toggleFullscreen" data-i18n="toggleFullscreen">切换全屏</option>
-              </select>
-            </div>
-          </div>
-        </div>
-        <div class="gesture-item">
-          <div class="gesture-icon icon-refresh composite-parent">
-            <div class="composite-icon">
-              <span class="first-direction" data-direction="→">⭢</span>
-              <span class="second-direction" data-direction="↓">⭣</span>
-            </div>
-          </div>
-          <div class="gesture-details">
-            <div class="gesture-name" data-i18n="rightThenDown">右然后下</div>
-            <div class="gesture-action">
-              <select id="gesture-rightThenDown-action" class="gesture-action-select">
-                <option value="noAction" data-i18n="noAction">无操作</option>
-                <option value="newWindow" data-i18n="newWindow">新窗口</option>
-                <option value="newInPrivateWindow" data-i18n="newInPrivateWindow">新建隐私窗口</option>
-                <option value="goBack" data-i18n="back">后退</option>
-                <option value="forward" data-i18n="forward">前进</option>
-                <option value="scrollUp" data-i18n="scrollUp">向上滚动</option>
-                <option value="scrollDown" data-i18n="scrollDown">向下滚动</option>
-                <option value="scrollLeft" data-i18n="scrollLeft">向左滚动</option>
-                <option value="scrollRight" data-i18n="scrollRight">向右滚动</option>
-                <option value="closeTab" data-i18n="closeTab">关闭标签页</option>
-                <option value="reopenClosedTab" data-i18n="reopenTab">重新打开关闭的标签页</option>
-                <option value="openNewTab" data-i18n="newTab">打开新标签页</option>
-                <option value="refresh" data-i18n="refresh" selected>刷新</option>
-                <option value="forceRefresh" data-i18n="forceRefresh">强制刷新</option>
-                <option value="switchToLeftTab" data-i18n="prevTab">切换到左侧标签页</option>
-                <option value="switchToRightTab" data-i18n="nextTab">切换到右侧标签页</option>
-                <option value="stopLoading" data-i18n="stopLoading">停止加载</option>
-                <option value="closeAllTabs" data-i18n="closeAllTabs">关闭所有标签页</option>
-                <option value="scrollToBottom" data-i18n="scrollToBottom">滚动到底部</option>
-                <option value="scrollToTop" data-i18n="scrollToTop">滚动到顶部</option>
-                <option value="scrollToLeft" data-i18n="scrollToLeft">滚动到左侧边缘</option>
-                <option value="scrollToRight" data-i18n="scrollToRight">滚动到右侧边缘</option>
-                <option value="closeOtherTabs" data-i18n="closeOtherTabs">关闭其他标签页</option>
-                <option value="closeTabsToRight" data-i18n="closeTabsToRight">关闭右侧标签页</option>
-                <option value="closeTabsToLeft" data-i18n="closeTabsToLeft">关闭左侧标签页</option>
-                <option value="reloadAllTabs" data-i18n="reloadAllTabs">全部重新加载</option>
-                <option value="togglePinTab" data-i18n="togglePinTab">固定/取消固定标签页</option>
-                <option value="toggleMuteTab" data-i18n="toggleMuteTab">静音/取消静音标签页</option>
-                <option value="muteOtherTabs" data-i18n="muteOtherTabs">静音其他标签页</option>
-                <option value="toggleMaximize" data-i18n="toggleMaximize">最大化/还原窗口</option>
-                <option value="minimizeWindow" data-i18n="minimizeWindow">最小化窗口</option>
-                <option value="toggleFullscreen" data-i18n="toggleFullscreen">切换全屏</option>
-              </select>
-            </div>
-          </div>
-        </div>
-        <div class="gesture-item">
-          <div class="gesture-icon icon-prev composite-parent">
-            <div class="composite-icon">
-              <span class="first-direction" data-direction="↑">⭡</span>
-              <span class="second-direction" data-direction="←">⭠</span>
-            </div>
-          </div>
-          <div class="gesture-details">
-            <div class="gesture-name" data-i18n="upThenLeft">上然后左</div>
-            <div class="gesture-action">
-              <select id="gesture-upThenLeft-action" class="gesture-action-select">
-                <option value="noAction" data-i18n="noAction">无操作</option>
-                <option value="newWindow" data-i18n="newWindow">新窗口</option>
-                <option value="newInPrivateWindow" data-i18n="newInPrivateWindow">新建隐私窗口</option>
-                <option value="goBack" data-i18n="back">后退</option>
-                <option value="forward" data-i18n="forward">前进</option>
-                <option value="scrollUp" data-i18n="scrollUp">向上滚动</option>
-                <option value="scrollDown" data-i18n="scrollDown">向下滚动</option>
-                <option value="scrollLeft" data-i18n="scrollLeft">向左滚动</option>
-                <option value="scrollRight" data-i18n="scrollRight">向右滚动</option>
-                <option value="closeTab" data-i18n="closeTab">关闭标签页</option>
-                <option value="reopenClosedTab" data-i18n="reopenTab">重新打开关闭的标签页</option>
-                <option value="openNewTab" data-i18n="newTab">打开新标签页</option>
-                <option value="refresh" data-i18n="refresh">刷新</option>
-                <option value="forceRefresh" data-i18n="forceRefresh">强制刷新</option>
-                <option value="switchToLeftTab" data-i18n="prevTab" selected>切换到左侧标签页</option>
-                <option value="switchToRightTab" data-i18n="nextTab">切换到右侧标签页</option>
-                <option value="stopLoading" data-i18n="stopLoading">停止加载</option>
-                <option value="closeAllTabs" data-i18n="closeAllTabs">关闭所有标签页</option>
-                <option value="scrollToBottom" data-i18n="scrollToBottom">滚动到底部</option>
-                <option value="scrollToTop" data-i18n="scrollToTop">滚动到顶部</option>
-                <option value="scrollToLeft" data-i18n="scrollToLeft">滚动到左侧边缘</option>
-                <option value="scrollToRight" data-i18n="scrollToRight">滚动到右侧边缘</option>
-                <option value="closeOtherTabs" data-i18n="closeOtherTabs">关闭其他标签页</option>
-                <option value="closeTabsToRight" data-i18n="closeTabsToRight">关闭右侧标签页</option>
-                <option value="closeTabsToLeft" data-i18n="closeTabsToLeft">关闭左侧标签页</option>
-                <option value="reloadAllTabs" data-i18n="reloadAllTabs">全部重新加载</option>
-                <option value="togglePinTab" data-i18n="togglePinTab">固定/取消固定标签页</option>
-                <option value="toggleMuteTab" data-i18n="toggleMuteTab">静音/取消静音标签页</option>
-                <option value="muteOtherTabs" data-i18n="muteOtherTabs">静音其他标签页</option>
-                <option value="toggleMaximize" data-i18n="toggleMaximize">最大化/还原窗口</option>
-                <option value="minimizeWindow" data-i18n="minimizeWindow">最小化窗口</option>
-                <option value="toggleFullscreen" data-i18n="toggleFullscreen">切换全屏</option>
-              </select>
-            </div>
-          </div>
-        </div>
-        <div class="gesture-item">
-          <div class="gesture-icon icon-next composite-parent">
-            <div class="composite-icon">
-              <span class="first-direction" data-direction="↑">⭡</span>
-              <span class="second-direction" data-direction="→">⭢</span>
-            </div>
-          </div>
-          <div class="gesture-details">
-            <div class="gesture-name" data-i18n="upThenRight">上然后右</div>
-            <div class="gesture-action">
-              <select id="gesture-upThenRight-action" class="gesture-action-select">
-                <option value="noAction" data-i18n="noAction">无操作</option>
-                <option value="newWindow" data-i18n="newWindow">新窗口</option>
-                <option value="newInPrivateWindow" data-i18n="newInPrivateWindow">新建隐私窗口</option>
-                <option value="goBack" data-i18n="back">后退</option>
-                <option value="forward" data-i18n="forward">前进</option>
-                <option value="scrollUp" data-i18n="scrollUp">向上滚动</option>
-                <option value="scrollDown" data-i18n="scrollDown">向下滚动</option>
-                <option value="scrollLeft" data-i18n="scrollLeft">向左滚动</option>
-                <option value="scrollRight" data-i18n="scrollRight">向右滚动</option>
-                <option value="closeTab" data-i18n="closeTab">关闭标签页</option>
-                <option value="reopenClosedTab" data-i18n="reopenTab">重新打开关闭的标签页</option>
-                <option value="openNewTab" data-i18n="newTab">打开新标签页</option>
-                <option value="refresh" data-i18n="refresh">刷新</option>
-                <option value="forceRefresh" data-i18n="forceRefresh">强制刷新</option>
-                <option value="switchToLeftTab" data-i18n="prevTab">切换到左侧标签页</option>
-                <option value="switchToRightTab" data-i18n="nextTab" selected>切换到右侧标签页</option>
-                <option value="stopLoading" data-i18n="stopLoading">停止加载</option>
-                <option value="closeAllTabs" data-i18n="closeAllTabs">关闭所有标签页</option>
-                <option value="scrollToBottom" data-i18n="scrollToBottom">滚动到底部</option>
-                <option value="scrollToTop" data-i18n="scrollToTop">滚动到顶部</option>
-                <option value="scrollToLeft" data-i18n="scrollToLeft">滚动到左侧边缘</option>
-                <option value="scrollToRight" data-i18n="scrollToRight">滚动到右侧边缘</option>
-                <option value="closeOtherTabs" data-i18n="closeOtherTabs">关闭其他标签页</option>
-                <option value="closeTabsToRight" data-i18n="closeTabsToRight">关闭右侧标签页</option>
-                <option value="closeTabsToLeft" data-i18n="closeTabsToLeft">关闭左侧标签页</option>
-                <option value="reloadAllTabs" data-i18n="reloadAllTabs">全部重新加载</option>
-                <option value="togglePinTab" data-i18n="togglePinTab">固定/取消固定标签页</option>
-                <option value="toggleMuteTab" data-i18n="toggleMuteTab">静音/取消静音标签页</option>
-                <option value="muteOtherTabs" data-i18n="muteOtherTabs">静音其他标签页</option>
-                <option value="toggleMaximize" data-i18n="toggleMaximize">最大化/还原窗口</option>
-                <option value="minimizeWindow" data-i18n="minimizeWindow">最小化窗口</option>
-                <option value="toggleFullscreen" data-i18n="toggleFullscreen">切换全屏</option>
-              </select>
-            </div>
-          </div>
-        </div>
-        <div class="gesture-item">
-          <div class="gesture-icon icon-stop composite-parent">
-            <div class="composite-icon">
-              <span class="first-direction" data-direction="↓">⭣</span>
-              <span class="second-direction" data-direction="←">⭠</span>
-            </div>
-          </div>
-          <div class="gesture-details">
-            <div class="gesture-name" data-i18n="downThenLeft">下然后左</div>
-            <div class="gesture-action">
-              <select id="gesture-downThenLeft-action" class="gesture-action-select">
-                <option value="noAction" data-i18n="noAction">无操作</option>
-                <option value="newWindow" data-i18n="newWindow">新窗口</option>
-                <option value="newInPrivateWindow" data-i18n="newInPrivateWindow">新建隐私窗口</option>
-                <option value="goBack" data-i18n="back">后退</option>
-                <option value="forward" data-i18n="forward">前进</option>
-                <option value="scrollUp" data-i18n="scrollUp">向上滚动</option>
-                <option value="scrollDown" data-i18n="scrollDown">向下滚动</option>
-                <option value="scrollLeft" data-i18n="scrollLeft">向左滚动</option>
-                <option value="scrollRight" data-i18n="scrollRight">向右滚动</option>
-                <option value="closeTab" data-i18n="closeTab">关闭标签页</option>
-                <option value="reopenClosedTab" data-i18n="reopenTab">重新打开关闭的标签页</option>
-                <option value="openNewTab" data-i18n="newTab">打开新标签页</option>
-                <option value="refresh" data-i18n="refresh">刷新</option>
-                <option value="forceRefresh" data-i18n="forceRefresh">强制刷新</option>
-                <option value="switchToLeftTab" data-i18n="prevTab">切换到左侧标签页</option>
-                <option value="switchToRightTab" data-i18n="nextTab">切换到右侧标签页</option>
-                <option value="stopLoading" data-i18n="stopLoading" selected>停止加载</option>
-                <option value="closeAllTabs" data-i18n="closeAllTabs">关闭所有标签页</option>
-                <option value="scrollToBottom" data-i18n="scrollToBottom">滚动到底部</option>
-                <option value="scrollToTop" data-i18n="scrollToTop">滚动到顶部</option>
-                <option value="scrollToLeft" data-i18n="scrollToLeft">滚动到左侧边缘</option>
-                <option value="scrollToRight" data-i18n="scrollToRight">滚动到右侧边缘</option>
-                <option value="closeOtherTabs" data-i18n="closeOtherTabs">关闭其他标签页</option>
-                <option value="closeTabsToRight" data-i18n="closeTabsToRight">关闭右侧标签页</option>
-                <option value="closeTabsToLeft" data-i18n="closeTabsToLeft">关闭左侧标签页</option>
-                <option value="reloadAllTabs" data-i18n="reloadAllTabs">全部重新加载</option>
-                <option value="togglePinTab" data-i18n="togglePinTab">固定/取消固定标签页</option>
-                <option value="toggleMuteTab" data-i18n="toggleMuteTab">静音/取消静音标签页</option>
-                <option value="muteOtherTabs" data-i18n="muteOtherTabs">静音其他标签页</option>
-                <option value="toggleMaximize" data-i18n="toggleMaximize">最大化/还原窗口</option>
-                <option value="minimizeWindow" data-i18n="minimizeWindow">最小化窗口</option>
-                <option value="toggleFullscreen" data-i18n="toggleFullscreen">切换全屏</option>
-              </select>
-            </div>
-          </div>
-        </div>
-        <div class="gesture-item">
-          <div class="gesture-icon icon-close-all composite-parent">
-            <div class="composite-icon">
-              <span class="first-direction" data-direction="←">⭠</span>
-              <span class="second-direction" data-direction="↓">⭣</span>
-            </div>
-          </div>
-          <div class="gesture-details">
-            <div class="gesture-name" data-i18n="leftThenDown">左然后下</div>
-            <div class="gesture-action">
-              <select id="gesture-leftThenDown-action" class="gesture-action-select">
-                <option value="noAction" data-i18n="noAction">无操作</option>
-                <option value="newWindow" data-i18n="newWindow">新窗口</option>
-                <option value="newInPrivateWindow" data-i18n="newInPrivateWindow">新建隐私窗口</option>
-                <option value="goBack" data-i18n="back">后退</option>
-                <option value="forward" data-i18n="forward">前进</option>
-                <option value="scrollUp" data-i18n="scrollUp">向上滚动</option>
-                <option value="scrollDown" data-i18n="scrollDown">向下滚动</option>
-                <option value="scrollLeft" data-i18n="scrollLeft">向左滚动</option>
-                <option value="scrollRight" data-i18n="scrollRight">向右滚动</option>
-                <option value="closeTab" data-i18n="closeTab">关闭标签页</option>
-                <option value="reopenClosedTab" data-i18n="reopenTab">重新打开关闭的标签页</option>
-                <option value="openNewTab" data-i18n="newTab">打开新标签页</option>
-                <option value="refresh" data-i18n="refresh">刷新</option>
-                <option value="forceRefresh" data-i18n="forceRefresh" selected>强制刷新</option>
-                <option value="switchToLeftTab" data-i18n="prevTab">切换到左侧标签页</option>
-                <option value="switchToRightTab" data-i18n="nextTab">切换到右侧标签页</option>
-                <option value="stopLoading" data-i18n="stopLoading">停止加载</option>
-                <option value="closeAllTabs" data-i18n="closeAllTabs">关闭所有标签页</option>
-                <option value="scrollToBottom" data-i18n="scrollToBottom">滚动到底部</option>
-                <option value="scrollToTop" data-i18n="scrollToTop">滚动到顶部</option>
-                <option value="scrollToLeft" data-i18n="scrollToLeft">滚动到左侧边缘</option>
-                <option value="scrollToRight" data-i18n="scrollToRight">滚动到右侧边缘</option>
-                <option value="closeOtherTabs" data-i18n="closeOtherTabs">关闭其他标签页</option>
-                <option value="closeTabsToRight" data-i18n="closeTabsToRight">关闭右侧标签页</option>
-                <option value="closeTabsToLeft" data-i18n="closeTabsToLeft">关闭左侧标签页</option>
-                <option value="reloadAllTabs" data-i18n="reloadAllTabs">全部重新加载</option>
-                <option value="togglePinTab" data-i18n="togglePinTab">固定/取消固定标签页</option>
-                <option value="toggleMuteTab" data-i18n="toggleMuteTab">静音/取消静音标签页</option>
-                <option value="muteOtherTabs" data-i18n="muteOtherTabs">静音其他标签页</option>
-                <option value="toggleMaximize" data-i18n="toggleMaximize">最大化/还原窗口</option>
-                <option value="minimizeWindow" data-i18n="minimizeWindow">最小化窗口</option>
-                <option value="toggleFullscreen" data-i18n="toggleFullscreen">切换全屏</option>
-              </select>
-            </div>
-          </div>
-        </div>
-        <div class="gesture-item">
-          <div class="gesture-icon icon-bottom composite-parent">
-            <div class="composite-icon">
-              <span class="first-direction" data-direction="↑">⭡</span>
-              <span class="second-direction" data-direction="↓">⭣</span>
-            </div>
-          </div>
-          <div class="gesture-details">
-            <div class="gesture-name" data-i18n="upThenDown">上然后下</div>
-            <div class="gesture-action">
-              <select id="gesture-upThenDown-action" class="gesture-action-select">
-                <option value="noAction" data-i18n="noAction">无操作</option>
-                <option value="newWindow" data-i18n="newWindow">新窗口</option>
-                <option value="newInPrivateWindow" data-i18n="newInPrivateWindow">新建隐私窗口</option>
-                <option value="goBack" data-i18n="back">后退</option>
-                <option value="forward" data-i18n="forward">前进</option>
-                <option value="scrollUp" data-i18n="scrollUp">向上滚动</option>
-                <option value="scrollDown" data-i18n="scrollDown">向下滚动</option>
-                <option value="scrollLeft" data-i18n="scrollLeft">向左滚动</option>
-                <option value="scrollRight" data-i18n="scrollRight">向右滚动</option>
-                <option value="closeTab" data-i18n="closeTab">关闭标签页</option>
-                <option value="reopenClosedTab" data-i18n="reopenTab">重新打开关闭的标签页</option>
-                <option value="openNewTab" data-i18n="newTab">打开新标签页</option>
-                <option value="refresh" data-i18n="refresh">刷新</option>
-                <option value="forceRefresh" data-i18n="forceRefresh">强制刷新</option>
-                <option value="switchToLeftTab" data-i18n="prevTab">切换到左侧标签页</option>
-                <option value="switchToRightTab" data-i18n="nextTab">切换到右侧标签页</option>
-                <option value="stopLoading" data-i18n="stopLoading">停止加载</option>
-                <option value="closeAllTabs" data-i18n="closeAllTabs">关闭所有标签页</option>
-                <option value="scrollToBottom" data-i18n="scrollToBottom" selected>滚动到底部</option>
-                <option value="scrollToTop" data-i18n="scrollToTop">滚动到顶部</option>
-                <option value="scrollToLeft" data-i18n="scrollToLeft">滚动到左侧边缘</option>
-                <option value="scrollToRight" data-i18n="scrollToRight">滚动到右侧边缘</option>
-                <option value="closeOtherTabs" data-i18n="closeOtherTabs">关闭其他标签页</option>
-                <option value="closeTabsToRight" data-i18n="closeTabsToRight">关闭右侧标签页</option>
-                <option value="closeTabsToLeft" data-i18n="closeTabsToLeft">关闭左侧标签页</option>
-                <option value="reloadAllTabs" data-i18n="reloadAllTabs">全部重新加载</option>
-                <option value="togglePinTab" data-i18n="togglePinTab">固定/取消固定标签页</option>
-                <option value="toggleMuteTab" data-i18n="toggleMuteTab">静音/取消静音标签页</option>
-                <option value="muteOtherTabs" data-i18n="muteOtherTabs">静音其他标签页</option>
-                <option value="toggleMaximize" data-i18n="toggleMaximize">最大化/还原窗口</option>
-                <option value="minimizeWindow" data-i18n="minimizeWindow">最小化窗口</option>
-                <option value="toggleFullscreen" data-i18n="toggleFullscreen">切换全屏</option>
-              </select>
-            </div>
-          </div>
-        </div>
-        <div class="gesture-item">
-          <div class="gesture-icon icon-top composite-parent">
-            <div class="composite-icon">
-              <span class="first-direction" data-direction="↓">⭣</span>
-              <span class="second-direction" data-direction="↑">⭡</span>
-            </div>
-          </div>
-          <div class="gesture-details">
-            <div class="gesture-name" data-i18n="downThenUp">下然后上</div>
-            <div class="gesture-action">
-              <select id="gesture-downThenUp-action" class="gesture-action-select">
-                <option value="noAction" data-i18n="noAction">无操作</option>
-                <option value="newWindow" data-i18n="newWindow">新窗口</option>
-                <option value="newInPrivateWindow" data-i18n="newInPrivateWindow">新建隐私窗口</option>
-                <option value="goBack" data-i18n="back">后退</option>
-                <option value="forward" data-i18n="forward">前进</option>
-                <option value="scrollUp" data-i18n="scrollUp">向上滚动</option>
-                <option value="scrollDown" data-i18n="scrollDown">向下滚动</option>
-                <option value="scrollLeft" data-i18n="scrollLeft">向左滚动</option>
-                <option value="scrollRight" data-i18n="scrollRight">向右滚动</option>
-                <option value="closeTab" data-i18n="closeTab">关闭标签页</option>
-                <option value="reopenClosedTab" data-i18n="reopenTab">重新打开关闭的标签页</option>
-                <option value="openNewTab" data-i18n="newTab">打开新标签页</option>
-                <option value="refresh" data-i18n="refresh">刷新</option>
-                <option value="forceRefresh" data-i18n="forceRefresh">强制刷新</option>
-                <option value="switchToLeftTab" data-i18n="prevTab">切换到左侧标签页</option>
-                <option value="switchToRightTab" data-i18n="nextTab">切换到右侧标签页</option>
-                <option value="stopLoading" data-i18n="stopLoading">停止加载</option>
-                <option value="closeAllTabs" data-i18n="closeAllTabs">关闭所有标签页</option>
-                <option value="scrollToBottom" data-i18n="scrollToBottom">滚动到底部</option>
-                <option value="scrollToTop" data-i18n="scrollToTop" selected>滚动到顶部</option>
-                <option value="scrollToLeft" data-i18n="scrollToLeft">滚动到左侧边缘</option>
-                <option value="scrollToRight" data-i18n="scrollToRight">滚动到右侧边缘</option>
-                <option value="closeOtherTabs" data-i18n="closeOtherTabs">关闭其他标签页</option>
-                <option value="closeTabsToRight" data-i18n="closeTabsToRight">关闭右侧标签页</option>
-                <option value="closeTabsToLeft" data-i18n="closeTabsToLeft">关闭左侧标签页</option>
-                <option value="reloadAllTabs" data-i18n="reloadAllTabs">全部重新加载</option>
-                <option value="togglePinTab" data-i18n="togglePinTab">固定/取消固定标签页</option>
-                <option value="toggleMuteTab" data-i18n="toggleMuteTab">静音/取消静音标签页</option>
-                <option value="muteOtherTabs" data-i18n="muteOtherTabs">静音其他标签页</option>
-                <option value="toggleMaximize" data-i18n="toggleMaximize">最大化/还原窗口</option>
-                <option value="minimizeWindow" data-i18n="minimizeWindow">最小化窗口</option>
-                <option value="toggleFullscreen" data-i18n="toggleFullscreen">切换全屏</option>
-              </select>
-            </div>
-          </div>
-        </div>
-        <div class="gesture-item">
-          <div class="gesture-icon icon-close composite-parent">
-            <div class="composite-icon">
-              <span class="first-direction" data-direction="←">⭠</span>
-              <span class="second-direction" data-direction="→">⭢</span>
-            </div>
-          </div>
-          <div class="gesture-details">
-            <div class="gesture-name" data-i18n="leftThenRight">左然后右</div>
-            <div class="gesture-action">
-              <select id="gesture-leftThenRight-action" class="gesture-action-select">
-                <option value="noAction" data-i18n="noAction">无操作</option>
-                <option value="newWindow" data-i18n="newWindow">新窗口</option>
-                <option value="newInPrivateWindow" data-i18n="newInPrivateWindow">新建隐私窗口</option>
-                <option value="goBack" data-i18n="back">后退</option>
-                <option value="forward" data-i18n="forward">前进</option>
-                <option value="scrollUp" data-i18n="scrollUp">向上滚动</option>
-                <option value="scrollDown" data-i18n="scrollDown">向下滚动</option>
-                <option value="scrollLeft" data-i18n="scrollLeft">向左滚动</option>
-                <option value="scrollRight" data-i18n="scrollRight">向右滚动</option>
-                <option value="closeTab" data-i18n="closeTab" selected>关闭标签页</option>
-                <option value="reopenClosedTab" data-i18n="reopenTab">重新打开关闭的标签页</option>
-                <option value="openNewTab" data-i18n="newTab">打开新标签页</option>
-                <option value="refresh" data-i18n="refresh">刷新</option>
-                <option value="forceRefresh" data-i18n="forceRefresh">强制刷新</option>
-                <option value="switchToLeftTab" data-i18n="prevTab">切换到左侧标签页</option>
-                <option value="switchToRightTab" data-i18n="nextTab">切换到右侧标签页</option>
-                <option value="stopLoading" data-i18n="stopLoading">停止加载</option>
-                <option value="closeAllTabs" data-i18n="closeAllTabs">关闭所有标签页</option>
-                <option value="scrollToBottom" data-i18n="scrollToBottom">滚动到底部</option>
-                <option value="scrollToTop" data-i18n="scrollToTop">滚动到顶部</option>
-                <option value="scrollToLeft" data-i18n="scrollToLeft">滚动到左侧边缘</option>
-                <option value="scrollToRight" data-i18n="scrollToRight">滚动到右侧边缘</option>
-                <option value="closeOtherTabs" data-i18n="closeOtherTabs">关闭其他标签页</option>
-                <option value="closeTabsToRight" data-i18n="closeTabsToRight">关闭右侧标签页</option>
-                <option value="closeTabsToLeft" data-i18n="closeTabsToLeft">关闭左侧标签页</option>
-                <option value="reloadAllTabs" data-i18n="reloadAllTabs">全部重新加载</option>
-                <option value="togglePinTab" data-i18n="togglePinTab">固定/取消固定标签页</option>
-                <option value="toggleMuteTab" data-i18n="toggleMuteTab">静音/取消静音标签页</option>
-                <option value="muteOtherTabs" data-i18n="muteOtherTabs">静音其他标签页</option>
-                <option value="toggleMaximize" data-i18n="toggleMaximize">最大化/还原窗口</option>
-                <option value="minimizeWindow" data-i18n="minimizeWindow">最小化窗口</option>
-                <option value="toggleFullscreen" data-i18n="toggleFullscreen">切换全屏</option>
-              </select>
-            </div>
-          </div>
-        </div>
-        <div class="gesture-item">
-          <div class="gesture-icon icon-reopen composite-parent">
-            <div class="composite-icon">
-              <span class="first-direction" data-direction="→">⭢</span>
-              <span class="second-direction" data-direction="←">⭠</span>
-            </div>
-          </div>
-          <div class="gesture-details">
-            <div class="gesture-name" data-i18n="rightThenLeft">右然后左</div>
-            <div class="gesture-action">
-              <select id="gesture-rightThenLeft-action" class="gesture-action-select">
-                <option value="noAction" data-i18n="noAction">无操作</option>
-                <option value="newWindow" data-i18n="newWindow">新窗口</option>
-                <option value="newInPrivateWindow" data-i18n="newInPrivateWindow">新建隐私窗口</option>
-                <option value="goBack" data-i18n="back">后退</option>
-                <option value="forward" data-i18n="forward">前进</option>
-                <option value="scrollUp" data-i18n="scrollUp">向上滚动</option>
-                <option value="scrollDown" data-i18n="scrollDown">向下滚动</option>
-                <option value="scrollLeft" data-i18n="scrollLeft">向左滚动</option>
-                <option value="scrollRight" data-i18n="scrollRight">向右滚动</option>
-                <option value="closeTab" data-i18n="closeTab">关闭标签页</option>
-                <option value="reopenClosedTab" data-i18n="reopenTab" selected>重新打开关闭的标签页</option>
-                <option value="openNewTab" data-i18n="newTab">打开新标签页</option>
-                <option value="refresh" data-i18n="refresh">刷新</option>
-                <option value="forceRefresh" data-i18n="forceRefresh">强制刷新</option>
-                <option value="switchToLeftTab" data-i18n="prevTab">切换到左侧标签页</option>
-                <option value="switchToRightTab" data-i18n="nextTab">切换到右侧标签页</option>
-                <option value="stopLoading" data-i18n="stopLoading">停止加载</option>
-                <option value="closeAllTabs" data-i18n="closeAllTabs">关闭所有标签页</option>
-                <option value="scrollToBottom" data-i18n="scrollToBottom">滚动到底部</option>
-                <option value="scrollToTop" data-i18n="scrollToTop">滚动到顶部</option>
-                <option value="scrollToLeft" data-i18n="scrollToLeft">滚动到左侧边缘</option>
-                <option value="scrollToRight" data-i18n="scrollToRight">滚动到右侧边缘</option>
-                <option value="closeOtherTabs" data-i18n="closeOtherTabs">关闭其他标签页</option>
-                <option value="closeTabsToRight" data-i18n="closeTabsToRight">关闭右侧标签页</option>
-                <option value="closeTabsToLeft" data-i18n="closeTabsToLeft">关闭左侧标签页</option>
-                <option value="reloadAllTabs" data-i18n="reloadAllTabs">全部重新加载</option>
-                <option value="togglePinTab" data-i18n="togglePinTab">固定/取消固定标签页</option>
-                <option value="toggleMuteTab" data-i18n="toggleMuteTab">静音/取消静音标签页</option>
-                <option value="muteOtherTabs" data-i18n="muteOtherTabs">静音其他标签页</option>
-                <option value="toggleMaximize" data-i18n="toggleMaximize">最大化/还原窗口</option>
-                <option value="minimizeWindow" data-i18n="minimizeWindow">最小化窗口</option>
-                <option value="toggleFullscreen" data-i18n="toggleFullscreen">切换全屏</option>
-              </select>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    <!-- 超级拖拽功能说明 -->
-    <div class="section" id="super-drag-feature">
-      <div class="section-header">
-        <h2 data-i18n="superDragFeature">超级拖拽功能</h2>
-        <div class="status-container">
-          <span id="superdrag-save-status" class="save-status section-save-status"></span>
-        <span class="operation-hint" data-i18n="leftButtonHint">按住鼠标左键操作</span>
-        </div>
-      </div>
-      <div class="gesture-list">
-        <div class="gesture-item">
-          <div class="gesture-icon icon-drag drag-icon">
-            <div class="drag-animation">
-              <span class="direction-arrow drag-direction" data-direction="↑">👆🏻</span>
-            </div>
-          </div>
-          <div class="gesture-details">
-            <div class="gesture-name" data-i18n="dragUp">向上拖拽</div>
-            <div class="gesture-action">
-              <select id="drag-up-action" class="drag-action-select">
-                <option value="foreground" data-i18n="foregroundAction">前台打开</option>
-                <option value="background" data-i18n="backgroundAction">后台打开</option>
-                <option value="none" data-i18n="noAction">不执行操作</option>
-              </select>
-            </div>
-          </div>
-        </div>
-        <div class="gesture-item">
-          <div class="gesture-icon icon-drag drag-icon">
-            <div class="drag-animation">
-              <span class="direction-arrow drag-direction" data-direction="→">👆🏻</span>
-            </div>
-          </div>
-          <div class="gesture-details">
-            <div class="gesture-name" data-i18n="dragRight">向右拖拽</div>
-            <div class="gesture-action">
-              <select id="drag-right-action" class="drag-action-select">
-                <option value="foreground" data-i18n="foregroundAction">前台打开</option>
-                <option value="background" data-i18n="backgroundAction">后台打开</option>
-                <option value="none" data-i18n="noAction">不执行操作</option>
-              </select>
-            </div>
-          </div>
-        </div>
-        <div class="gesture-item">
-          <div class="gesture-icon icon-drag drag-icon">
-            <div class="drag-animation">
-              <span class="direction-arrow drag-direction" data-direction="↓">👆🏻</span>
-            </div>
-          </div>
-          <div class="gesture-details">
-            <div class="gesture-name" data-i18n="dragDown">向下拖拽</div>
-            <div class="gesture-action">
-              <select id="drag-down-action" class="drag-action-select">
-                <option value="foreground" data-i18n="foregroundAction">前台打开</option>
-                <option value="background" data-i18n="backgroundAction">后台打开</option>
-                <option value="none" data-i18n="noAction">不执行操作</option>
-              </select>
-            </div>
-          </div>
-        </div>
-        <div class="gesture-item">
-          <div class="gesture-icon icon-drag drag-icon">
-            <div class="drag-animation">
-              <span class="direction-arrow drag-direction" data-direction="←">👆🏻</span>
-            </div>
-          </div>
-          <div class="gesture-details">
-            <div class="gesture-name" data-i18n="dragLeft">向左拖拽</div>
-            <div class="gesture-action">
-              <select id="drag-left-action" class="drag-action-select">
-                <option value="foreground" data-i18n="foregroundAction">前台打开</option>
-                <option value="background" data-i18n="backgroundAction">后台打开</option>
-                <option value="none" data-i18n="noAction">不执行操作</option>
-              </select>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <!-- 添加超级拖拽搜索引擎URL设置 -->
-      <div class="setting-item super-drag-info">
-        <label for="drag-search-engine" data-i18n="dragSearchEngine">拖拽搜索引擎URL</label>
-        <input type="text" id="drag-search-engine" class="search-engine-input" value="https://www.google.com/search?q={q}">
-      </div>
-      
-      <!-- 搜索引擎示例说明 -->
-      <div class="search-engine-examples">
-        <small data-i18n="searchEngineExamples">使用{q}表示搜索词位置，示例格式:</small>
-        <ul class="example-list">
-          <li data-i18n="googleExample">Google搜索: https://www.google.com/search?q={q}</li>
-          <li data-i18n="googleTranslateExample">Google翻译: https://translate.google.com/?sl=auto&tl=zh-CN&text={q}&op=translate</li>
-          <li data-i18n="localSearchExample">百度搜索: https://www.baidu.com/s?wd={q}</li>
-          <li data-i18n="bingExample">必应搜索: https://www.bing.com/search?q={q}</li>
-        </ul>
-        <small data-i18n="superDragDescription">超级拖拽功能可用于链接、图片和选中的文本。拖拽方向决定新标签页的打开方式。</small>
-      </div>
-    </div>
-    
-    <!-- 小窗视图设置部分 -->
-    <div class="section" id="link-preview-feature">
-      <div class="section-header">
-        <h2 data-i18n="linkPreview">小窗视图</h2>
-        <div class="status-container">
-          <span id="preview-save-status" class="save-status section-save-status"></span>
-          <span class="operation-hint" data-i18n="linkPreviewHint">悬停+Shift键显示小窗</span>
-        </div>
-      </div>
-      <div class="settings">
-        <div class="setting-item">
-          <label for="preview-enabled" data-i18n="enableLinkPreview">启用小窗视图</label>
-          <input type="checkbox" id="preview-enabled" checked>
-        </div>
-        <div class="setting-item">
-          <label for="preview-modifier-key" data-i18n="modifierKey">触发按键</label>
-          <select id="preview-modifier-key" class="drag-action-select">
-            <option value="Control" data-i18n="controlKey">Ctrl 键</option>
-            <option value="Alt" data-i18n="altKey">Alt 键</option>
-            <option value="Shift" data-i18n="shiftKey">Shift 键</option>
-            <option value="none" data-i18n="noKey">无需按键</option>
-          </select>
-        </div>
-        <div class="setting-item">
-          <label for="preview-hover-delay" data-i18n="previewDelay">小窗延迟(毫秒)</label>
-          <input type="range" id="preview-hover-delay" min="100" max="5000" step="100" value="200">
-          <span id="preview-hover-delay-value">200</span>
-        </div>
-        <div class="setting-item">
-          <label for="preview-max-windows" data-i18n="maxPreviewWindows">最大小窗数量</label>
-          <input type="range" id="preview-max-windows" min="1" max="50" value="20">
-          <span id="preview-max-windows-value">20</span>
-        </div>
-        <div class="setting-item">
-          <label for="preview-width" data-i18n="previewWidth">默认小窗宽度</label>
-          <input type="range" id="preview-width" min="200" max="3840" step="20" value="480">
-          <span id="preview-width-value">480</span>
-        </div>
-        <div class="setting-item">
-          <label for="preview-height" data-i18n="previewHeight">默认小窗高度</label>
-          <input type="range" id="preview-height" min="150" max="2160" step="10" value="640">
-          <span id="preview-height-value">640</span>
-        </div>
-        <div class="setting-item">
-          <label for="preview-position" data-i18n="previewPosition">小窗位置</label>
-          <select id="preview-position" class="drag-action-select">
-            <option value="cursor" data-i18n="cursorPosition">鼠标位置</option>
-            <option value="center" data-i18n="centerScreen">屏幕中心</option>
-            <option value="corner" data-i18n="cornerScreen">屏幕角落</option>
-          </select>
-        </div>
-        <div class="setting-item">
-          <label for="text-search-preview" data-i18n="enableTextSearchPreview">启用选中文字搜索</label>
-          <input type="checkbox" id="text-search-preview" checked>
-        </div>
-        <div class="setting-item">
-          <label for="preview-search-engine" data-i18n="searchEngine">小窗搜索引擎URL</label>
-          <input type="text" id="preview-search-engine" class="search-engine-input" value="https://www.google.com/search?q={q}">
-        </div>
-      </div>
-      
-      <!-- 搜索引擎示例说明 - 从设置项中分离出来 -->
-      <div class="search-engine-examples">
-        <small data-i18n="searchEngineExamples">使用{q}表示搜索词位置，示例格式:</small>
-        <ul class="example-list">
-          <li data-i18n="googleExample">Google搜索: https://www.google.com/search?q={q}</li>
-          <li data-i18n="googleTranslateExample">Google翻译: https://translate.google.com/?sl=auto&tl=zh-CN&text={q}&op=translate</li>
-          <li data-i18n="localSearchExample">百度搜索: https://www.baidu.com/s?wd={q}</li>
-          <li data-i18n="bingExample">必应搜索: https://www.bing.com/search?q={q}</li>
-        </ul>
-      </div>
-    </div>
-    
-    <div class="footer">
-      <span id="version-info"><img src="images/icon16.png" class="footer-icon" alt="icon"> v</span>
-      <button id="enable-debug-panel-icon" title="Press Alt+D to display debug panel">🐞</button>
-    </div>
-    
-  </div>
-  
-  <script src="utils.js"></script>
-  <script src="popup.js"></script>
+	<div class="container">
+		<div class="header">
+			<h1><a href="https://abcrk.com/420.html" target="_blank" data-i18n="title">鼠标手势</a></h1>
+			<div class="header-buttons">
+				<button id="theme-toggle" class="header-button theme-toggle" data-i18n-title="toggleTheme">🌙</button>
+			</div>
+		</div>
+
+		<div class="section" id="settings-feature">
+			<div class="settings-header">
+				<h2 data-i18n="settings">设置</h2>
+				<div class="settings-controls">
+					<span id="save-status" class="save-status"></span>
+					<button id="reset-btn" class="small-button" data-i18n="reset">重置默认</button>
+				</div>
+			</div>
+			<div class="settings">
+				<div class="setting-item">
+					<label for="enable-gesture" data-i18n="enableGesture">启用鼠标手势</label>
+					<input type="checkbox" id="enable-gesture" checked>
+				</div>
+				<div class="setting-item">
+					<label for="gesture-trail" data-i18n="showGestureTrail">显示手势轨迹</label>
+					<input type="checkbox" id="gesture-trail" checked>
+				</div>
+				<div class="setting-item">
+					<label for="gesture-hint" data-i18n="showGestureHint">显示手势提示</label>
+					<input type="checkbox" id="gesture-hint" checked>
+				</div>
+				<div class="setting-item">
+					<label for="trail-color" data-i18n="trailColor">轨迹颜色</label>
+					<input type="color" id="trail-color" value="#ff0000">
+				</div>
+				<div class="setting-item">
+					<label for="trail-width" data-i18n="trailWidth">轨迹宽度</label>
+					<input type="range" id="trail-width" min="1" max="10" value="2" onscroll="event.preventDefault()">
+					<span id="trail-width-value">2</span>
+				</div>
+				<div class="setting-item">
+					<label for="super-drag" data-i18n="enableSuperDrag">启用超级拖拽</label>
+					<input type="checkbox" id="super-drag" checked>
+				</div>
+				<div class="setting-item">
+					<label for="drag-text-search" data-i18n="enableDragTextSearch">启用拖拽文本搜索</label>
+					<input type="checkbox" id="drag-text-search" checked>
+				</div>
+				<div class="setting-item">
+					<label for="smooth-scroll" data-i18n="enableSmoothScroll">启用平滑滚动</label>
+					<input type="checkbox" id="smooth-scroll" checked>
+				</div>
+			</div>
+		</div>
+
+		<div class="section" id="gesture-actions-feature">
+			<div class="section-header">
+				<h2 data-i18n="builtInGestures">内置手势</h2>
+				<div class="status-container">
+					<span id="gesture-save-status" class="save-status section-save-status"></span>
+					<span class="operation-hint" data-i18n="rightButtonHint">按住鼠标右键操作</span>
+				</div>
+			</div>
+			<div class="gesture-list">
+				<div class="gesture-item">
+					<div class="gesture-icon icon-left single-parent">
+						<div class="single-icon">
+							<span class="direction-arrow" data-direction="←">⭠</span>
+						</div>
+					</div>
+					<div class="gesture-details">
+						<div class="gesture-name" data-i18n="left">左</div>
+						<div class="gesture-action">
+							<select id="gesture-left-action" class="gesture-action-select">
+								<option value="noAction" data-i18n="noAction">无操作</option>
+								<option value="newWindow" data-i18n="newWindow">新窗口</option>
+								<option value="newInPrivateWindow" data-i18n="newInPrivateWindow">新建隐私窗口</option>
+								<option value="goBack" data-i18n="back" selected>后退</option>
+								<option value="forward" data-i18n="forward">前进</option>
+								<option value="scrollUp" data-i18n="scrollUp">向上滚动</option>
+								<option value="scrollDown" data-i18n="scrollDown">向下滚动</option>
+								<option value="scrollLeft" data-i18n="scrollLeft">向左滚动</option>
+								<option value="scrollRight" data-i18n="scrollRight">向右滚动</option>
+								<option value="duplicateTab" data-i18n="duplicateTab">关闭标签页</option>
+								<option value="closeTab" data-i18n="closeTab">关闭标签页</option>
+								<option value="reopenClosedTab" data-i18n="reopenTab">重新打开关闭的标签页</option>
+								<option value="openNewTab" data-i18n="newTab">打开新标签页</option>
+								<option value="refresh" data-i18n="refresh">刷新</option>
+								<option value="forceRefresh" data-i18n="forceRefresh">强制刷新</option>
+								<option value="switchToLeftTab" data-i18n="prevTab">切换到左侧标签页</option>
+								<option value="switchToRightTab" data-i18n="nextTab">切换到右侧标签页</option>
+								<option value="stopLoading" data-i18n="stopLoading">停止加载</option>
+								<option value="closeAllTabs" data-i18n="closeAllTabs">关闭所有标签页</option>
+								<option value="scrollToBottom" data-i18n="scrollToBottom">滚动到底部</option>
+								<option value="scrollToTop" data-i18n="scrollToTop">滚动到顶部</option>
+								<option value="scrollToLeft" data-i18n="scrollToLeft">滚动到左侧边缘</option>
+								<option value="scrollToRight" data-i18n="scrollToRight">滚动到右侧边缘</option>
+								<option value="closeOtherTabs" data-i18n="closeOtherTabs">关闭其他标签页</option>
+								<option value="closeTabsToRight" data-i18n="closeTabsToRight">关闭右侧标签页</option>
+								<option value="closeTabsToLeft" data-i18n="closeTabsToLeft">关闭左侧标签页</option>
+								<option value="reloadAllTabs" data-i18n="reloadAllTabs">全部重新加载</option>
+								<option value="togglePinTab" data-i18n="togglePinTab">固定/取消固定标签页</option>
+								<option value="toggleMuteTab" data-i18n="toggleMuteTab">静音/取消静音标签页</option>
+								<option value="muteOtherTabs" data-i18n="muteOtherTabs">静音其他标签页</option>
+								<option value="toggleMaximize" data-i18n="toggleMaximize">最大化/还原窗口</option>
+								<option value="minimizeWindow" data-i18n="minimizeWindow">最小化窗口</option>
+								<option value="toggleFullscreen" data-i18n="toggleFullscreen">切换全屏</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="gesture-item">
+					<div class="gesture-icon icon-right single-parent">
+						<div class="single-icon">
+							<span class="direction-arrow" data-direction="→">⭢</span>
+						</div>
+					</div>
+					<div class="gesture-details">
+						<div class="gesture-name" data-i18n="right">右</div>
+						<div class="gesture-action">
+							<select id="gesture-right-action" class="gesture-action-select">
+								<option value="noAction" data-i18n="noAction">无操作</option>
+								<option value="newWindow" data-i18n="newWindow">新窗口</option>
+								<option value="newInPrivateWindow" data-i18n="newInPrivateWindow">新建隐私窗口</option>
+								<option value="goBack" data-i18n="back">后退</option>
+								<option value="forward" data-i18n="forward" selected>前进</option>
+								<option value="scrollUp" data-i18n="scrollUp">向上滚动</option>
+								<option value="scrollDown" data-i18n="scrollDown">向下滚动</option>
+								<option value="scrollLeft" data-i18n="scrollLeft">向左滚动</option>
+								<option value="scrollRight" data-i18n="scrollRight">向右滚动</option>
+								<option value="duplicateTab" data-i18n="duplicateTab">关闭标签页</option>
+								<option value="closeTab" data-i18n="closeTab">关闭标签页</option>
+								<option value="reopenClosedTab" data-i18n="reopenTab">重新打开关闭的标签页</option>
+								<option value="openNewTab" data-i18n="newTab">打开新标签页</option>
+								<option value="refresh" data-i18n="refresh">刷新</option>
+								<option value="forceRefresh" data-i18n="forceRefresh">强制刷新</option>
+								<option value="switchToLeftTab" data-i18n="prevTab">切换到左侧标签页</option>
+								<option value="switchToRightTab" data-i18n="nextTab">切换到右侧标签页</option>
+								<option value="stopLoading" data-i18n="stopLoading">停止加载</option>
+								<option value="closeAllTabs" data-i18n="closeAllTabs">关闭所有标签页</option>
+								<option value="scrollToBottom" data-i18n="scrollToBottom">滚动到底部</option>
+								<option value="scrollToTop" data-i18n="scrollToTop">滚动到顶部</option>
+								<option value="scrollToLeft" data-i18n="scrollToLeft">滚动到左侧边缘</option>
+								<option value="scrollToRight" data-i18n="scrollToRight">滚动到右侧边缘</option>
+								<option value="closeOtherTabs" data-i18n="closeOtherTabs">关闭其他标签页</option>
+								<option value="closeTabsToRight" data-i18n="closeTabsToRight">关闭右侧标签页</option>
+								<option value="closeTabsToLeft" data-i18n="closeTabsToLeft">关闭左侧标签页</option>
+								<option value="reloadAllTabs" data-i18n="reloadAllTabs">全部重新加载</option>
+								<option value="togglePinTab" data-i18n="togglePinTab">固定/取消固定标签页</option>
+								<option value="toggleMuteTab" data-i18n="toggleMuteTab">静音/取消静音标签页</option>
+								<option value="muteOtherTabs" data-i18n="muteOtherTabs">静音其他标签页</option>
+								<option value="toggleMaximize" data-i18n="toggleMaximize">最大化/还原窗口</option>
+								<option value="minimizeWindow" data-i18n="minimizeWindow">最小化窗口</option>
+								<option value="toggleFullscreen" data-i18n="toggleFullscreen">切换全屏</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="gesture-item">
+					<div class="gesture-icon icon-up single-parent">
+						<div class="single-icon">
+							<span class="direction-arrow" data-direction="↑">⭡</span>
+						</div>
+					</div>
+					<div class="gesture-details">
+						<div class="gesture-name" data-i18n="up">上</div>
+						<div class="gesture-action">
+							<select id="gesture-up-action" class="gesture-action-select">
+								<option value="noAction" data-i18n="noAction">无操作</option>
+								<option value="newWindow" data-i18n="newWindow">新窗口</option>
+								<option value="newInPrivateWindow" data-i18n="newInPrivateWindow">新建隐私窗口</option>
+								<option value="goBack" data-i18n="back">后退</option>
+								<option value="forward" data-i18n="forward">前进</option>
+								<option value="scrollUp" data-i18n="scrollUp" selected>向上滚动</option>
+								<option value="scrollDown" data-i18n="scrollDown">向下滚动</option>
+								<option value="scrollLeft" data-i18n="scrollLeft">向左滚动</option>
+								<option value="scrollRight" data-i18n="scrollRight">向右滚动</option>
+								<option value="duplicateTab" data-i18n="duplicateTab">关闭标签页</option>
+								<option value="closeTab" data-i18n="closeTab">关闭标签页</option>
+								<option value="reopenClosedTab" data-i18n="reopenTab">重新打开关闭的标签页</option>
+								<option value="openNewTab" data-i18n="newTab">打开新标签页</option>
+								<option value="refresh" data-i18n="refresh">刷新</option>
+								<option value="forceRefresh" data-i18n="forceRefresh">强制刷新</option>
+								<option value="switchToLeftTab" data-i18n="prevTab">切换到左侧标签页</option>
+								<option value="switchToRightTab" data-i18n="nextTab">切换到右侧标签页</option>
+								<option value="stopLoading" data-i18n="stopLoading">停止加载</option>
+								<option value="closeAllTabs" data-i18n="closeAllTabs">关闭所有标签页</option>
+								<option value="scrollToBottom" data-i18n="scrollToBottom">滚动到底部</option>
+								<option value="scrollToTop" data-i18n="scrollToTop">滚动到顶部</option>
+								<option value="scrollToLeft" data-i18n="scrollToLeft">滚动到左侧边缘</option>
+								<option value="scrollToRight" data-i18n="scrollToRight">滚动到右侧边缘</option>
+								<option value="closeOtherTabs" data-i18n="closeOtherTabs">关闭其他标签页</option>
+								<option value="closeTabsToRight" data-i18n="closeTabsToRight">关闭右侧标签页</option>
+								<option value="closeTabsToLeft" data-i18n="closeTabsToLeft">关闭左侧标签页</option>
+								<option value="reloadAllTabs" data-i18n="reloadAllTabs">全部重新加载</option>
+								<option value="togglePinTab" data-i18n="togglePinTab">固定/取消固定标签页</option>
+								<option value="toggleMuteTab" data-i18n="toggleMuteTab">静音/取消静音标签页</option>
+								<option value="muteOtherTabs" data-i18n="muteOtherTabs">静音其他标签页</option>
+								<option value="toggleMaximize" data-i18n="toggleMaximize">最大化/还原窗口</option>
+								<option value="minimizeWindow" data-i18n="minimizeWindow">最小化窗口</option>
+								<option value="toggleFullscreen" data-i18n="toggleFullscreen">切换全屏</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="gesture-item">
+					<div class="gesture-icon icon-down single-parent">
+						<div class="single-icon">
+							<span class="direction-arrow" data-direction="↓">⭣</span>
+						</div>
+					</div>
+					<div class="gesture-details">
+						<div class="gesture-name" data-i18n="down">下</div>
+						<div class="gesture-action">
+							<select id="gesture-down-action" class="gesture-action-select">
+								<option value="noAction" data-i18n="noAction">无操作</option>
+								<option value="newWindow" data-i18n="newWindow">新窗口</option>
+								<option value="newInPrivateWindow" data-i18n="newInPrivateWindow">新建隐私窗口</option>
+								<option value="goBack" data-i18n="back">后退</option>
+								<option value="forward" data-i18n="forward">前进</option>
+								<option value="scrollUp" data-i18n="scrollUp">向上滚动</option>
+								<option value="scrollDown" data-i18n="scrollDown" selected>向下滚动</option>
+								<option value="scrollLeft" data-i18n="scrollLeft">向左滚动</option>
+								<option value="scrollRight" data-i18n="scrollRight">向右滚动</option>
+								<option value="duplicateTab" data-i18n="duplicateTab">关闭标签页</option>
+								<option value="closeTab" data-i18n="closeTab">关闭标签页</option>
+								<option value="reopenClosedTab" data-i18n="reopenTab">重新打开关闭的标签页</option>
+								<option value="openNewTab" data-i18n="newTab">打开新标签页</option>
+								<option value="refresh" data-i18n="refresh">刷新</option>
+								<option value="forceRefresh" data-i18n="forceRefresh">强制刷新</option>
+								<option value="switchToLeftTab" data-i18n="prevTab">切换到左侧标签页</option>
+								<option value="switchToRightTab" data-i18n="nextTab">切换到右侧标签页</option>
+								<option value="stopLoading" data-i18n="stopLoading">停止加载</option>
+								<option value="closeAllTabs" data-i18n="closeAllTabs">关闭所有标签页</option>
+								<option value="scrollToBottom" data-i18n="scrollToBottom">滚动到底部</option>
+								<option value="scrollToTop" data-i18n="scrollToTop">滚动到顶部</option>
+								<option value="scrollToLeft" data-i18n="scrollToLeft">滚动到左侧边缘</option>
+								<option value="scrollToRight" data-i18n="scrollToRight">滚动到右侧边缘</option>
+								<option value="closeOtherTabs" data-i18n="closeOtherTabs">关闭其他标签页</option>
+								<option value="closeTabsToRight" data-i18n="closeTabsToRight">关闭右侧标签页</option>
+								<option value="closeTabsToLeft" data-i18n="closeTabsToLeft">关闭左侧标签页</option>
+								<option value="reloadAllTabs" data-i18n="reloadAllTabs">全部重新加载</option>
+								<option value="togglePinTab" data-i18n="togglePinTab">固定/取消固定标签页</option>
+								<option value="toggleMuteTab" data-i18n="toggleMuteTab">静音/取消静音标签页</option>
+								<option value="muteOtherTabs" data-i18n="muteOtherTabs">静音其他标签页</option>
+								<option value="toggleMaximize" data-i18n="toggleMaximize">最大化/还原窗口</option>
+								<option value="minimizeWindow" data-i18n="minimizeWindow">最小化窗口</option>
+								<option value="toggleFullscreen" data-i18n="toggleFullscreen">切换全屏</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="gesture-item">
+					<div class="gesture-icon icon-close composite-parent">
+						<div class="composite-icon">
+							<span class="first-direction" data-direction="↓">⭣</span>
+							<span class="second-direction" data-direction="→">⭢</span>
+						</div>
+					</div>
+					<div class="gesture-details">
+						<div class="gesture-name" data-i18n="downThenRight">下然后右</div>
+						<div class="gesture-action">
+							<select id="gesture-downThenRight-action" class="gesture-action-select">
+								<option value="noAction" data-i18n="noAction">无操作</option>
+								<option value="newWindow" data-i18n="newWindow">新窗口</option>
+								<option value="newInPrivateWindow" data-i18n="newInPrivateWindow">新建隐私窗口</option>
+								<option value="goBack" data-i18n="back">后退</option>
+								<option value="forward" data-i18n="forward">前进</option>
+								<option value="scrollUp" data-i18n="scrollUp">向上滚动</option>
+								<option value="scrollDown" data-i18n="scrollDown">向下滚动</option>
+								<option value="scrollLeft" data-i18n="scrollLeft">向左滚动</option>
+								<option value="scrollRight" data-i18n="scrollRight">向右滚动</option>
+								<option value="duplicateTab" data-i18n="duplicateTab">关闭标签页</option>
+								<option value="closeTab" data-i18n="closeTab" selected>关闭标签页</option>
+								<option value="reopenClosedTab" data-i18n="reopenTab">重新打开关闭的标签页</option>
+								<option value="openNewTab" data-i18n="newTab">打开新标签页</option>
+								<option value="refresh" data-i18n="refresh">刷新</option>
+								<option value="forceRefresh" data-i18n="forceRefresh">强制刷新</option>
+								<option value="switchToLeftTab" data-i18n="prevTab">切换到左侧标签页</option>
+								<option value="switchToRightTab" data-i18n="nextTab">切换到右侧标签页</option>
+								<option value="stopLoading" data-i18n="stopLoading">停止加载</option>
+								<option value="closeAllTabs" data-i18n="closeAllTabs">关闭所有标签页</option>
+								<option value="scrollToBottom" data-i18n="scrollToBottom">滚动到底部</option>
+								<option value="scrollToTop" data-i18n="scrollToTop">滚动到顶部</option>
+								<option value="scrollToLeft" data-i18n="scrollToLeft">滚动到左侧边缘</option>
+								<option value="scrollToRight" data-i18n="scrollToRight">滚动到右侧边缘</option>
+								<option value="closeOtherTabs" data-i18n="closeOtherTabs">关闭其他标签页</option>
+								<option value="closeTabsToRight" data-i18n="closeTabsToRight">关闭右侧标签页</option>
+								<option value="closeTabsToLeft" data-i18n="closeTabsToLeft">关闭左侧标签页</option>
+								<option value="reloadAllTabs" data-i18n="reloadAllTabs">全部重新加载</option>
+								<option value="togglePinTab" data-i18n="togglePinTab">固定/取消固定标签页</option>
+								<option value="toggleMuteTab" data-i18n="toggleMuteTab">静音/取消静音标签页</option>
+								<option value="muteOtherTabs" data-i18n="muteOtherTabs">静音其他标签页</option>
+								<option value="toggleMaximize" data-i18n="toggleMaximize">最大化/还原窗口</option>
+								<option value="minimizeWindow" data-i18n="minimizeWindow">最小化窗口</option>
+								<option value="toggleFullscreen" data-i18n="toggleFullscreen">切换全屏</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="gesture-item">
+					<div class="gesture-icon icon-reopen composite-parent">
+						<div class="composite-icon">
+							<span class="first-direction" data-direction="←">⭠</span>
+							<span class="second-direction" data-direction="↑">⭡</span>
+						</div>
+					</div>
+					<div class="gesture-details">
+						<div class="gesture-name" data-i18n="leftThenUp">左然后上</div>
+						<div class="gesture-action">
+							<select id="gesture-leftThenUp-action" class="gesture-action-select">
+								<option value="noAction" data-i18n="noAction">无操作</option>
+								<option value="newWindow" data-i18n="newWindow">新窗口</option>
+								<option value="newInPrivateWindow" data-i18n="newInPrivateWindow">新建隐私窗口</option>
+								<option value="goBack" data-i18n="back">后退</option>
+								<option value="forward" data-i18n="forward">前进</option>
+								<option value="scrollUp" data-i18n="scrollUp">向上滚动</option>
+								<option value="scrollDown" data-i18n="scrollDown">向下滚动</option>
+								<option value="scrollLeft" data-i18n="scrollLeft">向左滚动</option>
+								<option value="scrollRight" data-i18n="scrollRight">向右滚动</option>
+								<option value="duplicateTab" data-i18n="duplicateTab">关闭标签页</option>
+								<option value="closeTab" data-i18n="closeTab">关闭标签页</option>
+								<option value="reopenClosedTab" data-i18n="reopenTab" selected>重新打开关闭的标签页</option>
+								<option value="openNewTab" data-i18n="newTab">打开新标签页</option>
+								<option value="refresh" data-i18n="refresh">刷新</option>
+								<option value="forceRefresh" data-i18n="forceRefresh">强制刷新</option>
+								<option value="switchToLeftTab" data-i18n="prevTab">切换到左侧标签页</option>
+								<option value="switchToRightTab" data-i18n="nextTab">切换到右侧标签页</option>
+								<option value="stopLoading" data-i18n="stopLoading">停止加载</option>
+								<option value="closeAllTabs" data-i18n="closeAllTabs">关闭所有标签页</option>
+								<option value="scrollToBottom" data-i18n="scrollToBottom">滚动到底部</option>
+								<option value="scrollToTop" data-i18n="scrollToTop">滚动到顶部</option>
+								<option value="scrollToLeft" data-i18n="scrollToLeft">滚动到左侧边缘</option>
+								<option value="scrollToRight" data-i18n="scrollToRight">滚动到右侧边缘</option>
+								<option value="closeOtherTabs" data-i18n="closeOtherTabs">关闭其他标签页</option>
+								<option value="closeTabsToRight" data-i18n="closeTabsToRight">关闭右侧标签页</option>
+								<option value="closeTabsToLeft" data-i18n="closeTabsToLeft">关闭左侧标签页</option>
+								<option value="reloadAllTabs" data-i18n="reloadAllTabs">全部重新加载</option>
+								<option value="togglePinTab" data-i18n="togglePinTab">固定/取消固定标签页</option>
+								<option value="toggleMuteTab" data-i18n="toggleMuteTab">静音/取消静音标签页</option>
+								<option value="muteOtherTabs" data-i18n="muteOtherTabs">静音其他标签页</option>
+								<option value="toggleMaximize" data-i18n="toggleMaximize">最大化/还原窗口</option>
+								<option value="minimizeWindow" data-i18n="minimizeWindow">最小化窗口</option>
+								<option value="toggleFullscreen" data-i18n="toggleFullscreen">切换全屏</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="gesture-item">
+					<div class="gesture-icon icon-new-tab composite-parent">
+						<div class="composite-icon">
+							<span class="first-direction" data-direction="→">⭢</span>
+							<span class="second-direction" data-direction="↑">⭡</span>
+						</div>
+					</div>
+					<div class="gesture-details">
+						<div class="gesture-name" data-i18n="rightThenUp">右然后上</div>
+						<div class="gesture-action">
+							<select id="gesture-rightThenUp-action" class="gesture-action-select">
+								<option value="noAction" data-i18n="noAction">无操作</option>
+								<option value="newWindow" data-i18n="newWindow">新窗口</option>
+								<option value="newInPrivateWindow" data-i18n="newInPrivateWindow">新建隐私窗口</option>
+								<option value="goBack" data-i18n="back">后退</option>
+								<option value="forward" data-i18n="forward">前进</option>
+								<option value="scrollUp" data-i18n="scrollUp">向上滚动</option>
+								<option value="scrollDown" data-i18n="scrollDown">向下滚动</option>
+								<option value="scrollLeft" data-i18n="scrollLeft">向左滚动</option>
+								<option value="scrollRight" data-i18n="scrollRight">向右滚动</option>
+								<option value="duplicateTab" data-i18n="duplicateTab">关闭标签页</option>
+								<option value="closeTab" data-i18n="closeTab">关闭标签页</option>
+								<option value="reopenClosedTab" data-i18n="reopenTab">重新打开关闭的标签页</option>
+								<option value="openNewTab" data-i18n="newTab" selected>打开新标签页</option>
+								<option value="refresh" data-i18n="refresh">刷新</option>
+								<option value="forceRefresh" data-i18n="forceRefresh">强制刷新</option>
+								<option value="switchToLeftTab" data-i18n="prevTab">切换到左侧标签页</option>
+								<option value="switchToRightTab" data-i18n="nextTab">切换到右侧标签页</option>
+								<option value="stopLoading" data-i18n="stopLoading">停止加载</option>
+								<option value="closeAllTabs" data-i18n="closeAllTabs">关闭所有标签页</option>
+								<option value="scrollToBottom" data-i18n="scrollToBottom">滚动到底部</option>
+								<option value="scrollToTop" data-i18n="scrollToTop">滚动到顶部</option>
+								<option value="scrollToLeft" data-i18n="scrollToLeft">滚动到左侧边缘</option>
+								<option value="scrollToRight" data-i18n="scrollToRight">滚动到右侧边缘</option>
+								<option value="closeOtherTabs" data-i18n="closeOtherTabs">关闭其他标签页</option>
+								<option value="closeTabsToRight" data-i18n="closeTabsToRight">关闭右侧标签页</option>
+								<option value="closeTabsToLeft" data-i18n="closeTabsToLeft">关闭左侧标签页</option>
+								<option value="reloadAllTabs" data-i18n="reloadAllTabs">全部重新加载</option>
+								<option value="togglePinTab" data-i18n="togglePinTab">固定/取消固定标签页</option>
+								<option value="toggleMuteTab" data-i18n="toggleMuteTab">静音/取消静音标签页</option>
+								<option value="muteOtherTabs" data-i18n="muteOtherTabs">静音其他标签页</option>
+								<option value="toggleMaximize" data-i18n="toggleMaximize">最大化/还原窗口</option>
+								<option value="minimizeWindow" data-i18n="minimizeWindow">最小化窗口</option>
+								<option value="toggleFullscreen" data-i18n="toggleFullscreen">切换全屏</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="gesture-item">
+					<div class="gesture-icon icon-refresh composite-parent">
+						<div class="composite-icon">
+							<span class="first-direction" data-direction="→">⭢</span>
+							<span class="second-direction" data-direction="↓">⭣</span>
+						</div>
+					</div>
+					<div class="gesture-details">
+						<div class="gesture-name" data-i18n="rightThenDown">右然后下</div>
+						<div class="gesture-action">
+							<select id="gesture-rightThenDown-action" class="gesture-action-select">
+								<option value="noAction" data-i18n="noAction">无操作</option>
+								<option value="newWindow" data-i18n="newWindow">新窗口</option>
+								<option value="newInPrivateWindow" data-i18n="newInPrivateWindow">新建隐私窗口</option>
+								<option value="goBack" data-i18n="back">后退</option>
+								<option value="forward" data-i18n="forward">前进</option>
+								<option value="scrollUp" data-i18n="scrollUp">向上滚动</option>
+								<option value="scrollDown" data-i18n="scrollDown">向下滚动</option>
+								<option value="scrollLeft" data-i18n="scrollLeft">向左滚动</option>
+								<option value="scrollRight" data-i18n="scrollRight">向右滚动</option>
+								<option value="duplicateTab" data-i18n="duplicateTab">关闭标签页</option>
+								<option value="closeTab" data-i18n="closeTab">关闭标签页</option>
+								<option value="reopenClosedTab" data-i18n="reopenTab">重新打开关闭的标签页</option>
+								<option value="openNewTab" data-i18n="newTab">打开新标签页</option>
+								<option value="refresh" data-i18n="refresh" selected>刷新</option>
+								<option value="forceRefresh" data-i18n="forceRefresh">强制刷新</option>
+								<option value="switchToLeftTab" data-i18n="prevTab">切换到左侧标签页</option>
+								<option value="switchToRightTab" data-i18n="nextTab">切换到右侧标签页</option>
+								<option value="stopLoading" data-i18n="stopLoading">停止加载</option>
+								<option value="closeAllTabs" data-i18n="closeAllTabs">关闭所有标签页</option>
+								<option value="scrollToBottom" data-i18n="scrollToBottom">滚动到底部</option>
+								<option value="scrollToTop" data-i18n="scrollToTop">滚动到顶部</option>
+								<option value="scrollToLeft" data-i18n="scrollToLeft">滚动到左侧边缘</option>
+								<option value="scrollToRight" data-i18n="scrollToRight">滚动到右侧边缘</option>
+								<option value="closeOtherTabs" data-i18n="closeOtherTabs">关闭其他标签页</option>
+								<option value="closeTabsToRight" data-i18n="closeTabsToRight">关闭右侧标签页</option>
+								<option value="closeTabsToLeft" data-i18n="closeTabsToLeft">关闭左侧标签页</option>
+								<option value="reloadAllTabs" data-i18n="reloadAllTabs">全部重新加载</option>
+								<option value="togglePinTab" data-i18n="togglePinTab">固定/取消固定标签页</option>
+								<option value="toggleMuteTab" data-i18n="toggleMuteTab">静音/取消静音标签页</option>
+								<option value="muteOtherTabs" data-i18n="muteOtherTabs">静音其他标签页</option>
+								<option value="toggleMaximize" data-i18n="toggleMaximize">最大化/还原窗口</option>
+								<option value="minimizeWindow" data-i18n="minimizeWindow">最小化窗口</option>
+								<option value="toggleFullscreen" data-i18n="toggleFullscreen">切换全屏</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="gesture-item">
+					<div class="gesture-icon icon-prev composite-parent">
+						<div class="composite-icon">
+							<span class="first-direction" data-direction="↑">⭡</span>
+							<span class="second-direction" data-direction="←">⭠</span>
+						</div>
+					</div>
+					<div class="gesture-details">
+						<div class="gesture-name" data-i18n="upThenLeft">上然后左</div>
+						<div class="gesture-action">
+							<select id="gesture-upThenLeft-action" class="gesture-action-select">
+								<option value="noAction" data-i18n="noAction">无操作</option>
+								<option value="newWindow" data-i18n="newWindow">新窗口</option>
+								<option value="newInPrivateWindow" data-i18n="newInPrivateWindow">新建隐私窗口</option>
+								<option value="goBack" data-i18n="back">后退</option>
+								<option value="forward" data-i18n="forward">前进</option>
+								<option value="scrollUp" data-i18n="scrollUp">向上滚动</option>
+								<option value="scrollDown" data-i18n="scrollDown">向下滚动</option>
+								<option value="scrollLeft" data-i18n="scrollLeft">向左滚动</option>
+								<option value="scrollRight" data-i18n="scrollRight">向右滚动</option>
+								<option value="duplicateTab" data-i18n="duplicateTab">关闭标签页</option>
+								<option value="closeTab" data-i18n="closeTab">关闭标签页</option>
+								<option value="reopenClosedTab" data-i18n="reopenTab">重新打开关闭的标签页</option>
+								<option value="openNewTab" data-i18n="newTab">打开新标签页</option>
+								<option value="refresh" data-i18n="refresh">刷新</option>
+								<option value="forceRefresh" data-i18n="forceRefresh">强制刷新</option>
+								<option value="switchToLeftTab" data-i18n="prevTab" selected>切换到左侧标签页</option>
+								<option value="switchToRightTab" data-i18n="nextTab">切换到右侧标签页</option>
+								<option value="stopLoading" data-i18n="stopLoading">停止加载</option>
+								<option value="closeAllTabs" data-i18n="closeAllTabs">关闭所有标签页</option>
+								<option value="scrollToBottom" data-i18n="scrollToBottom">滚动到底部</option>
+								<option value="scrollToTop" data-i18n="scrollToTop">滚动到顶部</option>
+								<option value="scrollToLeft" data-i18n="scrollToLeft">滚动到左侧边缘</option>
+								<option value="scrollToRight" data-i18n="scrollToRight">滚动到右侧边缘</option>
+								<option value="closeOtherTabs" data-i18n="closeOtherTabs">关闭其他标签页</option>
+								<option value="closeTabsToRight" data-i18n="closeTabsToRight">关闭右侧标签页</option>
+								<option value="closeTabsToLeft" data-i18n="closeTabsToLeft">关闭左侧标签页</option>
+								<option value="reloadAllTabs" data-i18n="reloadAllTabs">全部重新加载</option>
+								<option value="togglePinTab" data-i18n="togglePinTab">固定/取消固定标签页</option>
+								<option value="toggleMuteTab" data-i18n="toggleMuteTab">静音/取消静音标签页</option>
+								<option value="muteOtherTabs" data-i18n="muteOtherTabs">静音其他标签页</option>
+								<option value="toggleMaximize" data-i18n="toggleMaximize">最大化/还原窗口</option>
+								<option value="minimizeWindow" data-i18n="minimizeWindow">最小化窗口</option>
+								<option value="toggleFullscreen" data-i18n="toggleFullscreen">切换全屏</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="gesture-item">
+					<div class="gesture-icon icon-next composite-parent">
+						<div class="composite-icon">
+							<span class="first-direction" data-direction="↑">⭡</span>
+							<span class="second-direction" data-direction="→">⭢</span>
+						</div>
+					</div>
+					<div class="gesture-details">
+						<div class="gesture-name" data-i18n="upThenRight">上然后右</div>
+						<div class="gesture-action">
+							<select id="gesture-upThenRight-action" class="gesture-action-select">
+								<option value="noAction" data-i18n="noAction">无操作</option>
+								<option value="newWindow" data-i18n="newWindow">新窗口</option>
+								<option value="newInPrivateWindow" data-i18n="newInPrivateWindow">新建隐私窗口</option>
+								<option value="goBack" data-i18n="back">后退</option>
+								<option value="forward" data-i18n="forward">前进</option>
+								<option value="scrollUp" data-i18n="scrollUp">向上滚动</option>
+								<option value="scrollDown" data-i18n="scrollDown">向下滚动</option>
+								<option value="scrollLeft" data-i18n="scrollLeft">向左滚动</option>
+								<option value="scrollRight" data-i18n="scrollRight">向右滚动</option>
+								<option value="duplicateTab" data-i18n="duplicateTab">关闭标签页</option>
+								<option value="closeTab" data-i18n="closeTab">关闭标签页</option>
+								<option value="reopenClosedTab" data-i18n="reopenTab">重新打开关闭的标签页</option>
+								<option value="openNewTab" data-i18n="newTab">打开新标签页</option>
+								<option value="refresh" data-i18n="refresh">刷新</option>
+								<option value="forceRefresh" data-i18n="forceRefresh">强制刷新</option>
+								<option value="switchToLeftTab" data-i18n="prevTab">切换到左侧标签页</option>
+								<option value="switchToRightTab" data-i18n="nextTab" selected>切换到右侧标签页</option>
+								<option value="stopLoading" data-i18n="stopLoading">停止加载</option>
+								<option value="closeAllTabs" data-i18n="closeAllTabs">关闭所有标签页</option>
+								<option value="scrollToBottom" data-i18n="scrollToBottom">滚动到底部</option>
+								<option value="scrollToTop" data-i18n="scrollToTop">滚动到顶部</option>
+								<option value="scrollToLeft" data-i18n="scrollToLeft">滚动到左侧边缘</option>
+								<option value="scrollToRight" data-i18n="scrollToRight">滚动到右侧边缘</option>
+								<option value="closeOtherTabs" data-i18n="closeOtherTabs">关闭其他标签页</option>
+								<option value="closeTabsToRight" data-i18n="closeTabsToRight">关闭右侧标签页</option>
+								<option value="closeTabsToLeft" data-i18n="closeTabsToLeft">关闭左侧标签页</option>
+								<option value="reloadAllTabs" data-i18n="reloadAllTabs">全部重新加载</option>
+								<option value="togglePinTab" data-i18n="togglePinTab">固定/取消固定标签页</option>
+								<option value="toggleMuteTab" data-i18n="toggleMuteTab">静音/取消静音标签页</option>
+								<option value="muteOtherTabs" data-i18n="muteOtherTabs">静音其他标签页</option>
+								<option value="toggleMaximize" data-i18n="toggleMaximize">最大化/还原窗口</option>
+								<option value="minimizeWindow" data-i18n="minimizeWindow">最小化窗口</option>
+								<option value="toggleFullscreen" data-i18n="toggleFullscreen">切换全屏</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="gesture-item">
+					<div class="gesture-icon icon-stop composite-parent">
+						<div class="composite-icon">
+							<span class="first-direction" data-direction="↓">⭣</span>
+							<span class="second-direction" data-direction="←">⭠</span>
+						</div>
+					</div>
+					<div class="gesture-details">
+						<div class="gesture-name" data-i18n="downThenLeft">下然后左</div>
+						<div class="gesture-action">
+							<select id="gesture-downThenLeft-action" class="gesture-action-select">
+								<option value="noAction" data-i18n="noAction">无操作</option>
+								<option value="newWindow" data-i18n="newWindow">新窗口</option>
+								<option value="newInPrivateWindow" data-i18n="newInPrivateWindow">新建隐私窗口</option>
+								<option value="goBack" data-i18n="back">后退</option>
+								<option value="forward" data-i18n="forward">前进</option>
+								<option value="scrollUp" data-i18n="scrollUp">向上滚动</option>
+								<option value="scrollDown" data-i18n="scrollDown">向下滚动</option>
+								<option value="scrollLeft" data-i18n="scrollLeft">向左滚动</option>
+								<option value="scrollRight" data-i18n="scrollRight">向右滚动</option>
+								<option value="duplicateTab" data-i18n="duplicateTab">关闭标签页</option>
+								<option value="closeTab" data-i18n="closeTab">关闭标签页</option>
+								<option value="reopenClosedTab" data-i18n="reopenTab">重新打开关闭的标签页</option>
+								<option value="openNewTab" data-i18n="newTab">打开新标签页</option>
+								<option value="refresh" data-i18n="refresh">刷新</option>
+								<option value="forceRefresh" data-i18n="forceRefresh">强制刷新</option>
+								<option value="switchToLeftTab" data-i18n="prevTab">切换到左侧标签页</option>
+								<option value="switchToRightTab" data-i18n="nextTab">切换到右侧标签页</option>
+								<option value="stopLoading" data-i18n="stopLoading" selected>停止加载</option>
+								<option value="closeAllTabs" data-i18n="closeAllTabs">关闭所有标签页</option>
+								<option value="scrollToBottom" data-i18n="scrollToBottom">滚动到底部</option>
+								<option value="scrollToTop" data-i18n="scrollToTop">滚动到顶部</option>
+								<option value="scrollToLeft" data-i18n="scrollToLeft">滚动到左侧边缘</option>
+								<option value="scrollToRight" data-i18n="scrollToRight">滚动到右侧边缘</option>
+								<option value="closeOtherTabs" data-i18n="closeOtherTabs">关闭其他标签页</option>
+								<option value="closeTabsToRight" data-i18n="closeTabsToRight">关闭右侧标签页</option>
+								<option value="closeTabsToLeft" data-i18n="closeTabsToLeft">关闭左侧标签页</option>
+								<option value="reloadAllTabs" data-i18n="reloadAllTabs">全部重新加载</option>
+								<option value="togglePinTab" data-i18n="togglePinTab">固定/取消固定标签页</option>
+								<option value="toggleMuteTab" data-i18n="toggleMuteTab">静音/取消静音标签页</option>
+								<option value="muteOtherTabs" data-i18n="muteOtherTabs">静音其他标签页</option>
+								<option value="toggleMaximize" data-i18n="toggleMaximize">最大化/还原窗口</option>
+								<option value="minimizeWindow" data-i18n="minimizeWindow">最小化窗口</option>
+								<option value="toggleFullscreen" data-i18n="toggleFullscreen">切换全屏</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="gesture-item">
+					<div class="gesture-icon icon-close-all composite-parent">
+						<div class="composite-icon">
+							<span class="first-direction" data-direction="←">⭠</span>
+							<span class="second-direction" data-direction="↓">⭣</span>
+						</div>
+					</div>
+					<div class="gesture-details">
+						<div class="gesture-name" data-i18n="leftThenDown">左然后下</div>
+						<div class="gesture-action">
+							<select id="gesture-leftThenDown-action" class="gesture-action-select">
+								<option value="noAction" data-i18n="noAction">无操作</option>
+								<option value="newWindow" data-i18n="newWindow">新窗口</option>
+								<option value="newInPrivateWindow" data-i18n="newInPrivateWindow">新建隐私窗口</option>
+								<option value="goBack" data-i18n="back">后退</option>
+								<option value="forward" data-i18n="forward">前进</option>
+								<option value="scrollUp" data-i18n="scrollUp">向上滚动</option>
+								<option value="scrollDown" data-i18n="scrollDown">向下滚动</option>
+								<option value="scrollLeft" data-i18n="scrollLeft">向左滚动</option>
+								<option value="scrollRight" data-i18n="scrollRight">向右滚动</option>
+								<option value="duplicateTab" data-i18n="duplicateTab">关闭标签页</option>
+								<option value="closeTab" data-i18n="closeTab">关闭标签页</option>
+								<option value="reopenClosedTab" data-i18n="reopenTab">重新打开关闭的标签页</option>
+								<option value="openNewTab" data-i18n="newTab">打开新标签页</option>
+								<option value="refresh" data-i18n="refresh">刷新</option>
+								<option value="forceRefresh" data-i18n="forceRefresh" selected>强制刷新</option>
+								<option value="switchToLeftTab" data-i18n="prevTab">切换到左侧标签页</option>
+								<option value="switchToRightTab" data-i18n="nextTab">切换到右侧标签页</option>
+								<option value="stopLoading" data-i18n="stopLoading">停止加载</option>
+								<option value="closeAllTabs" data-i18n="closeAllTabs">关闭所有标签页</option>
+								<option value="scrollToBottom" data-i18n="scrollToBottom">滚动到底部</option>
+								<option value="scrollToTop" data-i18n="scrollToTop">滚动到顶部</option>
+								<option value="scrollToLeft" data-i18n="scrollToLeft">滚动到左侧边缘</option>
+								<option value="scrollToRight" data-i18n="scrollToRight">滚动到右侧边缘</option>
+								<option value="closeOtherTabs" data-i18n="closeOtherTabs">关闭其他标签页</option>
+								<option value="closeTabsToRight" data-i18n="closeTabsToRight">关闭右侧标签页</option>
+								<option value="closeTabsToLeft" data-i18n="closeTabsToLeft">关闭左侧标签页</option>
+								<option value="reloadAllTabs" data-i18n="reloadAllTabs">全部重新加载</option>
+								<option value="togglePinTab" data-i18n="togglePinTab">固定/取消固定标签页</option>
+								<option value="toggleMuteTab" data-i18n="toggleMuteTab">静音/取消静音标签页</option>
+								<option value="muteOtherTabs" data-i18n="muteOtherTabs">静音其他标签页</option>
+								<option value="toggleMaximize" data-i18n="toggleMaximize">最大化/还原窗口</option>
+								<option value="minimizeWindow" data-i18n="minimizeWindow">最小化窗口</option>
+								<option value="toggleFullscreen" data-i18n="toggleFullscreen">切换全屏</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="gesture-item">
+					<div class="gesture-icon icon-bottom composite-parent">
+						<div class="composite-icon">
+							<span class="first-direction" data-direction="↑">⭡</span>
+							<span class="second-direction" data-direction="↓">⭣</span>
+						</div>
+					</div>
+					<div class="gesture-details">
+						<div class="gesture-name" data-i18n="upThenDown">上然后下</div>
+						<div class="gesture-action">
+							<select id="gesture-upThenDown-action" class="gesture-action-select">
+								<option value="noAction" data-i18n="noAction">无操作</option>
+								<option value="newWindow" data-i18n="newWindow">新窗口</option>
+								<option value="newInPrivateWindow" data-i18n="newInPrivateWindow">新建隐私窗口</option>
+								<option value="goBack" data-i18n="back">后退</option>
+								<option value="forward" data-i18n="forward">前进</option>
+								<option value="scrollUp" data-i18n="scrollUp">向上滚动</option>
+								<option value="scrollDown" data-i18n="scrollDown">向下滚动</option>
+								<option value="scrollLeft" data-i18n="scrollLeft">向左滚动</option>
+								<option value="scrollRight" data-i18n="scrollRight">向右滚动</option>
+								<option value="duplicateTab" data-i18n="duplicateTab">关闭标签页</option>
+								<option value="closeTab" data-i18n="closeTab">关闭标签页</option>
+								<option value="reopenClosedTab" data-i18n="reopenTab">重新打开关闭的标签页</option>
+								<option value="openNewTab" data-i18n="newTab">打开新标签页</option>
+								<option value="refresh" data-i18n="refresh">刷新</option>
+								<option value="forceRefresh" data-i18n="forceRefresh">强制刷新</option>
+								<option value="switchToLeftTab" data-i18n="prevTab">切换到左侧标签页</option>
+								<option value="switchToRightTab" data-i18n="nextTab">切换到右侧标签页</option>
+								<option value="stopLoading" data-i18n="stopLoading">停止加载</option>
+								<option value="closeAllTabs" data-i18n="closeAllTabs">关闭所有标签页</option>
+								<option value="scrollToBottom" data-i18n="scrollToBottom" selected>滚动到底部</option>
+								<option value="scrollToTop" data-i18n="scrollToTop">滚动到顶部</option>
+								<option value="scrollToLeft" data-i18n="scrollToLeft">滚动到左侧边缘</option>
+								<option value="scrollToRight" data-i18n="scrollToRight">滚动到右侧边缘</option>
+								<option value="closeOtherTabs" data-i18n="closeOtherTabs">关闭其他标签页</option>
+								<option value="closeTabsToRight" data-i18n="closeTabsToRight">关闭右侧标签页</option>
+								<option value="closeTabsToLeft" data-i18n="closeTabsToLeft">关闭左侧标签页</option>
+								<option value="reloadAllTabs" data-i18n="reloadAllTabs">全部重新加载</option>
+								<option value="togglePinTab" data-i18n="togglePinTab">固定/取消固定标签页</option>
+								<option value="toggleMuteTab" data-i18n="toggleMuteTab">静音/取消静音标签页</option>
+								<option value="muteOtherTabs" data-i18n="muteOtherTabs">静音其他标签页</option>
+								<option value="toggleMaximize" data-i18n="toggleMaximize">最大化/还原窗口</option>
+								<option value="minimizeWindow" data-i18n="minimizeWindow">最小化窗口</option>
+								<option value="toggleFullscreen" data-i18n="toggleFullscreen">切换全屏</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="gesture-item">
+					<div class="gesture-icon icon-top composite-parent">
+						<div class="composite-icon">
+							<span class="first-direction" data-direction="↓">⭣</span>
+							<span class="second-direction" data-direction="↑">⭡</span>
+						</div>
+					</div>
+					<div class="gesture-details">
+						<div class="gesture-name" data-i18n="downThenUp">下然后上</div>
+						<div class="gesture-action">
+							<select id="gesture-downThenUp-action" class="gesture-action-select">
+								<option value="noAction" data-i18n="noAction">无操作</option>
+								<option value="newWindow" data-i18n="newWindow">新窗口</option>
+								<option value="newInPrivateWindow" data-i18n="newInPrivateWindow">新建隐私窗口</option>
+								<option value="goBack" data-i18n="back">后退</option>
+								<option value="forward" data-i18n="forward">前进</option>
+								<option value="scrollUp" data-i18n="scrollUp">向上滚动</option>
+								<option value="scrollDown" data-i18n="scrollDown">向下滚动</option>
+								<option value="scrollLeft" data-i18n="scrollLeft">向左滚动</option>
+								<option value="scrollRight" data-i18n="scrollRight">向右滚动</option>
+								<option value="duplicateTab" data-i18n="duplicateTab">关闭标签页</option>
+								<option value="closeTab" data-i18n="closeTab">关闭标签页</option>
+								<option value="reopenClosedTab" data-i18n="reopenTab">重新打开关闭的标签页</option>
+								<option value="openNewTab" data-i18n="newTab">打开新标签页</option>
+								<option value="refresh" data-i18n="refresh">刷新</option>
+								<option value="forceRefresh" data-i18n="forceRefresh">强制刷新</option>
+								<option value="switchToLeftTab" data-i18n="prevTab">切换到左侧标签页</option>
+								<option value="switchToRightTab" data-i18n="nextTab">切换到右侧标签页</option>
+								<option value="stopLoading" data-i18n="stopLoading">停止加载</option>
+								<option value="closeAllTabs" data-i18n="closeAllTabs">关闭所有标签页</option>
+								<option value="scrollToBottom" data-i18n="scrollToBottom">滚动到底部</option>
+								<option value="scrollToTop" data-i18n="scrollToTop" selected>滚动到顶部</option>
+								<option value="scrollToLeft" data-i18n="scrollToLeft">滚动到左侧边缘</option>
+								<option value="scrollToRight" data-i18n="scrollToRight">滚动到右侧边缘</option>
+								<option value="closeOtherTabs" data-i18n="closeOtherTabs">关闭其他标签页</option>
+								<option value="closeTabsToRight" data-i18n="closeTabsToRight">关闭右侧标签页</option>
+								<option value="closeTabsToLeft" data-i18n="closeTabsToLeft">关闭左侧标签页</option>
+								<option value="reloadAllTabs" data-i18n="reloadAllTabs">全部重新加载</option>
+								<option value="togglePinTab" data-i18n="togglePinTab">固定/取消固定标签页</option>
+								<option value="toggleMuteTab" data-i18n="toggleMuteTab">静音/取消静音标签页</option>
+								<option value="muteOtherTabs" data-i18n="muteOtherTabs">静音其他标签页</option>
+								<option value="toggleMaximize" data-i18n="toggleMaximize">最大化/还原窗口</option>
+								<option value="minimizeWindow" data-i18n="minimizeWindow">最小化窗口</option>
+								<option value="toggleFullscreen" data-i18n="toggleFullscreen">切换全屏</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="gesture-item">
+					<div class="gesture-icon icon-close composite-parent">
+						<div class="composite-icon">
+							<span class="first-direction" data-direction="←">⭠</span>
+							<span class="second-direction" data-direction="→">⭢</span>
+						</div>
+					</div>
+					<div class="gesture-details">
+						<div class="gesture-name" data-i18n="leftThenRight">左然后右</div>
+						<div class="gesture-action">
+							<select id="gesture-leftThenRight-action" class="gesture-action-select">
+								<option value="noAction" data-i18n="noAction">无操作</option>
+								<option value="newWindow" data-i18n="newWindow">新窗口</option>
+								<option value="newInPrivateWindow" data-i18n="newInPrivateWindow">新建隐私窗口</option>
+								<option value="goBack" data-i18n="back">后退</option>
+								<option value="forward" data-i18n="forward">前进</option>
+								<option value="scrollUp" data-i18n="scrollUp">向上滚动</option>
+								<option value="scrollDown" data-i18n="scrollDown">向下滚动</option>
+								<option value="scrollLeft" data-i18n="scrollLeft">向左滚动</option>
+								<option value="scrollRight" data-i18n="scrollRight">向右滚动</option>
+								<option value="duplicateTab" data-i18n="duplicateTab">关闭标签页</option>
+								<option value="closeTab" data-i18n="closeTab" selected>关闭标签页</option>
+								<option value="reopenClosedTab" data-i18n="reopenTab">重新打开关闭的标签页</option>
+								<option value="openNewTab" data-i18n="newTab">打开新标签页</option>
+								<option value="refresh" data-i18n="refresh">刷新</option>
+								<option value="forceRefresh" data-i18n="forceRefresh">强制刷新</option>
+								<option value="switchToLeftTab" data-i18n="prevTab">切换到左侧标签页</option>
+								<option value="switchToRightTab" data-i18n="nextTab">切换到右侧标签页</option>
+								<option value="stopLoading" data-i18n="stopLoading">停止加载</option>
+								<option value="closeAllTabs" data-i18n="closeAllTabs">关闭所有标签页</option>
+								<option value="scrollToBottom" data-i18n="scrollToBottom">滚动到底部</option>
+								<option value="scrollToTop" data-i18n="scrollToTop">滚动到顶部</option>
+								<option value="scrollToLeft" data-i18n="scrollToLeft">滚动到左侧边缘</option>
+								<option value="scrollToRight" data-i18n="scrollToRight">滚动到右侧边缘</option>
+								<option value="closeOtherTabs" data-i18n="closeOtherTabs">关闭其他标签页</option>
+								<option value="closeTabsToRight" data-i18n="closeTabsToRight">关闭右侧标签页</option>
+								<option value="closeTabsToLeft" data-i18n="closeTabsToLeft">关闭左侧标签页</option>
+								<option value="reloadAllTabs" data-i18n="reloadAllTabs">全部重新加载</option>
+								<option value="togglePinTab" data-i18n="togglePinTab">固定/取消固定标签页</option>
+								<option value="toggleMuteTab" data-i18n="toggleMuteTab">静音/取消静音标签页</option>
+								<option value="muteOtherTabs" data-i18n="muteOtherTabs">静音其他标签页</option>
+								<option value="toggleMaximize" data-i18n="toggleMaximize">最大化/还原窗口</option>
+								<option value="minimizeWindow" data-i18n="minimizeWindow">最小化窗口</option>
+								<option value="toggleFullscreen" data-i18n="toggleFullscreen">切换全屏</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="gesture-item">
+					<div class="gesture-icon icon-reopen composite-parent">
+						<div class="composite-icon">
+							<span class="first-direction" data-direction="→">⭢</span>
+							<span class="second-direction" data-direction="←">⭠</span>
+						</div>
+					</div>
+					<div class="gesture-details">
+						<div class="gesture-name" data-i18n="rightThenLeft">右然后左</div>
+						<div class="gesture-action">
+							<select id="gesture-rightThenLeft-action" class="gesture-action-select">
+								<option value="noAction" data-i18n="noAction">无操作</option>
+								<option value="newWindow" data-i18n="newWindow">新窗口</option>
+								<option value="newInPrivateWindow" data-i18n="newInPrivateWindow">新建隐私窗口</option>
+								<option value="goBack" data-i18n="back">后退</option>
+								<option value="forward" data-i18n="forward">前进</option>
+								<option value="scrollUp" data-i18n="scrollUp">向上滚动</option>
+								<option value="scrollDown" data-i18n="scrollDown">向下滚动</option>
+								<option value="scrollLeft" data-i18n="scrollLeft">向左滚动</option>
+								<option value="scrollRight" data-i18n="scrollRight">向右滚动</option>
+								<option value="duplicateTab" data-i18n="duplicateTab">关闭标签页</option>
+								<option value="closeTab" data-i18n="closeTab">关闭标签页</option>
+								<option value="reopenClosedTab" data-i18n="reopenTab" selected>重新打开关闭的标签页</option>
+								<option value="openNewTab" data-i18n="newTab">打开新标签页</option>
+								<option value="refresh" data-i18n="refresh">刷新</option>
+								<option value="forceRefresh" data-i18n="forceRefresh">强制刷新</option>
+								<option value="switchToLeftTab" data-i18n="prevTab">切换到左侧标签页</option>
+								<option value="switchToRightTab" data-i18n="nextTab">切换到右侧标签页</option>
+								<option value="stopLoading" data-i18n="stopLoading">停止加载</option>
+								<option value="closeAllTabs" data-i18n="closeAllTabs">关闭所有标签页</option>
+								<option value="scrollToBottom" data-i18n="scrollToBottom">滚动到底部</option>
+								<option value="scrollToTop" data-i18n="scrollToTop">滚动到顶部</option>
+								<option value="scrollToLeft" data-i18n="scrollToLeft">滚动到左侧边缘</option>
+								<option value="scrollToRight" data-i18n="scrollToRight">滚动到右侧边缘</option>
+								<option value="closeOtherTabs" data-i18n="closeOtherTabs">关闭其他标签页</option>
+								<option value="closeTabsToRight" data-i18n="closeTabsToRight">关闭右侧标签页</option>
+								<option value="closeTabsToLeft" data-i18n="closeTabsToLeft">关闭左侧标签页</option>
+								<option value="reloadAllTabs" data-i18n="reloadAllTabs">全部重新加载</option>
+								<option value="togglePinTab" data-i18n="togglePinTab">固定/取消固定标签页</option>
+								<option value="toggleMuteTab" data-i18n="toggleMuteTab">静音/取消静音标签页</option>
+								<option value="muteOtherTabs" data-i18n="muteOtherTabs">静音其他标签页</option>
+								<option value="toggleMaximize" data-i18n="toggleMaximize">最大化/还原窗口</option>
+								<option value="minimizeWindow" data-i18n="minimizeWindow">最小化窗口</option>
+								<option value="toggleFullscreen" data-i18n="toggleFullscreen">切换全屏</option>
+							</select>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- 超级拖拽功能说明 -->
+		<div class="section" id="super-drag-feature">
+			<div class="section-header">
+				<h2 data-i18n="superDragFeature">超级拖拽功能</h2>
+				<div class="status-container">
+					<span id="superdrag-save-status" class="save-status section-save-status"></span>
+					<span class="operation-hint" data-i18n="leftButtonHint">按住鼠标左键操作</span>
+				</div>
+			</div>
+			<div class="gesture-list">
+				<div class="gesture-item">
+					<div class="gesture-icon icon-drag drag-icon">
+						<div class="drag-animation">
+							<span class="direction-arrow drag-direction" data-direction="↑">👆🏻</span>
+						</div>
+					</div>
+					<div class="gesture-details">
+						<div class="gesture-name" data-i18n="dragUp">向上拖拽</div>
+						<div class="gesture-action">
+							<select id="drag-up-action" class="drag-action-select">
+								<option value="foreground" data-i18n="foregroundAction">前台打开</option>
+								<option value="background" data-i18n="backgroundAction">后台打开</option>
+								<option value="none" data-i18n="noAction">不执行操作</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="gesture-item">
+					<div class="gesture-icon icon-drag drag-icon">
+						<div class="drag-animation">
+							<span class="direction-arrow drag-direction" data-direction="→">👆🏻</span>
+						</div>
+					</div>
+					<div class="gesture-details">
+						<div class="gesture-name" data-i18n="dragRight">向右拖拽</div>
+						<div class="gesture-action">
+							<select id="drag-right-action" class="drag-action-select">
+								<option value="foreground" data-i18n="foregroundAction">前台打开</option>
+								<option value="background" data-i18n="backgroundAction">后台打开</option>
+								<option value="none" data-i18n="noAction">不执行操作</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="gesture-item">
+					<div class="gesture-icon icon-drag drag-icon">
+						<div class="drag-animation">
+							<span class="direction-arrow drag-direction" data-direction="↓">👆🏻</span>
+						</div>
+					</div>
+					<div class="gesture-details">
+						<div class="gesture-name" data-i18n="dragDown">向下拖拽</div>
+						<div class="gesture-action">
+							<select id="drag-down-action" class="drag-action-select">
+								<option value="foreground" data-i18n="foregroundAction">前台打开</option>
+								<option value="background" data-i18n="backgroundAction">后台打开</option>
+								<option value="none" data-i18n="noAction">不执行操作</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="gesture-item">
+					<div class="gesture-icon icon-drag drag-icon">
+						<div class="drag-animation">
+							<span class="direction-arrow drag-direction" data-direction="←">👆🏻</span>
+						</div>
+					</div>
+					<div class="gesture-details">
+						<div class="gesture-name" data-i18n="dragLeft">向左拖拽</div>
+						<div class="gesture-action">
+							<select id="drag-left-action" class="drag-action-select">
+								<option value="foreground" data-i18n="foregroundAction">前台打开</option>
+								<option value="background" data-i18n="backgroundAction">后台打开</option>
+								<option value="none" data-i18n="noAction">不执行操作</option>
+							</select>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- 添加超级拖拽搜索引擎URL设置 -->
+			<div class="setting-item super-drag-info">
+				<label for="drag-search-engine" data-i18n="dragSearchEngine">拖拽搜索引擎URL</label>
+				<input type="text" id="drag-search-engine" class="search-engine-input"
+					value="https://www.google.com/search?q={q}">
+			</div>
+
+			<!-- 搜索引擎示例说明 -->
+			<div class="search-engine-examples">
+				<small data-i18n="searchEngineExamples">使用{q}表示搜索词位置，示例格式:</small>
+				<ul class="example-list">
+					<li data-i18n="googleExample">Google搜索: https://www.google.com/search?q={q}</li>
+					<li data-i18n="googleTranslateExample">Google翻译:
+						https://translate.google.com/?sl=auto&tl=zh-CN&text={q}&op=translate</li>
+					<li data-i18n="localSearchExample">百度搜索: https://www.baidu.com/s?wd={q}</li>
+					<li data-i18n="bingExample">必应搜索: https://www.bing.com/search?q={q}</li>
+				</ul>
+				<small data-i18n="superDragDescription">超级拖拽功能可用于链接、图片和选中的文本。拖拽方向决定新标签页的打开方式。</small>
+			</div>
+		</div>
+	</div>
+
+	<script src="popup.js"></script>
 </body>
-</html> 
+
+</html>
